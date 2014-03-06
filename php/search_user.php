@@ -10,6 +10,8 @@ if(isset($_POST['login'])) {
 		$login = mysql_real_escape_string($_POST['login']);
 		$query->execute(array($login."%"));
 		
+		$result = array();
+		
 		while ($data = $query->fetch()) {
 			$result[] = $data;
 		}
