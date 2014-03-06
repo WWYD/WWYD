@@ -10,12 +10,9 @@ if(isset($_POST['login'])) {
 		$login = mysql_real_escape_string($_POST['login']);
 		$query->execute(array($login."%"));
 		
-		$result = array();
-		$i = 0;
-		
-		while($data = $query->fetch()){
-			array_push($result, array($data['login'] =>	$data['id']));
-		}	
+		while ($data = $query->fetch()) {
+			$result[] = $data;
+		}
 		
 	} catch(Exception $e) {
 		$result = array('error' => array('title' => 'Erreur', 'msg' => 'Erreur base de données'));
