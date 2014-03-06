@@ -31,7 +31,7 @@
 					<div class="content-elem login">
 						<div class="content-bordered">
 							<p>
-								<img src="apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
+								<img src="img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
 								<?php
 									if(isset($_SESSION["user"]))
 									{
