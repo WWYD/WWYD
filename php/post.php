@@ -1,15 +1,15 @@
 <?php 
 	include("header.php");
 	
-	if(isset($_GET["post_id"])){
-		$st = $_GET["post_id"];
+	if(isset($_GET["topic_id"])){
+		$st = $_GET["topic_id"];
 		$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(
 			                  PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 							  
 				$topic_query = $bdd->prepare('SELECT * FROM topic WHERE id = '.$st);
 				$topic_query->execute();
 
-				$posts_query = $bdd->prepare('SELECT * FROM post WHERE topic_id = '.$st);
+				$posts_query = $bdd->prepare('SELECT * FROM post WHERE topic_id = '.$st .' ORDER BY date ASC');
 				$posts_query->execute();
 				
 				$topic_data = $topic_query->fetch();
@@ -32,6 +32,8 @@
 
 	
 		}
+	else
+		header("Location: index.php");
 			
 ?>
 		<div style="min-height: 250px; width: 100%;  background-color: #DEDEDE;">
@@ -63,15 +65,30 @@
 		<section>
 			<section style="width: 66.6%; float: left;">
 				<div class="content">
-					<div class="content-group">
+					<div class="content-group" id="content-group">
 					
-					<div class="content-elem">
+					<div class="content-elem" id="respond-zone">
 						<div class="content-bordered respond-zone">
-							<textarea></textarea>
-							<p style="height: 20px; padding-right: 0px;"><button type="button" class="btn" style="float: right">Répondre <span class="respond"></span></button></p>
+							<textarea id="reponse_textzone"></textarea>
+							<p style="height: 20px; padding-right: 0px;"><button type="button" class="btn" id="comment_button" style="float: right">Répondre <span class="respond"></span></button></p>
 						</div>
 					</div>						
 					
+					<script type="text/javascript">
+						$("#comment_button").click(function (){
+							$.ajax({
+  							type: "POST",
+							  url: "replyPost.php",
+							  data: { content: $("#reponse_textzone").val(), topic_id: "<?php echo $_GET['topic_id']; ?>" }
+							})
+							  .done(function( msg ) {
+							    $("#content-group").append($(msg));
+							    $("#reponse_textzone").val("");
+							    $("#appears").fadeIn(200);
+							    $("#respond-zone").slideToggle(200);
+							  });
+							});
+					</script>
 					<?php
 
 					while($comment = $posts_query->fetch())
@@ -89,7 +106,7 @@
 						echo '<div class="content-elem">';
 							echo '<div class="content-bordered">';
 								echo '<div class="content-bordered-title">';
-									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium.'<span style="float: right"><span class="badge"> 0 </span>&nbsp;&nbsp;<span class="plus"></span><span class="vote"> </span><span class="less"></span></span></h4>';
+									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium.'<span style="float: right"><span class="badge" id="badgeInt"></span>&nbsp;&nbsp;<span class="plus"></span><span class="vote"> </span><span class="less"></span></span></h4>';
 								echo '</div>';
 								
 								echo'<p style="font-size: 12pt">'.$comment["content"].'</p>';
@@ -118,6 +135,7 @@
 				</table>
 			</div>
 		</section>
+
 <?php
 	include("footer.php");
 ?>
