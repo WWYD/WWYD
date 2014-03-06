@@ -1,22 +1,59 @@
 <?php 
 	include("header.php");
+	
+	if(isset($_GET["post_id"])){
+		$st = $_GET["post_id"];
+		$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(
+			                  PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+							  
+				$topic_query = $bdd->prepare('SELECT * FROM topic WHERE id = '.$st);
+				$topic_query->execute();
+
+				$posts_query = $bdd->prepare('SELECT * FROM post WHERE topic_id = '.$st);
+				$posts_query->execute();
+				
+				$topic_data = $topic_query->fetch();
+				if($topic_data["title"] == NULL)
+				{
+					header("Location: index.php");
+				}
+				$title = $topic_data["title"];
+				$content = $topic_data["content"];
+				$id_author = $topic_data["user_id"];
+				
+				$author_query = $bdd->prepare('SELECT * FROM user WHERE  id= '.$id_author);
+				$author_query->execute();
+				
+				$author_data = $author_query->fetch();
+				$author_name = $author_data["login"];
+				$author_solde = $author_data["nb_point"];
+				$author_grade = $author_data["rank_id"];
+				$author_premium = $author_data["premium"];
+
+	
+		}
+			
 ?>
-		<div style="width: 100%;  background-color: #DEDEDE;">
+		<div style="min-height: 250px; width: 100%;  background-color: #DEDEDE;">
 			<div class="content" style="padding: 30px; margin-right: 390px;">
-				<p style="font-size: 22pt; padding-left: 20px;"><i>"Un bébé, un chat et une seule portion de nourriture. Que faire ?"</i></p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non dui sapien. Nunc egestas mi at arcu tempus fermentum. Integer eget rutrum justo. Suspendisse potenti. Mauris eu accumsan leo. Curabitur lacinia hendrerit odio eget ultricies. Cras pulvinar, urna a elementum scelerisque, massa odio tincidunt metus, vitae porta leo eros nec ligula. Nunc eleifend pharetra ligula vel mollis. Praesent tempor a risus sed accumsan. Donec posuere leo sed nulla dignissim venenatis. Vivamus sed ornare arcu. Duis quis leo libero. Maecenas adipiscing leo mauris. Maecenas id mi at purus pulvinar pellentesque non non augue. Donec nec molestie nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+				<p style="font-size: 22pt; padding-left: 20px;"><i>"<?php echo $title; ?>"</i></p>
+				<p><?php echo $content; ?></p>
 			</div>
 			
 			<div class="content-elem login" style="width: 390px; position: absolute; top: 60px; right: 10px; z-index: 1;">
 				<div class="content-bordered">
 					<p>
 						<img src="../img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
-						<span class="span-user-name" >&nbsp;&nbsp;<a href="profil.php">Teybeo</a></span>
+						<span class="span-user-name" >&nbsp;&nbsp;<a href="profil.php"><?php echo $author_name; ?></a></span>
 						<hr/>
 						<ul class="list-unstyled">
-							<li><b>Solde :</b> <span class="badge">66 points </span></li>
-							<li><b>Grade :</b> Vétéran</li>
-							<li><b>Premium :</b> Non</li>
+							<li><b>Solde :</b> <span class="badge"><?php echo $author_solde; ?> points </span></li>
+							<li><b>Grade :</b> <?php echo $author_grade; ?></li>
+							<li><b>Premium :</b><?php 	if($author_premium)
+															echo ' Oui';
+														else
+															echo ' Non';
+												?></li>
 						</ul>
 					</p>
 				</div>
@@ -35,36 +72,31 @@
 						</div>
 					</div>						
 					
-					<div class="content-elem">
-						<div class="content-bordered">
-							<div class="content-bordered-title">
-								<h4 class="panel-title">Adolf Charpentier <span style="float: right"><span class="badge"> 0 </span>&nbsp;&nbsp;<span class="plus"></span><span class="vote"> </span><span class="less"></span></span></h4>
-							</div>
-							
-							<p style="font-size: 12pt">Mange le chat et fais souffrir le bébé</p>
-						</div>
-					</div>
-					
-					<div class="content-elem">
-						<div class="content-bordered">
-							<div class="content-bordered-title">
-								<h4 class="panel-title">Jacques-Lorie Depardieu <span class="badge" style="background-color: rgb(231, 139, 3);" >Premium</span></h4>
-							</div>
-							
-							<p style="font-size: 12pt"><span class="quote">Mange le chat et fais souffrir le bébé</span> <br/><br/>Miaou</p>
-						</div>
-					</div>
-					
-					<div class="content-elem">
-						<div class="content-bordered">
-							<div class="content-bordered-title">
-								<h4 class="panel-title">Michel Fourniret</h4>
-							</div>
-							
-							<p style="font-size: 12pt">J'aime les bébés</p>
-						</div>
-					</div>
+					<?php
 
+					while($comment = $posts_query->fetch())
+					{
+						$comment_author_query = $bdd->prepare('SELECT login, premium FROM user WHERE id = '.$comment["user_id"]);
+						$comment_author_query->execute();
+						$comment_author = $comment_author_query->fetch(PDO::FETCH_ASSOC);
+						
+
+						if($comment_author["premium"] == 1)
+							$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
+						else
+							$premium = '';
+
+						echo '<div class="content-elem">';
+							echo '<div class="content-bordered">';
+								echo '<div class="content-bordered-title">';
+									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium.'<span style="float: right"><span class="badge"> 0 </span>&nbsp;&nbsp;<span class="plus"></span><span class="vote"> </span><span class="less"></span></span></h4>';
+								echo '</div>';
+								
+								echo'<p style="font-size: 12pt">'.$comment["content"].'</p>';
+							echo '</div>';
+						echo '</div>';
+					}
+					?>
 						
 					</div>
 				</div>
