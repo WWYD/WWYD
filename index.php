@@ -1,5 +1,5 @@
 <?php
-		include("header.html");
+		include("html/header.html");
 ?>
 		<div style="width: 100%; height: 150px; background-color: #DEDEDE; margin-bottom: 30px;">
 			<div class="notification">
@@ -88,5 +88,5 @@
 		</section>
 		
 <?php
-	include("footer.html");
+	include("html/footer.html");
 ?>
