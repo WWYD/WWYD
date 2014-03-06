@@ -24,5 +24,6 @@ if(isset($_POST['id'])) {
 	$result = array('error' => array('title' => 'Erreur', 'msg' => 'Aucune données reçues'));
 }
 	echo json_encode($result);	
+	var_dump($result);
 
 ?>
