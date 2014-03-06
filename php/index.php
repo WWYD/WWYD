@@ -1,5 +1,5 @@
 <?php
-		include("html/header.html");
+		include("../html/header.html");
 ?>
 		<div style="width: 100%; height: 150px; background-color: #DEDEDE; margin-bottom: 30px;">
 			<div class="notification">
@@ -31,7 +31,7 @@
 					<div class="content-elem login">
 						<div class="content-bordered">
 							<p>
-								<img src="img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
+								<img src="../img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
 								<?php
 									if(isset($_SESSION["user"]))
 									{
@@ -88,5 +88,5 @@
 		</section>
 		
 <?php
-	include("html/footer.html");
+	include("../html/footer.html");
 ?>

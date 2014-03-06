@@ -1,5 +1,5 @@
 <?php 
-	include("html/header.html");
+	include("../html/header.html");
 ?>
 		<div style="width: 100%;  background-color: #DEDEDE;">
 			<div class="content" style="padding: 30px; margin-right: 390px;">
@@ -10,7 +10,7 @@
 			<div class="content-elem login" style="width: 390px; position: absolute; top: 60px; right: 10px; z-index: 1;">
 				<div class="content-bordered">
 					<p>
-						<img src="img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
+						<img src="../img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
 						<span class="span-user-name" >&nbsp;&nbsp;<a href="profil.php">Teybeo</a></span>
 						<hr/>
 						<ul class="list-unstyled">
@@ -87,5 +87,5 @@
 			</div>
 		</section>
 <?php
-	include("html/footer.html");
+	include("../html/footer.html");
 ?>
