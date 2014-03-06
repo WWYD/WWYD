@@ -1,6 +1,6 @@
 <?php 
 	$title = "Recherche";
-	include("header.html");
+	include("header.php");
 ?>
 		<div style="width: 100%;  background-color: #DEDEDE;">
 			<div class="content" style="padding: 30px; margin: auto;">
@@ -179,5 +179,5 @@
 			</script>
 			
 <?php
-	include("footer.html");
+	include("footer.php");
 ?>

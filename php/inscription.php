@@ -1,5 +1,5 @@
 <?php 
-	include("../html/header.html");
+	include("header.php");
 ?>
 		<div style="width: 100%;  height: 150px;background-color: #DEDEDE;">
 			<div class="content" style="padding: 30px; margin-right: 390px;">
@@ -149,7 +149,7 @@
 			</div>
 		</section>
 <?php
-	include("../html/footer.html");
+	include("footer.php");
 ?>
 
 
