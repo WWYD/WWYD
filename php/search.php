@@ -2,6 +2,12 @@
 	$title = "Recherche";
 	include("header.php");
 	$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+
+	if(isset($_GET['id']))
+		$id = $_GET['id'];
+	else
+		$id = 0;
+
 ?>
 		<div style="width: 100%;  background-color: #DEDEDE;">
 			<div class="content" style="padding: 30px; margin: auto;">
@@ -19,15 +25,16 @@
 							<td style="padding-top: 15px;">Catégorie</td>
 							<td style="padding-top: 15px;">
 								<select class="form-connection" id="category">
-									<!-- Replacer par un appel bdd -->
 						            <option value="0">Toutes</option>
                                     <?php
 										$query = $bdd->query('SELECT name, id FROM category');
 										while($data = $query->fetch()){
-											echo '<option value="'.$data["id"].'">'.$data["name"].'</option>';
+											if($id == $data["id"])
+												echo '<option selected="selected" value="'.$data["id"].'">'.$data["name"].'</option>';
+											else
+												echo '<option value="'.$data["id"].'">'.$data["name"].'</option>';
 										}
 									?>
-									<!-- Replacer par un appel bdd -->
 					            </select>
 					        </td>
 					        <td style="padding-top: 15px; padding-left: 15px;">Classer par</td>

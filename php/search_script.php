@@ -15,8 +15,8 @@
 		}
 
 		// Catégorie
-		if($_POST["resolved"] != 0) {
-			$str_query .= " AND category_id = ".($_POST["resolved"]+0);
+		if($_POST["category"] != 0) {
+			$str_query .= " AND category_id = ".($_POST["category"]+0);
 		}
 
 		$str_query .= " GROUP BY topic.id";
