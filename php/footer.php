@@ -9,6 +9,7 @@
 		$(document).ready(function () {
 			// Pop-up connexion / inscription
 			$("#connection").on("click", function(e) {
+				$("#ttbox_global").empty();
 				box = new html.TTBox($("body"), 
 					{ item : new html.Form(null, [{ label : "Login", item : new html.TextInput("Votre nom d'utilisateur"), name : "login"},
 		                                         { label : "Mot de passe", item : new html.PasswordInput("Votre mot de passe"), name : "password"}],
