@@ -86,8 +86,8 @@
 					else
 					{
 						echo '<div class="content-elem">';
-							echo '<div class="content-bordered btn" style="background-image: linear-gradient(rgb(240, 240, 240) 0px, rgb(220, 220, 220) 100%); border: solid 1px #777">';
-								echo '<span class="connection" style="margin-left: 38%; color: black;">Connectez-vous pour répondre</span>';
+							echo '<div class="content-bordered btn connection" style="background-image: linear-gradient(rgb(240, 240, 240) 0px, rgb(220, 220, 220) 100%); border: solid 1px #777">';
+								echo '<span style="margin-left: 38%; color: black;">Connectez-vous pour répondre</span>';
 							echo '</div>';
 						echo '</div>';
 					}
