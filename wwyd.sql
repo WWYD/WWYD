@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 06 Mars 2014 à 12:04
+-- Généré le: Ven 07 Mars 2014 à 15:29
 -- Version du serveur: 5.5.24-log
 -- Version de PHP: 5.4.3
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `topic_id` (`topic_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Contenu de la table `post`
@@ -72,7 +72,21 @@ INSERT INTO `post` (`id`, `content`, `date`, `user_id`, `topic_id`, `is_answer`)
 (5, 'Mange le chat et fait souffrir le bébé.', '2014-03-03 08:20:13', 1, 1, 0),
 (6, 'Miaou.', '2014-03-04 07:21:35', 2, 1, 0),
 (7, 'J''aime les bébés.', '2014-03-05 13:39:03', 3, 1, 0),
-(8, 'Coujoucoujoukou.', '2014-03-05 03:22:36', 4, 2, 0);
+(9, 'Ça dépend. C''est pour être femme de ménage ?', '2014-03-07 16:07:49', 2, 23, 1),
+(10, 'Elle est où la poulette ?', '2014-03-07 16:09:16', 2, 2, 0),
+(11, 'C''est qui qui gagne le plus d''argent ?', '2014-03-07 16:12:15', 2, 24, 0),
+(12, 'Sonic, il peut se transformer en Super Saiyan.', '2014-03-07 16:13:12', 2, 25, 0),
+(13, 'Essaie de noyer le canard.', '2014-03-07 16:17:24', 2, 3, 0),
+(14, 'Essaie de rentrer la catapulte dans l''anus du pigeon ?', '2014-03-07 16:19:09', 3, 2, 0),
+(15, 'Je prend les cartes de fidélité, je rend le reste.', '2014-03-07 16:19:56', 3, 4, 0),
+(16, 'C''est qui ?', '2014-03-07 16:21:11', 3, 23, 0),
+(17, 'L''inverse est pas terrible non plus.', '2014-03-07 16:22:25', 3, 24, 0),
+(18, 'Lara Croft.', '2014-03-07 16:23:14', 3, 25, 0),
+(19, 'Mange le pigeon, mets-toi dans la catapulte.', '2014-03-07 16:24:46', 4, 2, 0),
+(20, 'Il est en cuir ?', '2014-03-07 16:25:58', 4, 4, 0),
+(21, 'Kev Adams, il é tro bô', '2014-03-07 16:27:04', 4, 24, 0),
+(22, 'Sonic c''est la p*te de Mario pendant les JO non ?', '2014-03-07 16:28:02', 4, 25, 0),
+(23, 'Il vibre le canard ?', '2014-03-07 16:28:35', 4, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -141,25 +155,20 @@ CREATE TABLE IF NOT EXISTS `topic` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`category_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Contenu de la table `topic`
 --
 
 INSERT INTO `topic` (`id`, `title`, `content`, `date`, `user_id`, `category_id`, `answered`, `pot_point`, `pot_euro`) VALUES
-(1, 'Un bébé, un chat, une portion de nourriture.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac sagittis dolor. Suspendisse at tortor mattis, ornare ante in, facilisis enim. Vestibulum id ante tellus. Duis sit amet sodales dolor.', '2014-03-05 00:00:00', 5, 1, 0, 0, 0),
-(2, 'Un pigeon, une catapulte.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac sagittis dolor. Suspendisse at tortor mattis, ornare ante in, facilisis enim. Vestibulum id ante tellus. Duis sit amet sodales dolor.', '2014-03-25 00:00:00', 4, 1, 0, 0, 0),
-(3, 'Une baignoire, un canard en plastique.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac sagittis dolor. Suspendisse at tortor mattis, ornare ante in, facilisis enim. Vestibulum id ante tellus. Duis sit amet sodales dolor.', '2014-02-11 00:00:00', 3, 8, 0, 0, 0),
-(4, 'Un portefeuille trouvé.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac sagittis dolor. Suspendisse at tortor mattis, ornare ante in, facilisis enim. Vestibulum id ante tellus. Duis sit amet sodales dolor.', '2014-02-12 00:00:00', 2, 2, 0, 0, 0),
-(5, 'test', 'test', '2014-03-12 00:00:00', 3, 6, 0, 0, 0),
-(6, 'test 2', 'test 2', '2014-03-27 06:00:00', 4, 8, 0, 0, 0),
-(7, 'test 3', 'test 3', '2014-03-12 00:00:00', 3, 6, 0, 0, 0),
-(8, 'test 4', 'test 4', '2014-03-27 06:00:00', 4, 8, 0, 0, 0),
-(9, 'test 5', 'test 5', '2014-03-12 00:00:00', 3, 6, 0, 0, 0),
-(10, 'test 6', 'test 6', '2014-03-27 06:00:00', 4, 8, 0, 0, 0),
-(11, 'test 8', 'test 8', '2014-03-12 00:00:00', 3, 6, 0, 0, 0),
-(12, 'test 7', 'test 7', '2014-03-27 06:00:00', 4, 8, 0, 0, 0);
+(1, 'Un bébé, un chat, une portion de nourriture.', 'J''ai un chaton et un bébé à charge, et ils sont tous deux affamés.<br/>\nLe problème, c''est qu''il ne me reste plus qu''une demi-boite de thon et le premier magasin aux alentours est à plusieurs heures de route.<br/>\n<br/>Selon vous, laquelle de ces deux bestioles dois-je nourrir ?', '2014-03-05 00:00:00', 5, 1, 0, 0, 0),
+(2, 'Un pigeon, une catapulte.', 'C''est l''histoire d''un pigeon qui souhaitait apprendre à voler.', '2014-03-25 00:00:00', 4, 1, 0, 0, 0),
+(3, 'Une baignoire, un canard en plastique.', 'Je m''en remets à vous, je ne sais vraiment pas quoi faire avec ces deux éléments dans ma salle de bain.', '2014-02-11 00:00:00', 3, 8, 0, 0, 0),
+(4, 'Un portefeuille trouvé.', 'Problème épineux, dois-je le garder ou non ?', '2014-02-12 00:00:00', 2, 2, 0, 0, 0),
+(23, 'Un entretien avec DSK', 'Laisseriez votre fille avoir un entretien d''embauche avec Dominique Strauss-Kahn ?', '2014-01-07 07:39:04', 4, 3, 1, 0, 0),
+(24, 'Patrick Timsit ou Kev Adams ?', 'Suite à une visite chez ma voyante préférée, on m''a annoncé que mon fils aurait soit le physique de Patrick Timsit soit l''intelligence de Kev Adams.\r\nJ''ai peur et je ne sais pas ce que je préfèrerais. Qu''en pensez-vous ?', '2014-03-01 12:41:18', 1, 4, 0, 0, 0),
+(25, 'Sonic ou Mario ?', 'C''est l''éternel débat qui recommence.', '2014-02-12 10:32:22', 3, 6, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -181,18 +190,18 @@ CREATE TABLE IF NOT EXISTS `user` (
   `premium` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `rank` (`rank_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `login`, `mail`, `password`, `first_name`, `last_name`, `rank_id`, `nb_point`, `nb_euro`, `admin`, `premium`) VALUES
-(1, 'Teybeo', '1@peu.swag', 'password', 'Thibault', 'D''Archivio', 30, 9000, 0, 0, 0),
-(2, 'Guiks', 'guiks@guiks.gks', 'password', 'Guillaume', 'Delapré', 30, 9000, 0, 0, 0),
-(3, 'TicTacTaw', 'tic@tac.taw', 'password', 'Thibault', 'Crosnier', 30, 9000, 0, 0, 0),
-(4, 'Vuzi', 'vuzi@vouzi.va', 'password', 'Guillaume', 'Villerez', 30, 9000, 0, 0, 0),
-(5, 'Supnude', 'troll@kikou.biz', 'password', 'Martin', 'Boulet', 1, 42, 0, 0, 0);
+(1, 'Teybeo', 'teybeo@swag.fr', 'password', 'Thibault', 'D''Archivio', 30, 9000, 0, 1, 0),
+(2, 'Guiks', 'guiks@geek.gks', 'password', 'Guillaume', 'Delapré', 30, 9000, 0, 1, 0),
+(3, 'TicTacTaw', 'tic@tac.taw', 'password', 'Thibault', 'Crosnier', 30, 9000, 0, 1, 1),
+(4, 'Vuzi', 'vuzi@vouzi.va', 'password', 'Guillaume', 'Villerez', 30, 9000, 0, 1, 1),
+(5, 'Supnude', 'troll@boulet.biz', 'password', 'Martin', 'Boulet', 1, 42, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -208,23 +217,36 @@ CREATE TABLE IF NOT EXISTS `vote` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `post_id` (`post_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Contenu de la table `vote`
 --
 
 INSERT INTO `vote` (`id`, `post_id`, `user_id`, `value`) VALUES
-(1, 5, 1, 0),
-(2, 5, 2, 0),
-(3, 5, 3, 0),
-(4, 6, 4, 0),
-(5, 6, 5, 0),
+(1, 5, 1, -1),
+(2, 5, 2, -1),
+(3, 5, 3, -1),
+(4, 6, 4, -1),
+(5, 6, 5, -1),
 (6, 5, 1, 1),
 (7, 5, 2, 1),
-(8, 5, 3, 0),
+(8, 5, 3, -1),
 (9, 6, 4, 1),
-(10, 6, 5, 1);
+(10, 6, 5, 1),
+(11, 11, 2, 1),
+(12, 10, 3, 1),
+(13, 9, 3, 1),
+(14, 11, 3, 1),
+(15, 12, 3, -1),
+(16, 14, 4, 1),
+(17, 10, 4, 1),
+(18, 15, 4, -1),
+(19, 17, 4, 1),
+(20, 11, 4, 1),
+(21, 12, 4, -1),
+(22, 18, 4, 1),
+(23, 13, 4, -1);
 
 --
 -- Contraintes pour les tables exportées
