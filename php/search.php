@@ -1,6 +1,7 @@
 <?php 
 	$title = "Recherche";
 	include("header.php");
+	$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 ?>
 		<div style="width: 100%;  background-color: #DEDEDE;">
 			<div class="content" style="padding: 30px; margin: auto;">
@@ -20,11 +21,12 @@
 								<select class="form-connection" id="category">
 									<!-- Replacer par un appel bdd -->
 						            <option value="0">Toutes</option>
-						            <option value="1">Général</option>
-						            <option value="2">Humour</option>
-						            <option value="3">Politique</option>
-						            <option value="4">Littérature</option>
-						            <option value="5">Toutes</option>
+                                    <?php
+										$query = $bdd->query('SELECT name, id FROM category');
+										while($data = $query->fetch()){
+											echo '<option value="'.$data["id"].'">'.$data["name"].'</option>';
+										}
+									?>
 									<!-- Replacer par un appel bdd -->
 					            </select>
 					        </td>
