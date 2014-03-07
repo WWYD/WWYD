@@ -161,7 +161,6 @@
 								type: "POST",
 								url: "vote.php",
 								data: {
-									user_id: <?php echo $_SESSION['user']['id']; ?>,
 									post_id: $(this).find('input').val(),
 									vote_type: "dislike"
 								}
@@ -180,7 +179,6 @@
 								type: "POST",
 								url: "vote.php",
 								data: {
-									user_id: <?php echo $_SESSION['user']['id']; ?>,
 									post_id: $(this).find('input').val(),
 									vote_type: "like"
 								}

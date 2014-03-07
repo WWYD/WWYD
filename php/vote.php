@@ -1,11 +1,13 @@
 <?php
 
-    if (isset($_POST['user_id']) && isset($_POST['post_id']) && isset($_POST['vote_type'])) 
+session_start();
+
+    if (isset($_SESSION['user']['id']) && isset($_POST['post_id']) && isset($_POST['vote_type'])) 
     {
         try 
         {
             $post_id = mysql_real_escape_string($_POST['post_id']);
-            $user_id = mysql_real_escape_string($_POST['user_id']);
+            $user_id = $_SESSION['user']['id'];
 
             $bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
            
