@@ -163,6 +163,7 @@
 						$(".dislike").click(function() 
 						{
 							console.log('dislike');
+							var me = $(this);
 
 							$.ajax({
 								type: "POST",
@@ -175,12 +176,19 @@
 							.done(function( msg ) 
 							{
 								console.log(msg);
+
+								if (msg == "Vote bien pris en compte")
+								{					
+									var badge = me.prevAll('.badge').eq(0);
+									badge.text((parseInt(badge.text())) - 1);
+								}	
 							});
 						});
 
 						$(".like").click(function() {
 
 							console.log('like');
+							var me = $(this);
 
 							$.ajax({
 								type: "POST",
@@ -193,6 +201,11 @@
 							.done(function( msg ) 
 							{
 								console.log(msg);
+								if (msg == "Vote bien pris en compte")
+								{					
+									var badge = me.prevAll('.badge').eq(0);
+									badge.text((parseInt(badge.text())) + 1);
+								}	
 							});
 						});
 
