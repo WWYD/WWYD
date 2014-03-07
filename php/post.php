@@ -66,8 +66,11 @@
 			<section style="width: 66.6%; float: left;">
 				<div class="content">
 					<div class="content-group" id="content-group">
+
 					<?php 
-					if(isset($_SESSION['user']))
+
+					// Si user connecté, on fait apparaitre le bouton pour poster une réponse
+					if (isset($_SESSION['user']))
 					{
 						echo '<div class="content-elem">';
 							echo '<div class="content-bordered btn" id="respond_display_button_zone">';
@@ -80,11 +83,30 @@
 					<div class="content-elem" id="respond-zone" style="display: none">
 						<div class="content-bordered respond-zone">
 							<textarea id="reponse_textzone"></textarea>
-							<p style="height: 20px; padding-right: 0px;"><button type="button" class="btn" id="comment_button" style="float: right">Répondre <span class="respond"></span></button></p>
+							<p style="height: 20px; padding-right: 0px;">
+								<button type="button" class="btn" id="comment_button" style="float: right">
+									Répondre <span class="respond"></span>
+								</button>
+							</p>
 						</div>
 					</div>						
 					
 					<script type="text/javascript">
+
+						// Si le premier bouton "Répondre" est cliqué, on fait apparaitre un champ de texte pour rédiger
+						// et un deuxième bouton Répondre pour valider l'envoi.
+						// Le premier bouton devient "Masquer" pour annuler la rédaction
+						$("#respond_display_button_zone").click(function(){
+							$("#respond-zone").slideToggle(200, function(){
+							if($("#respond_display_button").text() == "Répondre")
+								$("#respond_display_button").text("Masquer");
+							else
+								$("#respond_display_button").text("Répondre");
+							});
+						});
+
+
+						// Deuxième bouton "Répondre" cliqué -> envoi du commentaire via ajax
 						$("#comment_button").click(function (){
 							$.ajax({
   							type: "POST",
@@ -99,14 +121,6 @@
 							  });
 							});
 
-						$("#respond_display_button_zone").click(function(){
-							$("#respond-zone").slideToggle(200, function(){
-							if($("#respond_display_button").text() == "Répondre")
-								$("#respond_display_button").text("Masquer");
-							else
-								$("#respond_display_button").text("Répondre");
-							});
-						});
 					</script>
 					<?php
 
