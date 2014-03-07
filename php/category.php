@@ -4,6 +4,6 @@
 	while($data = $query->fetch()){
 		$query2 = $bdd->query('SELECT COUNT(*) FROM topic WHERE category_id = "'.$data['id'].'"');
 		$data2 = $query2->fetch();
-		echo '<tr><td>'.$data["name"].' <a class="badge" style="float: right">'.$data2[0].'</a></td></tr>';
+		echo '<tr><td><a href="search.php?id='.$data['id'].'" >'.$data["name"].' <a class="badge" style="float: right">'.$data2[0].'</a></a></td></tr>';
 	}
 ?>
