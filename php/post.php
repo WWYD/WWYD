@@ -66,8 +66,18 @@
 			<section style="width: 66.6%; float: left;">
 				<div class="content">
 					<div class="content-group" id="content-group">
-					
-					<div class="content-elem" id="respond-zone">
+					<?php 
+					if(isset($_SESSION['user']))
+					{
+						echo '<div class="content-elem">';
+							echo '<div class="content-bordered btn" id="respond_display_button_zone">';
+								echo '<span style="margin-left: 45%" id="respond_display_button">Répondre</span>';
+							echo '</div>';
+						echo '</div>';
+					}
+					?>
+
+					<div class="content-elem" id="respond-zone" style="display: none">
 						<div class="content-bordered respond-zone">
 							<textarea id="reponse_textzone"></textarea>
 							<p style="height: 20px; padding-right: 0px;"><button type="button" class="btn" id="comment_button" style="float: right">Répondre <span class="respond"></span></button></p>
@@ -88,6 +98,15 @@
 							    $("#respond-zone").slideToggle(200);
 							  });
 							});
+
+						$("#respond_display_button_zone").click(function(){
+							$("#respond-zone").slideToggle(200, function(){
+							if($("#respond_display_button").text() == "Répondre")
+								$("#respond_display_button").text("Masquer");
+							else
+								$("#respond_display_button").text("Répondre");
+							});
+						});
 					</script>
 					<?php
 
