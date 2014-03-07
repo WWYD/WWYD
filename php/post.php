@@ -107,6 +107,10 @@
 
 					<?php
 					$empty = true;
+
+					$r = "";
+					$answer = "";
+
 					while($comment = $posts_query->fetch())
 					{
 						$empty = false;
@@ -123,22 +127,46 @@
 						else
 							$premium = '';
 
-						echo '<div class="content-elem">';
-							echo '<div class="content-bordered">';
-								echo '<div class="content-bordered-title">';
-									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium;
-									echo '<span style="float: right">';
-										echo '<span class="badge" id="badgeInt">'.$comment["note"].'</span>&nbsp;&nbsp;';
-										echo '<span class="like"><input type="hidden" value="'.$comment["id"].'"></span>';
-										echo '<span class="dislike"><input type="hidden" value="'.$comment["id"].'"></span>';
-									echo '</span>';
-									echo '</h4>';
-								echo '</div>';
-								
-								echo'<p style="font-size: 12pt">'.$comment["content"].'</p>';
-							echo '</div>';
-						echo '</div>';
+						if($comment['is_answer']) {
+							$answer = '<div class="content-elem select-answer">'.
+		                              '<div class="content-bordered">'.
+									     '<div class="content-bordered-title">'.
+										     '<h4 class="panel-title">'.$comment_author["login"].' '.
+											     '<span class="badge" style="background-color: rgb(236, 151, 31)">Réponse séléctionnée</span>'.' '.$premium.
+												     '<span style="float: right">'.
+													     '<span class="badge" id="badgeInt">'.$comment["note"].'</span>&nbsp;&nbsp;'.
+													     '<span class="like"><input type="hidden" value="'.$comment["id"].'"></span>'.
+													     '<span class="dislike"><input type="hidden" value="'.$comment["id"].'">'.
+												     '</span>'.
+											     '</span>'.
+										     '</h4>'.
+									     '</div>'.
+									     '<p style="font-size: 12pt">'.$comment["content"].'</p>'.
+								     '</div>'.
+							     '</div>'; 
+
+						} else {
+							$r  .= 	'<div class="content-elem">'.
+	                                  	'<div class="content-bordered">'.
+									     	'<div class="content-bordered-title">'.
+										     	'<h4 class="panel-title">'.
+											     	$comment_author["login"].' '.$premium.
+											     	'<span style="float: right">'.
+											     		'<span class="badge" id="badgeInt">'.$comment["note"].'</span>&nbsp;&nbsp;'.
+											     		'<span class="like"><input type="hidden" value="'.$comment["id"].'"></span>'.
+											     		'<span class="dislike"><input type="hidden" value="'.$comment["id"].'"></span>'.
+											     	'</span>'.
+										     	'</h4>'.
+									     	'</div>'.
+								     		'<p style="font-size: 12pt">'.$comment["content"].'</p>'.
+							     		'</div>'.
+						     		'</div>'; 
+						 }
 					}
+
+					echo $answer;
+					echo $r;
+
 					if($empty == true)
 					{
 						echo '<div class="content-elem info" id="noans">';

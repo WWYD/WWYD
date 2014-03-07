@@ -543,3 +543,20 @@ input[type=checkbox] {
 
  	padding: 25px;
 }
+
+.search:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e003";
+}
+
+.select-answer .content-bordered-title {
+	background-image: linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%);
+	box-shadow: 0px 0px 5px 0px #d58512;
+}
