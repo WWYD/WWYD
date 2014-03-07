@@ -10,9 +10,13 @@
 				$topic_query = $bdd->prepare('SELECT * FROM topic WHERE id = '.$st);
 				$topic_query->execute();
 
-				$posts_query = $bdd->prepare('SELECT * FROM post WHERE topic_id = '.$st .' ORDER BY date ASC');
+				$posts_query = $bdd->prepare('SELECT post.id, content, date,post.user_id, topic_id, is_answer, SUM(value) as note
+											  FROM post left join vote on (post_id = post.id)
+											  WHERE topic_id = '.$st.'
+											  GROUP BY post.id
+											  ORDER BY date ASC');
 				$posts_query->execute();
-				
+
 				$topic_data = $topic_query->fetch();
 				if($topic_data["title"] == NULL)
 				{
@@ -100,6 +104,9 @@
 						$comment_author_query->execute();
 						$comment_author = $comment_author_query->fetch(PDO::FETCH_ASSOC);
 						
+						// TODO: Gérer ca au niveau SQL
+						if ($comment["note"] == null)
+							$comment["note"] = 0;
 
 						if($comment_author["premium"] == 1)
 							$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
@@ -111,7 +118,7 @@
 								echo '<div class="content-bordered-title">';
 									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium;
 									echo '<span style="float: right">';
-										echo '<span class="badge" id="badgeInt"></span>&nbsp;&nbsp;';
+										echo '<span class="badge" id="badgeInt">'.$comment["note"].'</span>&nbsp;&nbsp;';
 										echo '<span class="like"><input type="hidden" value="'.$comment["id"].'"></span>';
 										echo '<span class="dislike"><input type="hidden" value="'.$comment["id"].'"></span>';
 									echo '</span>';
