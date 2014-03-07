@@ -196,13 +196,12 @@ content: "\e095";
 /* Barre navigation */
 #fixedbar{
 height:   40px;
-min-width: 1500px;
 position: fixed;
+width: 100%;
 }
 
 #fixedbar ul {
 list-style: none;
-min-width: 1500px;
 }
 
 #fixedbar ul li {
@@ -521,19 +520,26 @@ input[type=checkbox] {
 	width: 100%;
 	display: none;
 	background-color: rgba(130,130,130,.5);
+	position: fixed;
+	top: 0;
+	right: 0;
 	z-index: 800;
 }
 
 #ttbox_frame
 {
 	background-color: white;
-	border: solid 8px #DEDEDE;
+	border: solid 5px #DEDEDE;
 	opacity: 1;
-	box-shadow: #222 5px 5px 5px;
-	margin-top: 300px;
+	box-shadow: #222 0px 0px 10px;
+	margin-top: 200px;
 	margin-left: 30%;
 	position: fixed;
 	width: 40%;
-	height: 30%;
 	color: black;
+ 	border-radius: 4px;
+
+ 	/*min-height: 210px;*/
+
+ 	padding: 25px;
 }

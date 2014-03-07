@@ -7,11 +7,11 @@
 			</div>
 		</div>
 		<script type="text/javascript">
-
+/*
 			if ( <?php echo $_SESSION["notif"] == 1; ?>){
 				$(".notification").fadeIn(300).delay(1500).fadeOut(300);
 				<?php $_SESSION['notif'] = 0; ?>
-			};
+			};*/
 		</script>
 		<section >
 		<section style="width: 66.6%; float : left; ">
