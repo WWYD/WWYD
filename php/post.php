@@ -139,15 +139,10 @@
 				</div>
 			</section>
 			<section style="width: 30.3%; float: left;">
-			<div class="categories">
-				<h3>Catégories</h3>
-				<table class="table table-striped table-hover">
-					<?php
+		        <?php
 					include('category.php');
-					?>	
-				</table>
-			</div>
-		</section>
+				?>		
+			</section>
 
 <?php
 	include("footer.php");

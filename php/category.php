@@ -1,3 +1,6 @@
+			<div class="categories">
+				<h3>Catégories</h3>
+				<table class="table table-striped table-hover">
 <?php
 	echo '<tr><td><a href="search.php?id=0" >Toutes</a></td></tr>';
 	$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
@@ -7,4 +10,6 @@
 		$data2 = $query2->fetch();
 		echo '<tr><td><a href="search.php?id='.$data['id'].'" >'.$data["name"].' <a class="badge" style="float: right">'.$data2[0].'</a></a></td></tr>';
 	}
-?>
+?>			
+				</table>
+			</div>

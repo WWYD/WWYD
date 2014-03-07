@@ -132,14 +132,9 @@
 		</section>
 		
 		<section style="width: 30.3%; float: left; margin-top: 30px;">
-			<div class="categories">
-				<h3>Catégories</h3>
-				<table class="table table-striped table-hover">
-					<?php
-						include('category.php');
-					?>	
-				</table>
-			</div>
+		<?php
+			include('category.php');
+		?>	
 		</section>
 <?php
 	include("footer.php");
