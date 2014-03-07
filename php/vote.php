@@ -17,9 +17,9 @@ session_start();
             if ($ans == null) 
             {
                 if($_POST['vote_type'] == 'like')
-                    $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", TRUE)');
+                    $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", 1)');
                 if($_POST['vote_type'] == 'dislike')
-                    $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", FALSE)');
+                    $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", -1)');
                 
                 if ($query == FALSE)
                     echo "Erreur: Requête invalide";
