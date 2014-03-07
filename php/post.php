@@ -1,4 +1,5 @@
 <?php 
+
 	include("header.php");
 	
 	if(isset($_GET["topic_id"])){
@@ -9,9 +10,13 @@
 				$topic_query = $bdd->prepare('SELECT * FROM topic WHERE id = '.$st);
 				$topic_query->execute();
 
-				$posts_query = $bdd->prepare('SELECT * FROM post WHERE topic_id = '.$st .' ORDER BY date ASC');
+				$posts_query = $bdd->prepare('SELECT post.id, content, date,post.user_id, topic_id, is_answer, SUM(value) as note
+											  FROM post left join vote on (post_id = post.id)
+											  WHERE topic_id = '.$st.'
+											  GROUP BY post.id
+											  ORDER BY date ASC');
 				$posts_query->execute();
-				
+
 				$topic_data = $topic_query->fetch();
 				if($topic_data["title"] == NULL)
 				{
@@ -66,8 +71,11 @@
 			<section style="width: 66.6%; float: left;">
 				<div class="content">
 					<div class="content-group" id="content-group">
+
 					<?php 
-					if(isset($_SESSION['user']))
+
+					// Si user connecté, on fait apparaitre le bouton pour poster une réponse
+					if (isset($_SESSION['user']))
 					{
 						echo '<div class="content-elem">';
 							echo '<div class="content-bordered btn" id="respond_display_button_zone">';
@@ -88,36 +96,15 @@
 					<div class="content-elem" id="respond-zone" style="display: none">
 						<div class="content-bordered respond-zone">
 							<textarea id="reponse_textzone"></textarea>
-							<p style="height: 20px; padding-right: 0px;"><button type="button" class="btn" id="comment_button" style="float: right">Répondre <span class="respond"></span></button></p>
+							<p style="height: 20px; padding-right: 0px;">
+								<button type="button" class="btn" id="comment_button" style="float: right">
+									Répondre <span class="respond"></span>
+								</button>
+							</p>
 						</div>
-					</div>						
-					
-					<script type="text/javascript">
-						$("#comment_button").click(function (){
-							$.ajax({
-  							type: "POST",
-							  url: "replyPost.php",
-							  data: { content: $("#reponse_textzone").val(), topic_id: "<?php echo $_GET['topic_id']; ?>" }
-							})
-							  .done(function( msg ) {
-							    $("#content-group").append($(msg));
-							    $("#reponse_textzone").val("");
-							    $("#appears").fadeIn(200);
-							    $("#respond-zone").slideToggle(200);
-							    $("#noans").slideToggle(200);
-							    $("#respond_display_button").text("Répondre");
-							  });
-							});
+					</div>	
 
-						$("#respond_display_button_zone").click(function(){
-							$("#respond-zone").slideToggle(200, function(){
-							if($("#respond_display_button").text() == "Répondre")
-								$("#respond_display_button").text("Masquer");
-							else
-								$("#respond_display_button").text("Répondre");
-							});
-						});
-					</script>
+
 					<?php
 					$empty = true;
 					while($comment = $posts_query->fetch())
@@ -127,6 +114,9 @@
 						$comment_author_query->execute();
 						$comment_author = $comment_author_query->fetch(PDO::FETCH_ASSOC);
 						
+						// TODO: Gérer ca au niveau SQL
+						if ($comment["note"] == null)
+							$comment["note"] = 0;
 
 						if($comment_author["premium"] == 1)
 							$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
@@ -136,7 +126,13 @@
 						echo '<div class="content-elem">';
 							echo '<div class="content-bordered">';
 								echo '<div class="content-bordered-title">';
-									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium.'<span style="float: right"><span class="badge" id="badgeInt"></span>&nbsp;&nbsp;<span class="plus"></span><span class="vote"> </span><span class="less"></span></span></h4>';
+									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium;
+									echo '<span style="float: right">';
+										echo '<span class="badge" id="badgeInt">'.$comment["note"].'</span>&nbsp;&nbsp;';
+										echo '<span class="like"><input type="hidden" value="'.$comment["id"].'"></span>';
+										echo '<span class="dislike"><input type="hidden" value="'.$comment["id"].'"></span>';
+									echo '</span>';
+									echo '</h4>';
 								echo '</div>';
 								
 								echo'<p style="font-size: 12pt">'.$comment["content"].'</p>';
@@ -150,6 +146,89 @@
 						echo '</div>';
 					}
 					?>
+					<script type="text/javascript">
+
+						// Si le premier bouton "Répondre" est cliqué, on fait apparaitre un champ de texte pour rédiger
+						// et un deuxième bouton Répondre pour valider l'envoi.
+						// Le premier bouton devient "Masquer" pour annuler la rédaction
+						$("#respond_display_button_zone").click(function(){
+							$("#respond-zone").slideToggle(200, function(){
+							if($("#respond_display_button").text() == "Répondre")
+								$("#respond_display_button").text("Masquer");
+							else
+								$("#respond_display_button").text("Répondre");
+							});
+						});
+
+
+						// Deuxième bouton "Répondre" cliqué -> envoi du commentaire via ajax
+						$("#comment_button").click(function (){
+							$.ajax({
+  								type: "POST",
+								url: "replyPost.php",
+								data: { content: $("#reponse_textzone").val(), topic_id: "<?php echo $_GET['topic_id']; ?>" }
+							})
+							.done(function( msg ) {
+							    $("#content-group").append($(msg));
+							    $("#reponse_textzone").val("");
+							    $("#appears").fadeIn(200);	
+							    $("#noans").slideToggle(200);
+							    $("#respond_display_button").text("Répondre");
+							    $("#respond-zone").slideToggle(200);
+							  });
+							});
+
+						$(".dislike").click(function() 
+						{
+							console.log('dislike');
+							var me = $(this);
+
+							$.ajax({
+								type: "POST",
+								url: "vote.php",
+								data: {
+									post_id: $(this).find('input').val(),
+									vote_type: "dislike"
+								}
+							})
+							.done(function( msg ) 
+							{
+								console.log(msg);
+
+								if (msg == "Vote bien pris en compte")
+								{					
+									var badge = me.prevAll('.badge').eq(0);
+									badge.text((parseInt(badge.text())) - 1);
+								}	
+							});
+						});
+
+						$(".like").click(function() {
+
+							console.log('like');
+							var me = $(this);
+
+							$.ajax({
+								type: "POST",
+								url: "vote.php",
+								data: {
+									post_id: $(this).find('input').val(),
+									vote_type: "like"
+								}
+							})
+							.done(function( msg ) 
+							{
+								console.log(msg);
+								if (msg == "Vote bien pris en compte")
+								{					
+									var badge = me.prevAll('.badge').eq(0);
+									badge.text((parseInt(badge.text())) + 1);
+								}	
+							});
+						});
+
+					</script>
+					
 						
 					</div>
 				</div>

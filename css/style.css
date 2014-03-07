@@ -251,7 +251,7 @@ line-height: 1;
 content: "\e041";
 }
 
-.plus:before {
+.like:before {
 position: relative;
 top: 1px;
 display: inline-block;
@@ -263,12 +263,12 @@ line-height: 1;
 content: "\2b";
 }
 
-.plus:hover {
+.like:hover {
 color: green;
 cursor: pointer;
 }
 
-.less:before {
+.dislike:before {
 position: relative;
 top: 1px;
 display: inline-block;
@@ -306,7 +306,7 @@ content: "\e083";
 color: red;
 }
 
-.less:hover{
+.dislike:hover{
 color: red;
 cursor: pointer;
 }
