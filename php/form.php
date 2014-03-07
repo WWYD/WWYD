@@ -1,15 +1,23 @@
 <?php
 	$result = array();
+	/*
+		$_POST['data'][0] -> login
+		$_POST['data'][1] -> mail
+		$_POST['data'][2] -> password
+		$_POST['data'][3] -> first_name
+		$_POST['data'][4] -> last_name
+	*/
+	
 	/* Test existence */
-	if(isset($_POST['login']) && isset($_POST['mail']) &&isset($_POST['password'])) {
+	if(isset($_POST['data']) && isset($_POST['data'][0]['value']) && isset($_POST['data'][1]['value']) &&isset($_POST['data'][2]['value'])) {
 		/* Test si vide */
-		if($_POST['login'] != "" && $_POST['mail'] != "" && $_POST['password'] != "") {
+		if($_POST['data'][0]['value'] != "" && $_POST['data'][1]['value'] != "" && $_POST['data'][2]['value'] != "") {
 			// Valeurs facultatives
-			if(!isset($_POST['first_name']))
-				$_POST['first_name'] = "";
+			if(!isset($_POST['data'][3]['value']))
+				$_POST['data'][3]['value'] = "";
 
-			if(!isset($_POST['last_name']))
-				$_POST['last_name'] = "";
+			if(!isset($_POST['data'][4]['value']))
+				$_POST['data'][4]['value'] = "";
 
 			try {
 			    $bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(
@@ -17,7 +25,7 @@
 			   
 			   	// Test pseudo
 			    $query = $bdd->prepare('SELECT count(*) FROM user WHERE login = ?');
-			    $query->execute(array($_POST['login']));
+			    $query->execute(array($_POST['data'][0]['value']));
 
 			    if($data = $query->fetch()) {
 			    	if($data[0] >= 1) {
@@ -27,7 +35,7 @@
 
 			   	// Test mail
 			    $query = $bdd->prepare('SELECT count(*) FROM user WHERE mail = ?');
-			    $query->execute(array($_POST['mail']));
+			    $query->execute(array($_POST['data'][1]['value']));
 
 			    if($data = $query->fetch()) {
 			    	if($data[0] >= 1) {
@@ -38,7 +46,7 @@
 			    // Ajout BDD
 			    $query = $bdd->prepare('INSERT INTO user (login, mail, password, first_name, last_name, rank_id) 
 			    	                    VALUES (?, ?, ?, ?, ?, 1)');
-			    $query->execute(array($_POST['login'], $_POST['mail'], $_POST['password'], $_POST['first_name'], $_POST['last_name']));
+			    $query->execute(array($_POST['data'][0]['value'], $_POST['data'][1]['value'], $_POST['data'][2]['value'], $_POST['data'][3]['value'], $_POST['data'][4]['value']));
 				
 				$result = array('success' => array('result' => "La BDD a bien été mise à jour."));
 			} catch ( Exception $e ) {
