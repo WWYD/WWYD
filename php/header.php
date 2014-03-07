@@ -1,24 +1,6 @@
 <?php
 	$bdd = new PDO('mysql:host=localhost;dbname=test', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 	session_start();
-/*
-	function set_notif($msg, $type) {
-		if(!isset($_SESSION['notif']))
-			$_SESSION['notif'] = array();
-
-		$_SESSION['notif'][] = array('msg' => $msg, 'type' => $type);
-	}
-
-	function get_notif() {
-		if(isset($_SESSION['notif'])) {
-			return array_pop($_SESSION['notif']);
-		} else
-			return NULL;
-	}
-
-	while($notif = get_notif()) {
-			echo "$('.notification').html('<span><span class=\"ok-sign\"></span>'+".$notif['msg']."+'</span>'').fadeIn(300).delay(1500).fadeOut(300);";
-	}*/
 ?>
 <html>
 	<head>

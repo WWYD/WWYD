@@ -2,26 +2,21 @@
 		include("header.php");
 ?>
 		<div style="width: 100%; height: 150px; background-color: #DEDEDE; margin-bottom: 30px;">
-			
-			<p style="padding: 30px; padding-left: 250px; font-size : 14pt;"><b>Vous avez un dilemne à gérer ?</b><br/>
-			Un choix à faire et vous ne pouvez pas prendre de décision ?<br/>
-			Laissez donc les internautes choisir pour vous</p>
+			<div style="margin: auto; width: 80%;">
+				<p style="padding: 30px; font-size : 19pt;"><b><i>Vous avez un dilemne à gérer ?</i></b></p>
+				<p style="margin-top: -70px; padding: 30px; font-size : 14pt;">Un choix à faire et vous ne pouvez pas prendre de décision ?<br/>
+				Laissez donc les internautes choisir pour vous !</p>
+			</div>
 			<div class="notification">
 				<span><span class="ok-sign"></span> Vous êtes connecté </span>
 			</div>
 		</div>
-		<script type="text/javascript">
-/*
-			if ( <?php echo $_SESSION["notif"] == 1; ?>){
-				$(".notification").fadeIn(300).delay(1500).fadeOut(300);
-				<?php $_SESSION['notif'] = 0; ?>
-			};*/
-		</script>
 		<section >
-		<section style="width: 66.6%; float : left; ">
+		<section style="width: 66.6%; float : left;">
 			<div class="content" >
 				<div class="content-group">
-					<div class="content-elem daily">
+					<div class="content-elem daily" style="<?php if(!isset($_SESSION["user"]))
+									{ ?> width: 97.9% <?php } ?>">
 						<div class="content-bordered">
 							<div class="content-bordered-title">
 								<h4 class="panel-title">Situation du jour</h4>
@@ -31,7 +26,10 @@
 							<p style="height: 40px;"><a href="post.php?topic_id=1"><button type="button" class="btn" style="float: right">Répondre <span class="respond"></span></button></a></p>
 						</div>
 					</div>
-					
+					<?php
+					if(isset($_SESSION["user"]))
+									{
+										?>
 					<div class="content-elem login">
 						<div class="content-bordered">
 							<p>
@@ -55,6 +53,7 @@
 							</p>
 						</div>
 					</div>
+					<?php } ?>
 				</div>
 				
 				<div class="content-elem fresh">
