@@ -14,7 +14,7 @@
 		                                         { label : "Mot de passe", item : new html.PasswordInput("Votre mot de passe"), name : "password"}],
 			                                     "connexion.php", "Connexion", 
 			                                     function(data) { 
-			                                     	$("#ttbox_frame div").slideUp();
+			                                     	$("#ttbox_frame .myForm").slideUp();
 			                                     	var success = new html.Message($("#ttbox_frame"), "ok", "Connexion","Vous êtes maintenant connecté");
 													success.init();
 
@@ -22,13 +22,13 @@
 			                                       }, 
 			                                     function() { console.log('Erreur connexion'); 
 
-			                                     	$("#ttbox_frame div").slideUp();
+			                                     	$("#ttbox_frame .myForm").slideUp();
 			                                    	var success = new html.Message($("#ttbox_frame"), "error", "Connexion","Mot de passe et/ou login incorrect");
 													success.init();
 
 			                                     }, 
 			                                     function() { 
-			                                     	$("#ttbox_frame div").slideUp();
+			                                     	$("#ttbox_frame .myForm").slideUp();
 			                                     	var success = new html.Message($("#ttbox_frame"), "error", "Connexion","Impossible de joindre le site, veuillez réessayer plus tard");
 													success.init();
 												})
