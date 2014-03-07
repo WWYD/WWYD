@@ -51,7 +51,7 @@
 													  .done(function(data) {
 														if(data == 0) {
 															div.css("color", "green");
-															div.html("Login non utilisé <span class='ok'></span>").fadeIn(200);
+															div.html("Login non utilisé <span class='ok-sign'></span>").fadeIn(200);
 															r = true;
 														} else{
 															div.html("Login utilisé <span class='false'></span>").fadeIn(200);
@@ -78,7 +78,7 @@
 											var re = /\S+@\S+\.\S+/;
 											if(re.test(mail)) {
 												div.css("color", "green");
-												div.html("Mail correct <span class='ok'></span>").fadeIn(200);
+												div.html("Mail correct <span class='ok-sign'></span>").fadeIn(200);
 												return true;
 											} else
 												div.html("Mail incorrect <span class='false'></span>").fadeIn(200);
@@ -97,7 +97,7 @@
 										if(pass1 && pass1 != "" && pass2 && pass2 != "") {
 											if(pass1 == pass2) {
 												div.css("color", "green");
-												div.html("Mots de passe identiques <span class='ok'></span>").fadeIn(200);
+												div.html("Mots de passe identiques <span class='ok-sign'></span>").fadeIn(200);
 												return true;
 											} else
 												div.html("Mots de passe différents <span class='false'></span>").fadeIn(200);
