@@ -1,15 +1,15 @@
 <?php
-	/* Test existance */
-	if(isset($_POST['login']) && isset($_POST['mail']) &&isset($_POST['pass'])) {
+	$result = array();
+	/* Test existence */
+	if(isset($_POST['login']) && isset($_POST['mail']) &&isset($_POST['password'])) {
 		/* Test si vide */
-		if($_POST['login'] != "" && $_POST['mail'] != "" && $_POST['pass'] != "") {
-
+		if($_POST['login'] != "" && $_POST['mail'] != "" && $_POST['password'] != "") {
 			// Valeurs facultatives
-			if(!isset($_POST['firstname']))
-				$_POST['firstname'] = "";
+			if(!isset($_POST['first_name']))
+				$_POST['first_name'] = "";
 
-			if(!isset($_POST['lastname']))
-				$_POST['lastname'] = "";
+			if(!isset($_POST['last_name']))
+				$_POST['last_name'] = "";
 
 			try {
 			    $bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(
@@ -21,8 +21,7 @@
 
 			    if($data = $query->fetch()) {
 			    	if($data[0] >= 1) {
-						include 'error.php?e=3';
-						exit();
+						$result = array('error' => array('title' => 'Erreur', 'msg' => 'Pseudo déjà existant'));
 			    	}
 			    }
 
@@ -32,28 +31,25 @@
 
 			    if($data = $query->fetch()) {
 			    	if($data[0] >= 1) {
-						include 'error.php?e=4';
-						exit();
+						$result = array('error' => array('title' => 'Erreur', 'msg' => 'Mail déjà existant'));
 			    	}
 			    }
 
 			    // Ajout BDD
-			    $query = $bdd->prepare('INSERT INTO user (login, mail, password, firstname, lastname) 
-			    	                    VALUES (?, ?, ?, ?, ?)');
-			    $query->execute(array($_POST['login'], $_POST['mail'], $_POST['pass'], $_POST['firstname'], $_POST['lastname']));
-
-				include 'success.php';
-
+			    $query = $bdd->prepare('INSERT INTO user (login, mail, password, first_name, last_name, rank_id) 
+			    	                    VALUES (?, ?, ?, ?, ?, 1)');
+			    $query->execute(array($_POST['login'], $_POST['mail'], $_POST['password'], $_POST['first_name'], $_POST['last_name']));
+				
+				$result = array('success' => array('result' => "La BDD a bien été mise à jour."));
 			} catch ( Exception $e ) {
-				include 'error.php?e=5';
+				 $result = array('error' => array('title' => 'Erreur', 'msg' => 'Erreur base de données'));
 			}
 		} else {
-			include 'error.php?e=2';
-			exit();
+			$result = array('error' => array('title' => 'Erreur', 'msg' => 'Aucune données reçues'));
 		}
 
 	} else {
-		include 'error.php?e=1';
-		exit();
+		$result = array('error' => array('title' => 'Erreur', 'msg' => 'Aucune données reçues'));
 	}
+	echo json_encode($result);
 ?>
