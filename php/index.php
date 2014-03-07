@@ -73,16 +73,9 @@
 			<div class="categories">
 				<h3>Catégories</h3>
 				<table class="table table-striped table-hover">
-					<tr><td>Général</td></tr>
-					<tr><td>Humour</td></tr>
-					<tr><td>Politique</td></tr>
-					<tr><td>Cinéma</td></tr>
-					<tr><td>Littérature</td></tr>
-					<tr><td>Jeu vidéo</td></tr>
-					<tr><td>Alimentaire</td></tr>
-					<tr><td>Sport</td></tr>
-					<tr><td>Sexe</td></tr>
-					
+                <?php
+					include('category.php');
+				?>					
 				</table>
 			</div>
 		</section>
