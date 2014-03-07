@@ -11,7 +11,7 @@ if(isset($_POST['login'])) {
 				session_start();
 				$_SESSION['user'] = $data;
 				$_SESSION['notif'] = 1;
-				header('location:index.php');
+				header('location:'.$_SERVER['HTTP_REFERER']);
 				exit();
 			}
 			
