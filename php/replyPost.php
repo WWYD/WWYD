@@ -8,7 +8,7 @@
 	if(isset($_SESSION['user']) && isset($_POST['content'])){
 		try {
 			$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-			$query = $bdd->query('INSERT INTO post VALUES ("", "'.mysql_real_escape_string($_POST['content']).'", now(),"'.mysql_real_escape_string($_SESSION['user']['id']).'", "'.mysql_real_escape_string($_POST['topic_id']).'")');
+			$query = $bdd->query('INSERT INTO post VALUES ("", "'.mysql_real_escape_string($_POST['content']).'", now(),"'.mysql_real_escape_string($_SESSION['user']['id']).'", "'.mysql_real_escape_string($_POST['topic_id']).'", 0)');
 			echo '<div class="content-elem">';
 							echo '<div class="content-bordered" id="appears" style="display: none">'.
 									 '<div class="content-bordered-title">'.

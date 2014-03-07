@@ -96,6 +96,7 @@
 							    $("#reponse_textzone").val("");
 							    $("#appears").fadeIn(200);
 							    $("#respond-zone").slideToggle(200);
+							    $("#respond_display_button").text("Répondre");
 							  });
 							});
 

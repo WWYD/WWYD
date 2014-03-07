@@ -2,6 +2,10 @@
 		include("header.php");
 ?>
 		<div style="width: 100%; height: 150px; background-color: #DEDEDE; margin-bottom: 30px;">
+			
+			<p style="padding: 30px; font-size : 14pt;">Vous avez un dilemne à gérer ?<br/>
+			Un choix à faire et vous ne pouvez pas prendre de décision ?<br/>
+			Laissez donc les internautes choisir pour vous</p>
 			<div class="notification">
 				<span><span class="ok-sign"></span> Vous êtes connecté </span>
 			</div>
