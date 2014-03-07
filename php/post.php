@@ -1,4 +1,5 @@
 <?php 
+
 	include("header.php");
 	
 	if(isset($_GET["topic_id"])){
@@ -89,8 +90,39 @@
 								</button>
 							</p>
 						</div>
-					</div>						
-					
+					</div>	
+
+					<?php
+
+					while($comment = $posts_query->fetch())
+					{
+						$comment_author_query = $bdd->prepare('SELECT login, premium FROM user WHERE id = '.$comment["user_id"]);
+						$comment_author_query->execute();
+						$comment_author = $comment_author_query->fetch(PDO::FETCH_ASSOC);
+						
+
+						if($comment_author["premium"] == 1)
+							$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
+						else
+							$premium = '';
+
+						echo '<div class="content-elem">';
+							echo '<div class="content-bordered">';
+								echo '<div class="content-bordered-title">';
+									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium;
+									echo '<span style="float: right">';
+										echo '<span class="badge" id="badgeInt"></span>&nbsp;&nbsp;';
+										echo '<span class="like"><input type="hidden" value="'.$comment["id"].'"></span>';
+										echo '<span class="dislike"><input type="hidden" value="'.$comment["id"].'"></span>';
+									echo '</span>';
+									echo '</h4>';
+								echo '</div>';
+								
+								echo'<p style="font-size: 12pt">'.$comment["content"].'</p>';
+							echo '</div>';
+						echo '</div>';
+					}
+					?>
 					<script type="text/javascript">
 
 						// Si le premier bouton "Répondre" est cliqué, on fait apparaitre un champ de texte pour rédiger
@@ -109,11 +141,11 @@
 						// Deuxième bouton "Répondre" cliqué -> envoi du commentaire via ajax
 						$("#comment_button").click(function (){
 							$.ajax({
-  							type: "POST",
-							  url: "replyPost.php",
-							  data: { content: $("#reponse_textzone").val(), topic_id: "<?php echo $_GET['topic_id']; ?>" }
+  								type: "POST",
+								url: "replyPost.php",
+								data: { content: $("#reponse_textzone").val(), topic_id: "<?php echo $_GET['topic_id']; ?>" }
 							})
-							  .done(function( msg ) {
+							.done(function( msg ) {
 							    $("#content-group").append($(msg));
 							    $("#reponse_textzone").val("");
 							    $("#appears").fadeIn(200);
@@ -121,32 +153,46 @@
 							  });
 							});
 
+						$(".dislike").click(function() 
+						{
+							console.log('dislike');
+
+							$.ajax({
+								type: "POST",
+								url: "vote.php",
+								data: {
+									user_id: <?php echo $_SESSION['user']['id']; ?>,
+									post_id: $(this).find('input').val(),
+									vote_type: "dislike"
+								}
+							})
+							.done(function( msg ) 
+							{
+								console.log(msg);
+							});
+						});
+
+						$(".like").click(function() {
+
+							console.log('like');
+
+							$.ajax({
+								type: "POST",
+								url: "vote.php",
+								data: {
+									user_id: <?php echo $_SESSION['user']['id']; ?>,
+									post_id: $(this).find('input').val(),
+									vote_type: "like"
+								}
+							})
+							.done(function( msg ) 
+							{
+								console.log(msg);
+							});
+						});
+
 					</script>
-					<?php
-
-					while($comment = $posts_query->fetch())
-					{
-						$comment_author_query = $bdd->prepare('SELECT login, premium FROM user WHERE id = '.$comment["user_id"]);
-						$comment_author_query->execute();
-						$comment_author = $comment_author_query->fetch(PDO::FETCH_ASSOC);
-						
-
-						if($comment_author["premium"] == 1)
-							$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
-						else
-							$premium = '';
-
-						echo '<div class="content-elem">';
-							echo '<div class="content-bordered">';
-								echo '<div class="content-bordered-title">';
-									echo '<h4 class="panel-title">'.$comment_author["login"].' '.$premium.'<span style="float: right"><span class="badge" id="badgeInt"></span>&nbsp;&nbsp;<span class="plus"></span><span class="vote"> </span><span class="less"></span></span></h4>';
-								echo '</div>';
-								
-								echo'<p style="font-size: 12pt">'.$comment["content"].'</p>';
-							echo '</div>';
-						echo '</div>';
-					}
-					?>
+					
 						
 					</div>
 				</div>
