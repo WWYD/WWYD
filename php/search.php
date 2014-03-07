@@ -75,8 +75,8 @@
 								'</div>'+
 								'<p style="font-size: 12pt">'+
 									'Dans <a href="#?id='+category_id+'"">'+category+'</a> par <a href="#?id='+login_id+'">'+login+'</a> le '+day[2]+'/'+day[1]+'/'+day[0]+' <span class="badge">'+answers+' réponses</span>'+
-									'<a href="#?id='+id+'"><button type="button" class="btn btnsmall" style="float: right; margin-top: -2px;"></a>'+
-									'Voir <span class="respond"></span></button></p>'+
+									'<a href="post.php?topic_id='+id+'"><button type="button" class="btn btnsmall" style="float: right; margin-top: -2px;">'+
+									'Voir <span class="respond"></span></button></a></p>'+
 							'</div>'+
 						   '</div>';
 				}

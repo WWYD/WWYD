@@ -3,7 +3,7 @@
 ?>
 		<div style="width: 100%; height: 150px; background-color: #DEDEDE; margin-bottom: 30px;">
 			
-			<p style="padding: 30px; font-size : 14pt;">Vous avez un dilemne à gérer ?<br/>
+			<p style="padding: 30px; padding-left: 250px; font-size : 14pt;"><b>Vous avez un dilemne à gérer ?</b><br/>
 			Un choix à faire et vous ne pouvez pas prendre de décision ?<br/>
 			Laissez donc les internautes choisir pour vous</p>
 			<div class="notification">
@@ -28,7 +28,7 @@
 							</div>
 							
 							<p style="font-size: 22pt"><i>"Un bébé, un chat et une seule portion de nourriture. Que faire ?"</i></p>
-							<p style="height: 40px;"><a href="post.php"><button type="button" class="btn" style="float: right">Répondre <span class="respond"></span></button></a></p>
+							<p style="height: 40px;"><a href="post.php?topic_id=1"><button type="button" class="btn" style="float: right">Répondre <span class="respond"></span></button></a></p>
 						</div>
 					</div>
 					

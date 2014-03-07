@@ -75,6 +75,14 @@
 							echo '</div>';
 						echo '</div>';
 					}
+					else
+					{
+						echo '<div class="content-elem">';
+							echo '<div class="content-bordered btn" style="background-image: linear-gradient(rgb(240, 240, 240) 0px, rgb(220, 220, 220) 100%); border: solid 1px #777">';
+								echo '<span style="margin-left: 38%; color: black;">Connectez-vous pour répondre</span>';
+							echo '</div>';
+						echo '</div>';
+					}
 					?>
 
 					<div class="content-elem" id="respond-zone" style="display: none">
@@ -96,6 +104,7 @@
 							    $("#reponse_textzone").val("");
 							    $("#appears").fadeIn(200);
 							    $("#respond-zone").slideToggle(200);
+							    $("#noans").slideToggle(200);
 							    $("#respond_display_button").text("Répondre");
 							  });
 							});
@@ -110,9 +119,10 @@
 						});
 					</script>
 					<?php
-
+					$empty = true;
 					while($comment = $posts_query->fetch())
 					{
+						$empty = false;
 						$comment_author_query = $bdd->prepare('SELECT login, premium FROM user WHERE id = '.$comment["user_id"]);
 						$comment_author_query->execute();
 						$comment_author = $comment_author_query->fetch(PDO::FETCH_ASSOC);
@@ -131,6 +141,12 @@
 								
 								echo'<p style="font-size: 12pt">'.$comment["content"].'</p>';
 							echo '</div>';
+						echo '</div>';
+					}
+					if($empty == true)
+					{
+						echo '<div class="content-elem info" id="noans">';
+							echo'<p style="font-size: 12pt"><h2>Résultat vide</h2>Il n\'y a pas encore de réponse pour ce topic</p>';
 						echo '</div>';
 					}
 					?>
