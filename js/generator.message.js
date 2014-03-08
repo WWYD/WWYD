@@ -25,7 +25,7 @@
 this.generator = this.generator || {};
 
 generator.Message = function(args) {
-	args = args || {};
+	var args = args || {};
 
 	this.type = args.type || "error"; // error - info - success - warning
 	if(this.type != 'error' && this.type != "info" 
@@ -36,8 +36,8 @@ generator.Message = function(args) {
 	this.dismissible = args.dismissible || false;
 	this.modal = args.modal || false;
 	this.disable = args.disable || false;
-	this.creation_callback = args.creation_cbk || false;
-	this.deletion_callback = args.deletion_cbk || false;
+	this.creation_callback = args.creation_clbk || false;
+	this.deletion_callback = args.deletion_clbk || false;
 }
 
 generator.Message.prototype.init = function() {
@@ -56,14 +56,6 @@ generator.Message.prototype.init = function() {
 
 	me.container.append(h_title);
 	me.container.append(p_message);
-
-	$("body").append(me.container);
-	me.container.animate({ top: "toggle",
-			               opacity: "toggle"}, 
-			               function() {
-			               	   if(me.creation_callback) me.creation_callback();
-			               });
-
 	// Si pop-up dismissible
 	if(me.dismissible) {
 		var exit = $('<div class="close" />');
@@ -81,6 +73,14 @@ generator.Message.prototype.init = function() {
 		if(me.disable) 
 			me.disable.find('input,button').attr('disabled', true).blur();
 	}
+
+	// Affichage
+	$("body").append(me.container);
+	me.container.animate({ top: "toggle",
+			               opacity: "toggle"}, 
+			               function() {
+			               	   if(me.creation_callback) me.creation_callback();
+			               });
 }
 
 generator.Message.prototype.dismiss = function(e) {

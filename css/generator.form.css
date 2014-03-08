@@ -1,0 +1,13 @@
+
+.form-table tr {
+	height: 45px;
+}
+
+.form-table td {
+	padding-left: 10px;
+}
+
+
+.form-table td:first-child {
+	padding-left: 0px;
+}

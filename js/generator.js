@@ -57,47 +57,106 @@ html.Message.prototype.init = function() {
 */
 
 // Lightbox perso
-html.TTBox = function(div, elements, dismissible) {
-	this.renderTo = div;
-	this.elements = elements;
-	this.dismissible = dismissible || true;
-	console.log(elements);
+/*
+html.TTBox = function(args) {
+	args = args || {};
+
+	this.height = args.height || false;
+	this.width = args.width || false;
+	this.elements = args.elements || [];
+	this.dismissible = args.dismissible || true;
+	this.dismiss_on_close = args.dismiss_on_close || true;
+	this.creation_callback = args.creation_cbk || false;
+	this.deletion_callback = args.deletion_cbk || false;
 }
 
 html.TTBox.prototype.init = function() {
+
 	var me = this;
 
-	me.container = $('<div id="ttbox_global" />');
-	me.info = $('<div id="ttbox_frame" />');
+	me.container = $('<div class="ttbox-global" style="display: none;" />');
+	me.window = $('<div class="ttbox-frame" style="display: none;" />');
 
-	me.container.append(me.info);
+	me.container.append(me.window);
 
+	// Ajout des éléments
 	$(me.elements).each(function (index, element) {
-		element.item.setRenderTo(me.info);
+		element.item.setRenderTo(me.window);
 		element.item.init();
 	});
 
-
-	me.renderTo.append(me.container);
-
+	// Dismisible 
 	if(me.dismissible) {
-		me.container.on("click", function(e) {
+		me.container.on("click", function(e) { 
 			if($(e.target)[0] == me.container[0]) {
-				me.hide();
+				if(me.dismiss_on_close)
+					me.dismiss();
+				else
+					me.hide();
 			}
 		});
+
+		var exit = $('<div class="close" />');
+		exit.on("click", function(e) {
+			if(me.dismiss_on_close)
+				me.dismiss();
+			else
+				me.hide();
+		});
+
+		me.window.prepend(exit);
 	}
+
+	$(window).resize(function() {
+		me.resize();
+	});
+
+	// Affichage
+	me.resize();
+	$("body").append(me.container);
 }
 
 html.TTBox.prototype.show = function() {
+
 	var me = this;
-	me.container.fadeIn(200);
+
+	me.container.fadeIn(200, function() {
+		me.window.animate({ top: "toggle",
+			               opacity: "toggle"});
+	});
 }
 
 html.TTBox.prototype.hide = function() {
+
 	var me = this;
+
 	me.container.fadeOut(200);
 }
+
+html.TTBox.prototype.dismiss = function() {
+
+	var me = this;
+
+	me.window.animate({ top: "toggle",
+		                opacity: "toggle"}, function() {
+							me.container.fadeOut(200, function() {
+								me.container.remove();
+							});
+		               });
+}
+
+html.TTBox.prototype.resize = function() {
+
+	var me = this;
+
+	if(me.height)
+		me.window.css("height", me.height);
+
+	if(me.width) {
+		me.window.css("width", me.width);
+		me.window.css("margin-left", - (me.width / 2)); // center
+	}
+}*/
 
 // Menu navigation
 html.Menu = function(div, values) {
@@ -164,7 +223,6 @@ html.TextInput.prototype.init = function() {
 
 	if(me.renderTo) {
 		me.element = $('<input />');
-		me.renderTo.append(me.element);
 
 		me.element.attr("placeholder", this.placeholder);
 		me.element.attr("maxlength", this.max_size);
@@ -172,6 +230,8 @@ html.TextInput.prototype.init = function() {
 
 		me.element.addClass(me.cls);
 		me.element.addClass("form-connection");
+
+		me.renderTo.append(me.element);
 	} else {
 		console.log("Pas de renderTo défini");
 	}
@@ -244,17 +304,28 @@ html.PasswordInput = function(placeholder, min_size, max_size, error_check_callb
 // Héritage de password
 html.PasswordInput.prototype = html.TextInput.prototype;
 
+/*
+[[{ item  : new html.Title("Inscription"), width : 4, center : true }],
+ [{ label : "Nom", item : new html.TextInput(), name : "nom" }, { label : "Prénom", item : new html.TextInput(), name : "prenom" }]
+ [{ label : "Ville", item : new html.TextInput(), name : "ville" }]
+ ]
+*/
 
+/*
 // Formulaire
-html.Form = function(div, elements, target, submit_value, success_callback, error_callback, error_ajax_callback) {
-	this.cls = "myForm";
-	this.renderTo = div || null;
-	this.elements = elements;
-	this.submit_value = submit_value || "Valider";
-	this.target = target;
-	this.success_callback = success_callback;
-	this.error_callback = error_callback;
-	this.error_ajax_callback = error_ajax_callback;
+html.Form = function(args) {
+	var args = args || {};
+
+	this.cls = "generated-form";
+	this.renderTo = args.render_to || null;
+	this.elements = args.elements || [];
+	this.submit_value = args.submit_value || "Valider";
+	this.target = args.target || "target.php";
+	this.success_clbk = args.success_clbk;
+	this.error_clbk = args.error_clbk;
+	this.error_ajax_clbk = args.error_ajax_clbk;
+	this.design = args.design || "flow"; // flow ou table (voir + loin pour table)
+	this.fields = [];
 }
 
 html.Form.prototype.setRenderTo = function(renderTo) {
@@ -262,12 +333,13 @@ html.Form.prototype.setRenderTo = function(renderTo) {
 }
 
 html.Form.prototype.check = function(e) {
+
 	var me = this;
 	var result = true;
 
-	$(me.elements).each(function(index, element) {
-		if(element.item.check)
-			if(element.item.check(e)) 
+	$(me.fileds).each(function(index, element) {
+		if(element.check)
+			if(element.check(e)) 
 				result = result ? true : false;
 			else
 				result = false;
@@ -281,8 +353,8 @@ html.Form.prototype.send = function(e) {
 
 	if(me.check()) {
 		var to_send = [];
-		$(me.elements).each(function(index, element) {
-			to_send[index] = { name : element.name, value : element.item.getValue() };
+		$(me.fields).each(function(index, element) {
+			to_send[index] = { name : element.name, value : element.getValue() };
 		});
 
 		$.ajax({ type     : 'POST',
@@ -292,19 +364,18 @@ html.Form.prototype.send = function(e) {
 	           .done(function(data) {
 	           	   console.log(data);
 	           	   if(data.success) {
-	           	      if(me.success_callback)
-	                       me.success_callback(data);
+	           	      if(me.success_clbk)
+	                       me.success_clbk(data);
 	           	   } else {
 	           	   	  console.log("Erreur PHP");
-	           	      if(me.error_callback)
-	                       me.error_callback(data);
+	           	      if(me.error_clbk)
+	                       me.error_clbk(data);
 	           	   }
 	           })
 	           .fail(function() {
-	           	console.log(me.target);
 	           	   console.log("Erreur Ajax");
-	           	   if(me.error_ajax_callback)
-	           	   	   me.error_ajax_callback();
+	           	   if(me.error_ajax_clbk)
+	           	   	   me.error_ajax_clbk();
 	           });
     }
 }
@@ -326,30 +397,95 @@ html.Form.prototype.init = function() {
 	me.renderTo.append(me.container);
 
 	// Elements
-	$(me.elements).each(function(index, element) {
+	if(me.design == "flow") {
+
+		var i = 0;
+
+		$(me.elements).each(function(index, element) {
+
+			var p = $("<p/>");
+			var label = $("<p/>");
+
+			label.text(element.label);
+			p.append(label);
+
+			element.item.setRenderTo(p);
+			element.item.init();
+
+			if(element.item.keyListener)
+				element.item.keyListener(keyListener);
+
+			me.container.append(p);
+
+			me.fields[i++] = element.item;
+		});
+
+
+		// Submit
+		me.submit = $('<input type="submit" class="btn" />');
+		me.submit.val(this.submit_value);
+		me.submit.on("click", function(e) {
+			me.send(e);
+		});
+		me.container.append(me.submit);
+	} else if (me.design == "table") {
+
 		var p = $("<p/>");
 		var label = $("<p/>");
-		label.text(element.label);
-		p.append(label);
+		var table = $("<table/>");
 
-		element.item.setRenderTo(p);
-		element.item.init();
+		table.addClass("form-table")
 
-		if(element.item.keyListener)
-			element.item.keyListener(keyListener);
+		var i = 0;
 
-		me.container.append(p);
-	});
+		$(me.elements).each(function(index, line_elements) {
 
-	// Submit
-	me.submit = $('<input type="submit" class="btn" />');
-	me.submit.val(this.submit_value);
-	me.container.append(me.submit);
-	me.submit.on("click", function(e) {
-		me.send(e);
-	});
+			var line = $("<tr />");
 
-}
+			// On attend ici des lignes
+			$(line_elements).each(function(index, element) {
+
+				if(element.label) {
+
+					var label = $('<td />');
+
+					label.text(element.label);
+					line.append(label);
+				}
+
+				var data = $('<td />');
+
+				if(element.width)
+					data.attr("colspan", element.width);
+
+				element.item.setRenderTo(data);
+				element.item.init();
+
+				if(element.item.keyListener)
+					element.item.keyListener(keyListener);
+
+				line.append(data);
+
+				me.fields[i++] = element.item;
+			});
+
+			table.append(line);
+		});
+
+		me.container.append(table);
+
+		// Submit
+		me.submit = $('<input type="submit" class="btn" style="display: inline-block;" />');
+		me.submit.val(this.submit_value);
+		me.submit.on("click", function(e) {
+			me.send(e);
+		});
+		var centered  = $('<p style="text-align: center; margin: 0;" />');
+		centered.append(me.submit);
+		me.container.append(centered);
+
+	}
+}*/
 
 
 /* Tests :

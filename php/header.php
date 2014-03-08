@@ -18,6 +18,18 @@
 		<script src="../js/generator.message.js"></script>
 		<link rel="stylesheet" href="../css/generator.message.css">
 
+		<!-- Fenêtres -->
+		<script src="../js/generator.ttbox.js"></script>
+		<link rel="stylesheet" href="../css/generator.ttbox.css">
+
+		<!-- Formulaires -->
+		<script src="../js/generator.form.js"></script>
+		<link rel="stylesheet" href="../css/generator.form.css">
+
+		<!-- Titres -->
+		<script src="../js/generator.title.js"></script>
+		<link rel="stylesheet" href="../css/generator.title.css">
+
     </head>
 	
 	<body>
@@ -33,7 +45,7 @@
 						<?php
 							if(!isset($_SESSION["user"])) {
 								echo '<div style="float: right;"><li class="co"><input id="connection" type="button" name="submit"value="Connexion" class="btn connection" style="margin-top: -7px; padding-left: 30px; padding-right: 30px; margin-left: -20px; margin-right: -20px"/></li>';
-								echo '<li class="co"><a href="inscription.php"><input type="button" value="Inscription" class="btn" style="margin-top: -26px; padding-left: 30px; padding-right: 30px; margin-left: -20px; background-image: linear-gradient(rgb(50, 50, 50) 0px, rgb(25, 25, 25) 100%);"/></a></form></li></div>';
+								echo '<li class="co"><a href="#"><input type="button" value="Inscription" class="btn inscription" style="margin-top: -26px; padding-left: 30px; padding-right: 30px; margin-left: -20px; background-image: linear-gradient(rgb(50, 50, 50) 0px, rgb(25, 25, 25) 100%);"/></a></form></li></div>';
 							}
 							else 
 								echo  '<span style="float:right; margin-right: 30px">Connecté en tant que <b>'.$_SESSION["user"]["login"].'</b>&nbsp;&nbsp;<a href="deconnexion.php" class="deconnection"><input type="button" value="Déconnexion" class="btn" style=" margin-top: -26px; margin-left: 320px; padding-left: 30px; padding-right: 30px; background-image: linear-gradient(rgb(50, 50, 50) 0px, rgb(25, 25, 25) 100%);"/></a></span>';
