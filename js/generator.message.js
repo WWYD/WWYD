@@ -7,8 +7,8 @@
 	----------------------------------------------------
 	Propriétés :
 	    type         : error | info | success| warning - style
-		title        : Titre du pop-up
-	    message      : Message du pop-up
+		title        : titre du pop-up
+	    message      : message du pop-up
 	    dismissible  : true | false - Pop-up fermable
 	    disable      : jquery élément où disable tout les 
 	                   élements de formulaire

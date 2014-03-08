@@ -5,9 +5,9 @@
 	de contenir des éléments.
 	----------------------------------------------------
 	Propriétés :
-	    height           : Hauteur de la fenêtre (150px de base)
-		width            : Largeur de la fenêtre
-	    elements         : Elements à afficher dans la fenêtre,
+	    height           : hauteur de la fenêtre (150px de base)
+		width            : largeur de la fenêtre
+	    elements         : elements à afficher dans la fenêtre,
 	                       les un après les autres
 	    dismissible      : true | false - Fenêtre fermable
 	    dismiss_on_close : true | false - Détruit la fenêtre

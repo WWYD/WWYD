@@ -1,4 +1,4 @@
-<?php
+Ôªø<?php
 
 session_start();
 
@@ -14,7 +14,7 @@ if(isset($_POST['data'])) {
 			if($data = $query->fetch()){
 				if($data[0] >= 0) {
 					$_SESSION['user'] = $data;
-					$r = array('success' => array('title' => "Connexion", 'msg' => 'Vous Ítes maintenant connectÈ'));
+					$r = array('success' => array('title' => "Connexion", 'msg' => 'Vous √™tes maintenant connect√©'));
 				} else {
 					$r = array('error' => array('title' => "Connexion", 'msg' => 'Mot de passe et/ou login incorrect'));
 				}
@@ -23,14 +23,14 @@ if(isset($_POST['data'])) {
 
 			$query->closeCursor();	
 		} catch ( Exception $e ) {
-			$r = array('error' => array('title' => "Erreur", 'msg' => 'Erreur base de donnÈes'));
+			$r = array('error' => array('title' => "Erreur", 'msg' => 'Erreur base de donn√©es'));
 		}
 	} else {
-		$r = array('error' => array('title' => 'Erreur', 'msg' => 'DonnÈes reÁues icomplËtes'));
+		$r = array('error' => array('title' => 'Erreur', 'msg' => 'Donn√©es re√ßues icompl√®tes'));
 	}
 
 } else {
-	$r = array('error' => array('title' => 'Erreur', 'msg' => 'Aucune donnÈes reÁues'));
+	$r = array('error' => array('title' => 'Erreur', 'msg' => 'Aucune donn√©es re√ßues'));
 }
 
 echo json_encode($r);

@@ -8,76 +8,82 @@
 		<SCRIPT TYPE="text/javascript">
 		$(document).ready(function () {
 
-			// Test en affichant de l'html du DOM dans une TTBox
-			/*
-			$('.inscription').on("click", function(e) {
-				box_ = new generator.TTBox( { html : $('.daily') } );
-				box_.init();
-				box_.show();
-			})*/
-			/*$('.inscription').on("click", function(e) {
-				box_ = new generator.TTBox( { elements : new generator.Form( { elements : 
-						[[{ item  : new generator.Title({ text: "Formulaire d'inscription" }), width : 4 }],
-						 [{ label : "Nom", item : new html.TextInput(), name : "nom" }, { label : "Prénom", item : new html.TextInput(), name : "prenom" }],
-						 [{ label : "Ville", item : new html.TextInput(), name : "ville" }]
-						 ], design : "table" } ) 
-					} );
-				box_.init();
-				box_.show();
-			});*/
+			var error_clbk = function(data) {
+					var error = new generator.Message({ type : 'error', title : data.error.title, 
+          				                                message : data.error.msg, 
+          				                                modal : true, dismissible : true, 
+          				                                disable : box.window });
+					error.init();
+			};
+
+			var fail_clbk = function(data) {
+					var error = new generator.Message({ type : 'error', title : "Erreur", 
+          				                                message : "Erreur lors du traitement du formulaire", 
+          				                                modal : true, dismissible : true, 
+          				                                disable : box.window });
+					error.init();
+			};
 
 
-			// Pop-up connexion / inscription
+			// Pop-up inscription
 			$(".inscription").on("click", function(e) {
-				box = new generator.TTBox( { width: 320, elements : 
+
+				var login = new generator.TextInput({ placeholder : "Nom du compte", min_size : 3, check_onkey : true, show_validation : true });
+				var mail = new generator.EmailInput({ placeholder : "Adresse mail", check_onkey : true, show_validation : true });
+
+				var pass = new generator.PasswordInput({ placeholder : 'Mot de passe', min_size : 3, check_onkey : true, show_validation : true, check_clbk : function() { return (pass_check.getValue() == pass.getValue()); }});
+				var pass_check = new generator.PasswordInput({ placeholder : 'Vérification mot de passe', min_size : 3, check_onkey : true, check_clbk : function() { pass.check(); }});
+
+				var firstname = new generator.TextInput({ placeholder : 'Prénom (Facultatif)'});
+				var lastname = new generator.TextInput({ placeholder : 'Nom (Facultatif)'});
+
+
+				box = new generator.TTBox( { width: 340, elements : 
 					new generator.Form( { elements :
 						[[{ item  : new generator.Title({ text: "Formulaire d'inscription" }), width : 4 }],
-						 [{ label : 'Login', item : new html.TextInput("Nom du compte"), name : 'login' }],
-						 [{ label : 'Adresse mail', item : new html.TextInput("Adresse mail"), name : 'mail'}],
+						 [{ label : 'Login', item : login, name : 'login' }],
+						 [{ label : 'Adresse mail', item : mail, name : 'mail'}],
 						 [],
-						 [{ label : 'Mot de passe', item : new html.PasswordInput('Mot de passe'), name : 'password'}],
-						 [{ label : 'Vérification', item : new html.PasswordInput('Vérification mot de passe') }],
+						 [{ label : 'Mot de passe', item : pass, name : 'password' }],
+						 [{ label : 'Vérification', item : pass_check }],
 						 [],
-						 [{ label : 'Prénom', item : new html.TextInput('Prénom (Facultatif)'), name : 'firstname'}],
-						 [{ label : 'Nom', item : new html.TextInput('Nom (Facultatif)'), name : 'name'}]
-						], design : "table" } )
+						 [{ label : 'Prénom', item : firstname, name : 'firstname'}],
+						 [{ label : 'Nom', item : lastname, name : 'lastname'}]
+						], design : "table", target : "form - new.php", success_clbk : function(data) {
+								var error = new generator.Message({ type : 'success', title : data.success.title, 
+			          				                                message : data.success.msg, 
+			          				                                modal : true, dismissible : true, 
+			          				                                disable : box.window });
+								box.hide();
+								error.init();
+						}, error_clbk : error_clbk, fail_clbk : fail_clbk } )
 				});
 
 				box.init();
 				box.show();
 			});
 
-
+			// Pop-up connexion
 			$(".connection").on("click", function(e) {
-				box = new generator.TTBox( { width: 180, elements : 
-					new generator.Form( { elements : [{ label : "Login", item : new html.TextInput("Votre nom d'utilisateur"), name : "login"},
-                                                       { label : "Mot de passe", item : new html.PasswordInput("Votre mot de passe"), name : "password"}],
-	                                      target : "connexion.php", submit_value : "Connexion", success_clbk :
-	                         			  function(data) { 
+				box = new generator.TTBox( { width: 210, elements : 
+					new generator.Form( { elements : 
+						[{ label : "Login", item : new generator.TextInput({ placeholder : "Votre nom d'utilisateur"}), name : "login"},
+                         { label : "Mot de passe", item : new generator.PasswordInput({ placeholder : "Votre mot de passe"}), name : "password"}],
+                           target : "connexion.php", submit_value : "Connexion", success_clbk :
+             			   function(data) { 
+                  			    var success = new generator.Message({ type : 'success', title : data.success.title, 
+	                  				                                  message : data.success.msg, 
+	                  				                                  modal : true, disable : box.window,
+	                  				                                  creation_clbk : function() {
+																	  	    window.setTimeout( function() { 
+																	  	  	window.location.reload(); 
+																	  	  }, 1000 );
+	                  				                                  }});
+                         	    success.init();
 
-	                              			var success = new generator.Message({ type : 'success', title : data.success.title, 
-	                              				                                  message : data.success.msg, 
-	                              				                                  modal : true, disable : box.window,
-	                              				                                  creation_clbk : function() {
-																				  	  window.setTimeout( function() { 
-																				  	  	window.location.reload(); 
-																				  	  }, 1000 );
-	                              				                                  }});
-	                                     	success.init();
+                           }, error_clbk : error_clbk, fail_clbk : fail_clbk } )
+				} );
 
-		                                  }, error_clbk :
-		                                  function(data) {
-
-		                                    	var error = new generator.Message({ type : 'error', title : data.error.title, 
-		                              				                                message : data.error.msg, 
-		                              				                                modal : true, dismissible : true, 
-		                              				                                disable : box.window });
-												error.init();
-
-		                                  }, error_ajax_clbk :
-		                                     function() {  console.log("error ajax"); } 
-		                          } )
-					} );
 		        box.init();
 				box.show();
 

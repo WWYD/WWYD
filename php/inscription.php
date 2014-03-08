@@ -22,10 +22,10 @@
 									<tr><td>Mail* : </td><td style="padding: 3px"><input type="text" name="mail" id="mail" class="form-connection" size="40"/></td><td><span id="mail_check"></span></td></tr>
 									<tr><td colspan="2"><br/></td></tr>
 									<tr><td>Mot de passe* : </td><td style="padding: 3px"><input type="password" name="password" id="password" class="form-connection" size="40"/></td></tr>
-									<tr><td>Retapez le mot de passe* :	</td><td style="padding: 3px"><input type="password" name="pass_check" id="pass_check" class="form-connection" size="40"/></td><td><span id="password_check"></span></td></tr>
+									<tr><td>Retapez le mot de passe* :	</td><td style="padding: 3px"><input type="password" name="pass_check" id="pass_check" class="form-connection" size="30"><div class="form-connection-info form-connection-not"></div></td><td><span id="password_check"></span></td></tr>
 									<tr><td colspan="2"><br/></td></tr>
-									<tr><td>Prénom : </td><td style="padding: 3px"><input type="text" name="first_name" class="form-connection" size="40"></td></tr>
-									<tr><td>Nom : </td><td style="padding: 3px"><input type="text" name="last_name" class="form-connection" size="40"></td></tr>
+									<tr><td>Prénom : </td><td style="padding: 3px"><input type="text" name="first_name" class="form-connection" size="30"><div class="form-connection-info form-connection-error"></div></td></tr>
+									<tr><td>Nom : </td><td style="padding: 3px"><input type="text" name="last_name" class="form-connection" size="30"><div class="form-connection-info form-connection-valid"></div></td></tr>
 									<tr><td colspan="2"><span style="float: right; font-size: 9pt"><i>Les champs marqués d'un * sont obligatoires</i></span></td></tr>
 									<tr><td colspan="2"><br/></td></tr>
 									<tr><td><p style="height: 20px; padding-right: 0px;"><button type="submit" class="btn" style="float: right">Valider l'inscription <span class="respond"></span></button></p></td></tr>

@@ -58,7 +58,7 @@ generator.Form.prototype.check = function(e) {
 	var me = this;
 	var result = true;
 
-	$(me.fileds).each(function(index, element) {
+	$(me.fields).each(function(index, element) {
 		if(element.check)
 			if(element.check(e)) 
 				result = result ? true : false;
@@ -118,7 +118,8 @@ generator.Form.prototype.init = function() {
 	};
 
 	// Structure
-	me.container = $('<div class="myForm" />');
+	me.container = $('<div />');
+	me.container.addClass(me.cls);
 	me.renderTo.append(me.container);
 
 	// Elements
@@ -129,19 +130,19 @@ generator.Form.prototype.init = function() {
 		$(me.elements).each(function(index, element) {
 			
 			if(element.item) {
-				var p = $("<p/>");
+				var div = $("<div/>");
 				var label = $("<p/>");
 
 				label.text(element.label);
-				p.append(label);
+				div.append(label);
 
-				element.item.setRenderTo(p);
+				element.item.setRenderTo(div);
 				element.item.init();
 
 				if(element.item.keyListener)
 					element.item.keyListener(keyListener);
 
-				me.container.append(p);
+				me.container.append(div);
 
 				if(element.item.getValue && element.name) {
 					element.item.name = element.name;
@@ -150,14 +151,6 @@ generator.Form.prototype.init = function() {
 			}
 		});
 
-
-		// Submit
-		me.submit = $('<input type="submit" class="btn" />');
-		me.submit.val(this.submit_value);
-		me.submit.on("click", function(e) {
-			me.send(e);
-		});
-		me.container.append(me.submit);
 	} else if (me.design == "table") {
 
 		var p = $("<p/>");
@@ -207,17 +200,21 @@ generator.Form.prototype.init = function() {
 		});
 
 		me.container.append(table);
-
-		// Submit
-		me.submit = $('<input type="submit" class="btn" style="display: inline-block;" />');
-		me.submit.val(this.submit_value);
-		me.submit.on("click", function(e) {
-			me.send(e);
-		});
-		var centered  = $('<p style="text-align: center; margin: 0;" />');
-		centered.append(me.submit);
-		me.container.append(centered);
-
 	}
+
+	console.log(me.fields[0].element);
+
+	if(me.fields.length > 0)
+		setTimeout( function() { me.fields[0].element.focus() }, 500 );
+
+	// Submit
+	me.submit = $('<input type="submit" class="btn" style="display: inline-block;" />');
+	me.submit.val(this.submit_value);
+	me.submit.on("click", function(e) {
+		me.send(e);
+	});
+	var centered  = $('<p style="text-align: center; margin: 0;" />');
+	centered.append(me.submit);
+	me.container.append(centered);
 }
 

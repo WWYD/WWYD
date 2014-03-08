@@ -511,6 +511,14 @@ input[type=checkbox] {
 	box-shadow: 0px 0px 5px 0px #d58512;
 }
 
-.myForm {
-	/*margin-top: -15px;*/
+.icon {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }

@@ -26,6 +26,10 @@
 		<script src="../js/generator.form.js"></script>
 		<link rel="stylesheet" href="../css/generator.form.css">
 
+		<!-- Champs -->
+		<script src="../js/generator.textinput.js"></script>
+		<link rel="stylesheet" href="../css/generator.textinput.css">
+
 		<!-- Titres -->
 		<script src="../js/generator.title.js"></script>
 		<link rel="stylesheet" href="../css/generator.title.css">
