@@ -1,18 +1,23 @@
 
 this.html = this.html || {};
-
+/*
 // Message
-html.Message = function(div, type, title, message, dismissible, dismiss_call_back) {
+html.Message = function(div, type, title, message, dismissible, modal, dismiss_call_back) {
 	this.renderTo = div;
 	this.type = type || "error";
 	this.title = title || "Erreur";
 	this.message = message || "Une erreur est survenue";
 	this.dismissible = dismissible || false;
+	this.modal = modal || false;
 }
 
 html.Message.prototype.init = function() {
+
 	var me = this;
-	me.container = $('<div style="display: none;" />');
+
+
+	// Pop-up
+	me.container = $('<div class="msg-pop-up" style="display: none;" />');
 	me.container.addClass(me.type);
 
 	var h_title = $('<h2 />');
@@ -24,12 +29,35 @@ html.Message.prototype.init = function() {
 	me.container.append(h_title);
 	me.container.append(p_message);
 
-	me.renderTo.prepend(me.container);
-	me.container.slideDown(300);
+	$("body").append(me.container);
+	me.container.animate({
+			    top: "toggle",
+			    opacity: "toggle"});
+
+	if(me.dismissible) {
+		var exit = $('<div class="close" />');
+		exit.on("click", function(e) {
+			me.container.animate({ top: "toggle",
+			                       opacity: "toggle"}, 
+			                       function() {
+			                       	  this.remove();
+			                       });
+			if(me.modal) 
+				me.modal_window.remove();
+		});
+		me.container.prepend(exit);
+	}
+
+	// Modal
+	if(me.modal) {
+		me.modal_window = $('<div class="modal-pop-up" />');
+		$("body").append(me.modal_window);
+	}
 }
+*/
 
 // Lightbox perso
-html.TTBox = function(div, elements, dismissible, size_x, size_y) {
+html.TTBox = function(div, elements, dismissible) {
 	this.renderTo = div;
 	this.elements = elements;
 	this.dismissible = dismissible || true;

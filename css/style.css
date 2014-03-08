@@ -3,8 +3,15 @@
   src: url('../fonts/glyphicons-halflings-regular.eot');
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
+
 html {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+ body {
+	margin: 0;
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
 
 a {
@@ -109,6 +116,16 @@ h3 {
 	background-image: linear-gradient(rgb(236, 151, 31)  0px, rgb(240, 173, 78) 100%);
 	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 2px 0px;
 	box-shadow: inset 0px 2px 5px 0px #656565;
+}
+
+input:disabled {
+	background-image: linear-gradient(rgb(252, 252, 252) 0px, rgb(245, 245, 245) 100%);
+}
+
+.btn:disabled {
+	background-image: linear-gradient(rgb(245, 245, 245) 0px, rgb(232, 232, 232) 100%);
+	border: 1px solid lightgray;
+	color: lightgray;
 }
 
 section {
@@ -477,41 +494,6 @@ input[type=checkbox] {
 	width: 34px;
 }
 
-.error, .info, .ok {
-	border-radius: 4px;
-	padding: 15px;
-
-	display: block;
-	margin: 15px; 
-	margin-left: auto;
-	margin-right: auto;
-
-	width: 500px;
-}
-
-.error h2,.info h2, .ok h2, .success h2 {
-	margin-top: 0px;
-	font-weight: normal;
-}
-
-.error {
-	background-color: #f2dede;
-	border: 1px solid #ebccd1;
-	color: #a94442;
-}
-
-.info {
-	background-color: #d9edf7;
-	border: 1px solid #bce8f1;
-	color: #31708f;
-}
-
-.ok, .success {
-	background-color: #dff0d8;
-	border: 1px solid #d6e9c6;
-	color: #3c763d;
-}
-
 #ttbox_global
 {
 	display: block;
@@ -560,3 +542,6 @@ input[type=checkbox] {
 	background-image: linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%);
 	box-shadow: 0px 0px 5px 0px #d58512;
 }
+
+
+

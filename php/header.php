@@ -9,18 +9,15 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 		
+        <link rel="stylesheet" href="../css/style.css">
+
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 		<script src="../js/generator.js"></script>
-		
-        <link rel="stylesheet" href="../css/style.css">
-        <style>
-            body {
-				margin: 0;
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
 
-        </style>
+		<!-- Pop-up messages d'alertes -->
+		<script src="../js/generator.message.js"></script>
+		<link rel="stylesheet" href="../css/generator.message.css">
+
     </head>
 	
 	<body>
@@ -39,7 +36,7 @@
 								echo '<li class="co"><a href="inscription.php"><input type="button" value="Inscription" class="btn" style="margin-top: -26px; padding-left: 30px; padding-right: 30px; margin-left: -20px; background-image: linear-gradient(rgb(50, 50, 50) 0px, rgb(25, 25, 25) 100%);"/></a></form></li></div>';
 							}
 							else 
-								echo  '<span style="float:right; margin-right: 30px">Connecté en tant que <b>'.$_SESSION["user"]["login"].'</b>&nbsp;&nbsp;<a href="deconnexion.php"><input type="button" value="Déconnexion" class="btn" style=" margin-top: -26px; margin-left: 320px; padding-left: 30px; padding-right: 30px; background-image: linear-gradient(rgb(50, 50, 50) 0px, rgb(25, 25, 25) 100%);"/></a></span>';
+								echo  '<span style="float:right; margin-right: 30px">Connecté en tant que <b>'.$_SESSION["user"]["login"].'</b>&nbsp;&nbsp;<a href="deconnexion.php" class="deconnection"><input type="button" value="Déconnexion" class="btn" style=" margin-top: -26px; margin-left: 320px; padding-left: 30px; padding-right: 30px; background-image: linear-gradient(rgb(50, 50, 50) 0px, rgb(25, 25, 25) 100%);"/></a></span>';
 						?>
 					</ul>
 			</nav>
