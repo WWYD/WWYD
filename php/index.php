@@ -3,7 +3,7 @@
 ?>
 		<div style="width: 100%; height: 150px; background-color: #DEDEDE; margin-bottom: 30px;">
 			<div style="margin: auto; width: 80%;">
-				<p style="padding: 30px; font-size : 19pt;"><b><i>Vous avez un dilemne à gérer ?</i></b></p>
+				<p style="padding: 30px; font-size : 19pt;"><b><i>Vous avez un dilemme à gérer ?</i></b></p>
 				<p style="margin-top: -70px; padding: 30px; font-size : 14pt;">Un choix à faire et vous ne pouvez pas prendre de décision ?<br/>
 				Laissez donc les internautes choisir pour vous !</p>
 			</div>
