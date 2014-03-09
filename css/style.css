@@ -1,14 +1,21 @@
+/* General */
 @font-face {
   font-family: 'Glyphicons Halflings';
   src: url('../fonts/glyphicons-halflings-regular.eot');
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
 
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+	0%   {-webkit-transform: rotate(2deg); }
+	100% {-webkit-transform: rotate(-2deg); }
+}
+
 html {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
- body {
+body {
 	margin: 0;
     padding-top: 50px;
     padding-bottom: 20px;
@@ -24,9 +31,10 @@ h3 {
 	font-size: 24px;
 	font-weight: normal;
 }
+/********************/
+
 
 /* Code des content-bordered */
-
 .content-bordered {
 	border: 1px #D6D6D6 solid;
 	border-radius: 4px;
@@ -56,10 +64,51 @@ h3 {
 .only-reponsive { 
 	display: none;
 }
+/********************/
 
-.copyright {
-	color: gray;
-	padding: 5px;
+
+/* Header */
+header {
+	background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	margin: 0 auto;
+	color: #DDDDDD;
+	box-shadow: 1px 1px 5px #888888; 
+	z-index: 99;
+}
+
+/* Barre navigation */
+#fixedbar{
+	height: 35px;
+	width: 100%;
+	min-width: 650px;
+}
+
+#fixedbar ul {
+	list-style: none;
+}
+
+#fixedbar ul li {
+	float: left;
+	height: 100%;
+	margin-left: 14px;
+	margin-right: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#fixedbar ul li.mn :hover {
+	color: rgb(231, 139, 3);
+	transition: color ease-in-out .15s;
+}
+
+#fixedbar ul li a{
+	padding-top: 18px;
+	padding-bottom: 14px;
+	padding-left: 11px;
+	padding-right: 11px;
 }
 
 .main-title {
@@ -90,12 +139,6 @@ h3 {
 	-webkit-animation-play-state:running;
 }
 
-@-webkit-keyframes myfirst /* Safari and Chrome */
-{
-0%   {-webkit-transform: rotate(2deg); }
-100% {-webkit-transform: rotate(-2deg); }
-}
-
 #header-login {
 	float: left;
 	display: block;
@@ -103,16 +146,10 @@ h3 {
 	margin-right: 170px;
 	position: fixed;*/
 }
+
 .deconnection {
 	float: right;
 }
-
-@media screen and (max-width: 1200px) {
-	#header-login {
-		display: none;
-	}
-}
-
 
 @media screen and (max-width: 1022px) {
 	#fixednav {
@@ -136,7 +173,15 @@ h3 {
 	}
 }
 
-/* Code des badges */
+@media screen and (max-width: 1200px) {
+	#header-login {
+		display: none;
+	}
+}
+/********************/
+
+
+/* Badges */
 .badge {
 	background-color: rgb(153, 153, 153);
 	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 2px 2px 0px;
@@ -149,32 +194,147 @@ h3 {
 	padding-right: 6px;
 	white-space: nowrap;
 }
+/********************/
 
 /* Listes */
-
 .list-unstyled {
 	list-style-type: none;
 	margin-left: -20px;
 }
+/********************/
 
 /* Images */
-
 .thumbnail {
 	border: 1px #D6D6D6 solid;
 	padding: 5px;
 	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 2px 0px;
 }
+/********************/
 
-.span-user-name {
-	font-size: 20pt;
-	font-weight: 500;
-	margin-top: -60px;
+/* Icones */
+.respond:before {
+	position: relative;
+	top: 1px;
 	display: inline-block;
-	vertical-align: middle;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e095";
 }
 
-/* Bouton */
+.home:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e021";
+}
 
+
+.contact:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e041";
+}
+
+.like:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\2b";
+}
+
+.like:hover {
+	color: green;
+	cursor: pointer;
+}
+
+.dislike:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\2212";
+}
+
+.dislike:hover{
+	color: red;
+	cursor: pointer;
+}
+
+.ok-sign:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e084";
+	color: green;
+}
+
+.false:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e083";
+	color: red;
+}
+
+.best:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e013";
+}
+
+.search:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e003";
+}
+/********************/
+
+/* Bouton */
 .btn {
 	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 2px 0px;
 	background-image: linear-gradient(rgb(240, 173, 78) 0px, rgb(236, 151, 31) 100%);
@@ -200,16 +360,40 @@ h3 {
 	box-shadow: inset 0px 2px 5px 0px #656565;
 }
 
-input:disabled {
-	background-image: linear-gradient(rgb(252, 252, 252) 0px, rgb(245, 245, 245) 100%);
-}
-
 .btn:disabled {
 	background-image: linear-gradient(rgb(245, 245, 245) 0px, rgb(232, 232, 232) 100%);
 	border: 1px solid lightgray;
 	color: lightgray;
 }
+/********************/
 
+/* Formulaires */
+input:disabled {
+	background-image: linear-gradient(rgb(252, 252, 252) 0px, rgb(245, 245, 245) 100%);
+}
+
+.form-connection {
+display: block;
+height: 34px;
+padding: 6px 12px;
+font-size: 14px;
+line-height: 1.5;
+margin-top: -7px;
+color: #555;
+background-color: #fff;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.co{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+/********************/
+
+/* Contenu page */
 section {
 	max-width: 1200px;
 	margin: auto;
@@ -246,6 +430,14 @@ section {
 	float: left;
 }
 
+.span-user-name {
+	font-size: 20pt;
+	font-weight: 500;
+	margin-top: -60px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
 @media screen and (max-width: 1100px) {
 	.daily {
 		width: 97.9%;
@@ -255,10 +447,9 @@ section {
 		width: 97.9%;
 	}
 }
+/*******************/
 
-
-/* Tableau */
-
+/* Catégories */
 .categories {
 	/*width: 350px;*/
 	/*float: left;*/
@@ -291,182 +482,9 @@ section {
 	padding-left: 45px;
 	transition: padding-left .3s ease-in;
 }
-
-.respond:before {
-position: relative;
-top: 1px;
-display: inline-block;
-font-family: 'Glyphicons Halflings';
--webkit-font-smoothing: antialiased;
-font-style: normal;
-font-weight: normal;
-line-height: 1;
-content: "\e095";
-}
-
-/* Barre navigation */
-#fixedbar{
-	height: 35px;
-	width: 100%;
-	min-width: 650px;
-}
-
-#fixedbar ul {
-	list-style: none;
-}
-
-#fixedbar ul li {
-	float: left;
-	height: 100%;
-	margin-left: 14px;
-	margin-right: 14px;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
-#fixedbar ul li.mn :hover {
-color: rgb(231, 139, 3);
-transition: color ease-in-out .15s;
-}
-
-#fixedbar ul li a{
-padding-top: 18px;
-padding-bottom: 14px;
-padding-left: 11px;
-padding-right: 11px;
-}
-
-.home:before {
-position: relative;
-top: 1px;
-display: inline-block;
-font-family: 'Glyphicons Halflings';
--webkit-font-smoothing: antialiased;
-font-style: normal;
-font-weight: normal;
-line-height: 1;
-content: "\e021";
-}
-
-
-.contact:before {
-position: relative;
-top: 1px;
-display: inline-block;
-font-family: 'Glyphicons Halflings';
--webkit-font-smoothing: antialiased;
-font-style: normal;
-font-weight: normal;
-line-height: 1;
-content: "\e041";
-}
-
-.like:before {
-position: relative;
-top: 1px;
-display: inline-block;
-font-family: 'Glyphicons Halflings';
--webkit-font-smoothing: antialiased;
-font-style: normal;
-font-weight: normal;
-line-height: 1;
-content: "\2b";
-}
-
-.like:hover {
-color: green;
-cursor: pointer;
-}
-
-.dislike:before {
-position: relative;
-top: 1px;
-display: inline-block;
-font-family: 'Glyphicons Halflings';
--webkit-font-smoothing: antialiased;
-font-style: normal;
-font-weight: normal;
-line-height: 1;
-content: "\2212";
-}
-
-.ok-sign:before {
-position: relative;
-top: 1px;
-display: inline-block;
-font-family: 'Glyphicons Halflings';
--webkit-font-smoothing: antialiased;
-font-style: normal;
-font-weight: normal;
-line-height: 1;
-content: "\e084";
-color: green;
-}
-
-.false:before {
-position: relative;
-top: 1px;
-display: inline-block;
-font-family: 'Glyphicons Halflings';
--webkit-font-smoothing: antialiased;
-font-style: normal;
-font-weight: normal;
-line-height: 1;
-content: "\e083";
-color: red;
-}
-
-.dislike:hover{
-color: red;
-cursor: pointer;
-}
-
-.best:before {
-position: relative;
-top: 1px;
-display: inline-block;
-font-family: 'Glyphicons Halflings';
--webkit-font-smoothing: antialiased;
-font-style: normal;
-font-weight: normal;
-line-height: 1;
-content: "\e013";
-}
-
-header {
-  background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  margin: 0 auto;
-  color: #DDDDDD;
-  box-shadow: 1px 1px 5px #888888; 
-  z-index: 99;
-}
-
-/* Formulaire connexion */
-.form-connection {
-display: block;
-height: 34px;
-padding: 6px 12px;
-font-size: 14px;
-line-height: 1.5;
-margin-top: -7px;
-color: #555;
-background-color: #fff;
-border: 1px solid #ccc;
-border-radius: 4px;
-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-}
-
-.co{
-	margin-left: 5px;
-	margin-right: 5px;
-}
+/********************/
 
 /* Footer */
-
 footer{
 	margin: auto;
 	margin-top: 70px;
@@ -478,18 +496,9 @@ hr{
 	border: solid 1px #DEDEDE;
 	
 }
+/********************/
 
-.quote{
-	border-radius: 4px;
-	border: solid 1px #D6D6D6;
-	background-color: #FBFBFB;
-	padding: 6px;
-	padding-left: 15px;
-	padding-right: 15px;
-	font-style: italic;
-	display: inline-block;
-}
-
+/* Post - Zone de réponse */
 .respond-zone {
 	padding: 15px;
 }
@@ -502,40 +511,20 @@ textarea {
     box-shadow: inset 0px 1px 2px #ccc; 
 	resize: vertical;
 }
+/********************/
 
-
-/******Inscription*******/
-td span
-{
-	display: none;
+.quote{
+	border-radius: 4px;
+	border: solid 1px #D6D6D6;
+	background-color: #FBFBFB;
+	padding: 6px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-style: italic;
+	display: inline-block;
 }
 
-.notification{
-float:right;
-background-color: lightgreen;
-border: solid 2px #d6e9c6;
-color: #3c763d;
-padding: 22px;
-padding-left: 35px;
-display:none;
-}
-
-/* Ajout */
-p a {
-	color: #428bca;
-	text-decoration: none;
-}
-
-p a:hover {
-	color: #2a6496;
-	text-decoration: underline;
-}
-
-.btnsmall {
-	font-size: 80%;
-	padding: 1px 5px;
-}
-
+/* Pagination & Recherche*/
 .paginate {
 	width: 100%;
 	text-align: center;
@@ -586,21 +575,46 @@ input[type=checkbox] {
 	width: 34px;
 }
 
-.search:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
-	content: "\e003";
+.btnsmall {
+	font-size: 80%;
+	padding: 1px 5px;
+}
+/********************/
+
+
+
+/* Inscription */
+td span
+{
+	display: none;
 }
 
+.notification{
+	float:right;
+	background-color: lightgreen;
+	border: solid 2px #d6e9c6;
+	color: #3c763d;
+	padding: 22px;
+	padding-left: 35px;
+	display:none;
+}
+/********************/
+
+/* Commentaires */
 .select-answer .content-bordered-title {
 	background-image: linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%);
 	box-shadow: 0px 0px 5px 0px #d58512;
+}
+/********************/
+
+p a {
+	color: #428bca;
+	text-decoration: none;
+}
+
+p a:hover {
+	color: #2a6496;
+	text-decoration: underline;
 }
 
 .icon {
@@ -613,4 +627,9 @@ input[type=checkbox] {
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.copyright {
+	color: gray;
+	padding: 5px;
 }
