@@ -63,6 +63,12 @@ generator.Message.prototype.init = function() {
 			me.dismiss(e);
 		});
 		me.container.prepend(exit);
+
+		setTimeout(function() {
+			$(document).bind('keyup', function(e) {
+			    me.dismiss(e);
+			});
+		}, 500);
 	}
 
 	// Modal
@@ -86,6 +92,8 @@ generator.Message.prototype.init = function() {
 generator.Message.prototype.dismiss = function(e) {
 
 	var me = this;
+
+	$(document).unbind('keyup');
 
 	me.container.animate({ top: "toggle",
 	                       opacity: "toggle"}, 
