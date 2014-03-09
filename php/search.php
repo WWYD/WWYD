@@ -40,11 +40,11 @@
 					        <td style="padding-top: 15px; padding-left: 15px;">Classer par</td>
 							<td style="padding-top: 15px;">
 								<select class="form-connection" id="ranking">
-						            <option value="0">Date (Plus récent au plus ancien)</option>
-						            <option value="1">Date (Plus ancien au plus récent)</option>
+						            <option value="0">Date (+ au - récent)</option>
+						            <option value="1">Date (- au + récent)</option>
 						            <option value="2">Par activité</option>
 						            <option value="3">Par cagnotte</option>
-						            <option value="4">Par nombre de réponses</option>
+						            <option value="4">Par réponses</option>
 					            </select>
 					        </td>
 					    </tr>

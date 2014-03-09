@@ -57,7 +57,17 @@ h3 {
 	display: none;
 }
 
-body, div, section, header, footer, button, tr, td, span {
+.copyright {
+	color: gray;
+	padding: 5px;
+}
+
+.main-title {
+	font-size: 18px;
+	display: inline-block;
+	margin-top: -18px;
+	margin-left: -52px;
+
 	-webkit-transform: rotate(7deg);
 	-moz-transform: rotate(7deg);
 	-o-transform: rotate(7deg);
@@ -79,64 +89,30 @@ body, div, section, header, footer, button, tr, td, span {
 	-webkit-animation-direction:alternate;
 	-webkit-animation-play-state:running;
 }
-/*
-	div
-{
-width:100px;
-height:100px;
-background:red;
-position:relative;
-animation-name:myfirst;
-animation-duration:5s;
-animation-timing-function:linear;
-animation-delay:2s;
-animation-iteration-count:infinite;
-animation-direction:alternate;
-animation-play-state:running;
-/* Safari and Chrome: 
--webkit-animation-name:myfirst;
--webkit-animation-duration:5s;
--webkit-animation-timing-function:linear;
--webkit-animation-delay:2s;
--webkit-animation-iteration-count:infinite;
--webkit-animation-direction:alternate;
--webkit-animation-play-state:running;
-}
-/*
-@keyframes myfirst
-{
-0%   {background:red; left:0px; top:0px;}
-25%  {background:yellow; left:200px; top:0px;}
-50%  {background:blue; left:200px; top:200px;}
-75%  {background:green; left:0px; top:200px;}
-100% {background:red; left:0px; top:0px;}
-}
-
-@-webkit-keyframes myfirst /* Safari and Chrome 
-{
-0%   {background:red; left:0px; top:0px;}
-25%  {background:yellow; left:200px; top:0px;}
-50%  {background:blue; left:200px; top:200px;}
-75%  {background:green; left:0px; top:200px;}
-100% {background:red; left:0px; top:0px;}
-}
-}
-*/
-/*
-@keyframes myfirst
-{
-0%   {background:red; left:0px; top:0px;}
-25%  {background:yellow; left:200px; top:0px;}
-50%  {background:blue; left:200px; top:200px;}
-75%  {background:green; left:0px; top:200px;}
-100% {background:red; left:0px; top:0px;}
-}*/
 
 @-webkit-keyframes myfirst /* Safari and Chrome */
 {
-0%   {-webkit-transform: rotate(1deg); }
-100% {-webkit-transform: rotate(-1deg); }
+0%   {-webkit-transform: rotate(2deg); }
+100% {-webkit-transform: rotate(-2deg); }
 }
+
+#header-login {
+	float: left;
+	display: block;
+	/*
+	margin-right: 170px;
+	position: fixed;*/
+}
+.deconnection {
+	float: right;
+}
+
+@media screen and (max-width: 1200px) {
+	#header-login {
+		display: none;
+	}
+}
+
 
 @media screen and (max-width: 1022px) {
 	#fixednav {
@@ -247,6 +223,8 @@ section {
 
 .content-elem {
 	padding: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 .content-elem .content-elem {
@@ -254,9 +232,8 @@ section {
 }
 
 .login {
-	width: 30.3%;
+	width: 31.3%;
 	float: left;
-	min-width: 240px;
 }
 
 .daily {
@@ -268,6 +245,17 @@ section {
 	width: 97.9%;
 	float: left;
 }
+
+@media screen and (max-width: 1100px) {
+	.daily {
+		width: 97.9%;
+	}
+
+	.login {
+		width: 97.9%;
+	}
+}
+
 
 /* Tableau */
 
