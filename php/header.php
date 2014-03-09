@@ -26,7 +26,7 @@
 		<!-- Formulaires -->
 		<script src="../js/generator.form.js"></script>
 		<link rel="stylesheet" href="../css/generator.form.css">
-		
+
 		<!-- Champs -->
 		<script src="../js/generator.textinput.js"></script>
 		<link rel="stylesheet" href="../css/generator.textinput.css">
@@ -38,6 +38,17 @@
     </head>
 	
 	<body>
+		<noscript>
+			<div class="ttbox-global" style="display: block;">
+				<div class="ttbox-frame" style="width: 500px; margin-left: -250px;">
+					<h3 style="margin-top: 0px;">Javascript désactivé</h3>
+					<p>Il semblerait que le <b>Javascript</b> soit désactivé sur votre navigateur.<br/><br/>
+					   Pour vous proposer la meilleur expérience possible nous avons choisis d'user (et d'abuser) de
+					   ce langage, c'est pourquoi notre site n'est pas fonctionnel sans ce langage.<br/>
+					</p>
+				</div>
+			</div>
+		</noscript>
 		<header>
 			<nav id="fixedbar">
 					<ul id="fixednav">
