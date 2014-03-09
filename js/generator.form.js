@@ -144,7 +144,8 @@ generator.Form.prototype.init = function() {
 
 				me.container.append(div);
 
-				if(element.item.getValue && element.name) {
+				// Si l'élément à une valeur, un nom, et est activé
+				if(element.item.getValue && element.name && !element.disabled) {
 					element.item.name = element.name;
 					me.fields[i++] = element.item;
 				}

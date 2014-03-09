@@ -34,6 +34,7 @@ generator.TextInput = function(args) {
 	this.placeholder = args.placeholder || "";
 	this.min_size = args.min_size || 0;
 	this.max_size = args.max_size || 255;
+	this.disabled = args.disabled || false;
 	this.check_onkey = args.check_onkey || false;
 	this.error_check_callback = args.error_check_clbk || false;
 	this.valid_check_callback = args.valid_check_clbk || false;
@@ -83,6 +84,8 @@ generator.TextInput.prototype.init = function() {
 		me.element.attr("placeholder", this.placeholder);
 		me.element.attr("maxlength", this.max_size);
 		me.element.attr("type", this.type);
+		if(me.disabled)
+			me.element.attr('disabled', 'disabled');
 
 		me.element.addClass(me.cls);
 		me.element.addClass("form-connection");
@@ -141,6 +144,7 @@ generator.EmailInput = function(args) {
 	this.cls = "form-connection";
 	this.type = "text";
 	this.placeholder = args.placeholder || "";
+	this.disabled = args.disabled || false;
 	this.check_onkey = args.check_onkey || false;
 	this.error_check_callback = args.error_check_clbk || false;
 	this.valid_check_callback = args.error_check_clbk || false;
@@ -209,6 +213,7 @@ generator.PasswordInput = function(args) {
 	this.show_validation = args.show_validation || false;
 	this.min_size = args.min_size || 0;
 	this.max_size = args.max_size || 255;
+	this.disabled = args.disabled || false;
 }
 
 generator.PasswordInput.prototype = generator.TextInput.prototype;

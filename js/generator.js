@@ -1,28 +1,34 @@
 
 this.html = this.html || {};
 
+
+
+
 // Menu navigation
-html.Menu = function(div, values) {
-	this.cls = "myMenu";
-	this.renderTo = div;
-	this.items = values;
+html.Menu = function(args) {
+	this.cls = "generated-menu";
+	this.renderTo = args.render_to;
+	this.elements = args.elements || {};
 }
 
 html.Menu.prototype.init = function() {
 	var me = this;
-	me.container = $('<ul class="myMenu"/>');
-	me.renderTo.append(me.container);
+	me.container = $('<ul />');
+	me.container.addClass(me.cls);
 
-	$(this.items).each(function(index, item) {
+	$(this.elements).each(function(index, item) {
 		var li = $("<li/>");
 		li.text(item.label);
-		me.container.append(li);
 
 		if(item.click)
 			$(li).on("click", function(e) {
 				item.click(e);
 			});
+		
+		me.container.append(li);
 	});
+
+	me.renderTo.append(me.container);
 };
 
 
