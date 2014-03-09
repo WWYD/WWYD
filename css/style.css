@@ -325,9 +325,8 @@ content: "\e095";
 }
 
 #fixedbar ul li.mn :hover {
-background-color: rgb(231, 139, 3);
-color: #FFFFFF;
-transition: background-color ease-in-out .15s, color ease-in-out .15s;
+color: rgb(231, 139, 3);
+transition: color ease-in-out .15s;
 }
 
 #fixedbar ul li a{
@@ -440,7 +439,7 @@ header {
   top: 0;
   width: 100%;
   margin: 0 auto;
-  color: #BBBBBB;
+  color: #DDDDDD;
   box-shadow: 1px 1px 5px #888888; 
   z-index: 99;
 }
