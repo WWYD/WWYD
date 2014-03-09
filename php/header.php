@@ -42,9 +42,10 @@
 					<ul id="fixednav">
 						<li><a class="main-title" href="index.php"><b><span style="color: #e19118">What</span><span style="color: #EEEEEE">Would</span><span style="color: #e19118">You</span><span style="color: #EEEEEE">Do</span><span style="color: #e19118">?</span></b></a></li>
 		
-						<li class="mn"><a href="index.php"><span class="home"></span> Accueil</a></li>
-						<li class="mn"><a href="search.php"><span class="search"></span> Recherche</a></li>
-						<li class="mn"><a href="#"><span class="contact"></span> Contact</a></li>
+						<li class="only-reponsive mn"><a href="index.php">Dérouler</a></li>
+						<li class="no-reponsive mn"><a href="index.php"><span class="home"></span> Accueil</a></li>
+						<li class="no-reponsive mn"><a href="search.php"><span class="search"></span> Recherche</a></li>
+						<li class="no-reponsive mn"><a href="#"><span class="contact"></span> Contact</a></li>
 						
 						<?php
 							if(!isset($_SESSION["user"])) {

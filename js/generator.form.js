@@ -202,8 +202,6 @@ generator.Form.prototype.init = function() {
 		me.container.append(table);
 	}
 
-	console.log(me.fields[0].element);
-
 	if(me.fields.length > 0)
 		setTimeout( function() { me.fields[0].element.focus() }, 500 );
 
