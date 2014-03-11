@@ -52,16 +52,22 @@
 				<div class="content-bordered">
 					<p>
 						<img src="../img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
-						<span class="span-user-name" >&nbsp;&nbsp;<a href="profil.php"><?php echo $author_name; ?></a></span>
-						<hr/>
-						<ul class="list-unstyled">
-							<li><b>Solde :</b> <span class="badge"><?php echo $author_solde; ?> points </span></li>
-							<li><b>Grade :</b> <?php echo $author_grade; ?></li>
-							<li><b>Premium :</b><?php 	if($author_premium)
-															echo ' Oui';
-														else
-															echo ' Non';
-												?></li>
+                        	<?php
+                            	echo '<span class="span-user-name" >&nbsp;&nbsp;<a href="profil.php">'.$author_name.'</a></span>';
+								echo '<hr/>';
+								echo '<ul class="list-unstyled">';
+								echo '<li><b>Solde :</b> <span class="badge"> '.$author_solde.' points</span></li>';
+								$query = $bdd->prepare('SELECT name FROM rank WHERE id = :nb');
+								$query->bindValue(':nb', $author_grade, PDO::PARAM_INT);
+								$query->execute();
+								$data = $query->fetch();
+								echo '<li><b>Grade :</b> '.$data['name'].'</li>';
+		
+								if($_SESSION["user"]["premium"])
+									echo '<li><b>Premium :</b> Oui</li>';
+								else
+									echo '<li><b>Premium :</b> Non</li>';
+							?>
 						</ul>
 					</p>
 				</div>
