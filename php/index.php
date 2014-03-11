@@ -1,5 +1,6 @@
 <?php
 		include("header.php");
+		$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));		
 ?>
 		<div style="width: 100%; height: 150px; background-color: #DEDEDE; margin-bottom: 30px;">
 			<div style="margin: auto; width: 80%;">
@@ -42,7 +43,12 @@
 										echo '<hr/>';
 										echo '<ul class="list-unstyled">';
 										echo '<li><b>Solde :</b> <span class="badge"> '.$_SESSION["user"]["nb_point"].' points</span></li>';
-										echo '<li><b>Grade :</b> '.$_SESSION["user"]["rank_id"].'</li>';
+										$query = $bdd->prepare('SELECT name FROM rank WHERE id = :nb');
+										$query->bindValue(':nb', $_SESSION["user"]["rank_id"], PDO::PARAM_INT);
+										$query->execute();
+										$data = $query->fetch();
+										echo '<li><b>Grade :</b> '.$data['name'].'</li>';
+		
 										if($_SESSION["user"]["premium"])
 											echo '<li><b>Premium :</b> Oui</li>';
 										else
@@ -63,9 +69,16 @@
 						</div>
 		
 						<ul class="list-unstyled">
-							<li>Une baignoire, un canard en plastique <span class="badge">45 réponses</span></li>
-							<li>Un pigeon, une catapulte <span class="badge">12 réponses</span></li>
-							<li>Portefeuille trouvé <span class="badge">5 réponses</span></li>
+                        	<?php
+								$query = $bdd->prepare('SELECT title,id FROM topic ORDER BY date DESC LIMIT 0,3');
+								$query -> execute();
+								while($data = $query->fetch()){
+									$query2 = $bdd->prepare('SELECT COUNT(*) FROM post WHERE topic_id ='.$data['id']);
+									$query2 -> execute();
+									$data2 = $query2 -> fetch();
+									echo '<li><a href="post.php?topic_id='.$data['id'].'">'.$data["title"].' </a><span class="badge">'.$data2[0].' réponses</span></li>';
+								}
+							?>
 						</ul>
 					</div>
 				</div>
