@@ -34,8 +34,9 @@
 				$author_solde = $author_data["nb_point"];
 				$author_grade = $author_data["rank_id"];
 				$author_premium = $author_data["premium"];
-
-	
+				
+				$query2	= $bdd->query('SELECT user_id FROM topic WHERE id ='.mysql_real_escape_string($_GET['topic_id']));
+				$data = $query2->fetch();	
 		}
 	else
 		header("Location: index.php");
@@ -126,7 +127,8 @@
 							$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
 						else
 							$premium = '';
-
+						
+						//$query = $bdd->query('SELECT answered FROM topic WHERE topic_data["id"]');
 						if($comment['is_answer']) {
 							$answer = '<div class="content-elem select-answer">'.
 		                              '<div class="content-bordered">'.
@@ -146,7 +148,7 @@
 							     '</div>'; 
 
 						} else {
-							$r  .= 	'<div class="content-elem">'.
+							$r  .= 	'<div class="content-elem" id="_'.$comment["id"].'">'.
 	                                  	'<div class="content-bordered">'.
 									     	'<div class="content-bordered-title">'.
 										     	'<h4 class="panel-title">'.
@@ -158,9 +160,10 @@
 											     	'</span>'.
 										     	'</h4>'.
 									     	'</div>'.
-								     		'<p style="font-size: 12pt">'.$comment["content"].'</p>'.
-							     		'</div>'.
-						     		'</div>'; 
+								     		'<p style="font-size: 12pt">'.$comment["content"].'</p>';
+							if($_SESSION['user']['id'] == $data[0] && !$topic_data['answered'])
+								$r .= '<input id="'.$comment["id"].'" class="answered_button" type="checkbox" class="form-connection"></input>';
+							$r .= '</div>'.'</div>'; 
 						 }
 					}
 
@@ -175,7 +178,21 @@
 					}
 					?>
 					<script type="text/javascript">
-
+						var id;
+						$(".answered_button").click(function (){
+							id = this.id;
+							$.ajax({
+  								type: "POST",
+								url: "select_answer_post.php",
+								data: { post_id : id}
+							})
+							.done(function( msg ) {
+								$(".answered_button").slideUp(200);
+								$("#_"+id).children().children(".content-bordered-title").css("background-image", "linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%)");
+								$("#_"+id).children().css("box-shadow", "0px 0px 5px 0px #d58512");
+							  });
+						});
+							
 						// Si le premier bouton "Répondre" est cliqué, on fait apparaitre un champ de texte pour rédiger
 						// et un deuxième bouton Répondre pour valider l'envoi.
 						// Le premier bouton devient "Masquer" pour annuler la rédaction
