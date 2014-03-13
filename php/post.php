@@ -57,14 +57,17 @@
 								echo '<hr/>';
 								echo '<ul class="list-unstyled">';
 								echo '<li><b>Solde :</b> <span class="badge"> '.$author_solde.' points</span></li>';
+								
 								$query = $bdd->prepare('SELECT name FROM rank WHERE id = :nb');
 								$query->bindValue(':nb', $author_grade, PDO::PARAM_INT);
 								$query->execute();
 								$data = $query->fetch();
 								echo '<li><b>Grade :</b> '.$data['name'].'</li>';
-		
-								if($_SESSION["user"]["premium"])
-									echo '<li><b>Premium :</b> Oui</li>';
+								if (isset($_SESSION['user']))
+								{
+									if($_SESSION["user"]["premium"])
+										echo '<li><b>Premium :</b> Oui</li>';
+								}
 								else
 									echo '<li><b>Premium :</b> Non</li>';
 							?>
@@ -167,8 +170,13 @@
 										     	'</h4>'.
 									     	'</div>'.
 								     		'<p style="font-size: 12pt">'.$comment["content"].'</p>';
-							if($_SESSION['user']['id'] == $data[0] && !$topic_data['answered'])
-								$r .= '<input id="'.$comment["id"].'" class="answered_button" type="checkbox" class="form-connection"></input>';
+											
+							if (isset($_SESSION['user']))
+							{
+								if($_SESSION['user']['id'] == $id_author && !$topic_data['answered'])
+									$r .= '<input id="'.$comment["id"].'" class="answered_button" type="checkbox" class="form-connection"></input>';
+							}
+							
 							$r .= '</div>'.'</div>'; 
 						 }
 					}
