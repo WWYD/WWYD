@@ -70,6 +70,17 @@ generator.TTBox.prototype.init = function() {
 		});
 
 		me.window.append(exit);
+
+		setTimeout(function() {
+			$(document).bind('keyup', function(e) {
+				if(e.keyCode == 27) {
+					if(me.dismiss_on_close)
+						me.dismiss();
+					else
+						me.hide();
+				}
+			});
+		}, 500);
 	}
 
 	$(window).resize(function() {
@@ -95,17 +106,29 @@ generator.TTBox.prototype.show = function() {
 
 	var me = this;
 
-	me.container.fadeIn(200, function() {
-		me.window.animate({ top: "toggle",
-			               opacity: "toggle"});
-	});
+	me.container.css("display", "block");
+	//me.container.css("opacity", 0);
+
+
+	//setTimeout( function() { 
+		me.container.fadeIn(function() {
+			me.window.animate({ top: "toggle",
+				               opacity: "toggle"});
+		});
+	//}, 200 );
+
+	/*me.container.fadeIn(1000, function() {
+	});*/
 }
 
 generator.TTBox.prototype.hide = function() {
 
 	var me = this;
 
-	me.container.fadeOut(200);
+	me.window.animate({ top: "toggle",
+		                opacity: "toggle"}, function() {
+							me.container.fadeOut(200);
+		               });
 }
 
 generator.TTBox.prototype.dismiss = function() {

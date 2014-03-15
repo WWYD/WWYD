@@ -190,7 +190,7 @@ generator.Form.prototype.init = function() {
 
 					line.append(data);
 
-					if(element.item.getValue && element.name) {
+					if(element.item.getValue && element.name && !element.disabled) {
 						element.item.name = element.name;
 						me.fields[i++] = element.item;
 					}
