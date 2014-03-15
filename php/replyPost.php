@@ -4,7 +4,7 @@
 		$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
 	else
 		$premium = "";
-
+	
 	if(isset($_SESSION['user']) && isset($_POST['content'])){
 		try {
 			$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));

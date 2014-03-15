@@ -34,8 +34,9 @@
 				$author_solde = $author_data["nb_point"];
 				$author_grade = $author_data["rank_id"];
 				$author_premium = $author_data["premium"];
-
-	
+				
+				$query2	= $bdd->query('SELECT user_id FROM topic WHERE id ='.mysql_real_escape_string($_GET['topic_id']));
+				$data = $query2->fetch();	
 		}
 	else
 		header("Location: index.php");
@@ -51,16 +52,25 @@
 				<div class="content-bordered">
 					<p>
 						<img src="../img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
-						<span class="span-user-name" >&nbsp;&nbsp;<a href="profil.php"><?php echo $author_name; ?></a></span>
-						<hr/>
-						<ul class="list-unstyled">
-							<li><b>Solde :</b> <span class="badge"><?php echo $author_solde; ?> points </span></li>
-							<li><b>Grade :</b> <?php echo $author_grade; ?></li>
-							<li><b>Premium :</b><?php 	if($author_premium)
-															echo ' Oui';
-														else
-															echo ' Non';
-												?></li>
+                        	<?php
+                            	echo '<span class="span-user-name" >&nbsp;&nbsp;<a href="profil.php">'.$author_name.'</a></span>';
+								echo '<hr/>';
+								echo '<ul class="list-unstyled">';
+								echo '<li><b>Solde :</b> <span class="badge"> '.$author_solde.' points</span></li>';
+								
+								$query = $bdd->prepare('SELECT name FROM rank WHERE id = :nb');
+								$query->bindValue(':nb', $author_grade, PDO::PARAM_INT);
+								$query->execute();
+								$data = $query->fetch();
+								echo '<li><b>Grade :</b> '.$data['name'].'</li>';
+								if (isset($_SESSION['user']))
+								{
+									if($_SESSION["user"]["premium"])
+										echo '<li><b>Premium :</b> Oui</li>';
+								}
+								else
+									echo '<li><b>Premium :</b> Non</li>';
+							?>
 						</ul>
 					</p>
 				</div>
@@ -126,7 +136,8 @@
 							$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
 						else
 							$premium = '';
-
+						
+						//$query = $bdd->query('SELECT answered FROM topic WHERE topic_data["id"]');
 						if($comment['is_answer']) {
 							$answer = '<div class="content-elem select-answer">'.
 		                              '<div class="content-bordered">'.
@@ -146,7 +157,7 @@
 							     '</div>'; 
 
 						} else {
-							$r  .= 	'<div class="content-elem">'.
+							$r  .= 	'<div class="content-elem" id="_'.$comment["id"].'">'.
 	                                  	'<div class="content-bordered">'.
 									     	'<div class="content-bordered-title">'.
 										     	'<h4 class="panel-title">'.
@@ -158,9 +169,15 @@
 											     	'</span>'.
 										     	'</h4>'.
 									     	'</div>'.
-								     		'<p style="font-size: 12pt">'.$comment["content"].'</p>'.
-							     		'</div>'.
-						     		'</div>'; 
+								     		'<p style="font-size: 12pt">'.$comment["content"].'</p>';
+											
+							if (isset($_SESSION['user']))
+							{
+								if($_SESSION['user']['id'] == $id_author && !$topic_data['answered'])
+									$r .= '<input id="'.$comment["id"].'" class="answered_button" type="checkbox" class="form-connection"></input>';
+							}
+							
+							$r .= '</div>'.'</div>'; 
 						 }
 					}
 
@@ -175,7 +192,21 @@
 					}
 					?>
 					<script type="text/javascript">
-
+						var id;
+						$(".answered_button").click(function (){
+							id = this.id;
+							$.ajax({
+  								type: "POST",
+								url: "select_answer_post.php",
+								data: { post_id : id}
+							})
+							.done(function( msg ) {
+								$(".answered_button").slideUp(200);
+								$("#_"+id).children().children(".content-bordered-title").css("background-image", "linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%)");
+								$("#_"+id).children().css("box-shadow", "0px 0px 5px 0px #d58512");
+							  });
+						});
+							
 						// Si le premier bouton "Répondre" est cliqué, on fait apparaitre un champ de texte pour rédiger
 						// et un deuxième bouton Répondre pour valider l'envoi.
 						// Le premier bouton devient "Masquer" pour annuler la rédaction
