@@ -35,6 +35,10 @@
 		<script src="../js/generator.title.js"></script>
 		<link rel="stylesheet" href="../css/generator.title.css">
 
+		<!-- Div formatées -->
+		<script src="../js/generator.div.js"></script>
+		<!-- <link rel="stylesheet" href="../css/generator.title.css"> -->
+
     </head>
 	
 	<body>

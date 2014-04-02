@@ -104,6 +104,17 @@
 
 				return false;
 			});
+
+			// Tests
+			
+/*
+			var div_test = new generator.Div({ title : "Bonjour je suis un titre de test",
+											   html  : $('<p><img src="https://www.google.fr/images/srpr/logo11w.png" ></p>'),
+											   creation_clbk : function() { alert("Test terminé !"); }
+											});
+			div_test.setRenderTo($(".content"));
+			div_test.init();*/
+
 		});
 		</SCRIPT>
 		

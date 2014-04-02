@@ -102,6 +102,10 @@ generator.TTBox.prototype.init = function() {
 
 	// Affichage
 	$("body").append(me.container);
+
+	// callback final
+	if(me.creation_callback)
+		me.creation_callback(me.container, me.window);
 }
 
 generator.TTBox.prototype.show = function() {
@@ -135,6 +139,9 @@ generator.TTBox.prototype.dismiss = function() {
 		                opacity: "toggle"}, function() {
 							me.container.fadeOut(200, function() {
 								me.container.remove();
+
+								if(me.deletion_clbk)
+									me.deletion_clbk();
 							});
 		               });
 }
