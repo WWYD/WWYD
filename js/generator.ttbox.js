@@ -87,6 +87,9 @@ generator.TTBox.prototype.init = function() {
 		me.resize();
 	});
 
+	if(me.height)
+		me.window.css("height", me.height);
+
 	// Ajout des éléments
 	if(me.elements) {
 		$(me.elements).each(function (index, element) {
@@ -98,7 +101,6 @@ generator.TTBox.prototype.init = function() {
 	}
 
 	// Affichage
-	me.resize();
 	$("body").append(me.container);
 }
 
@@ -107,18 +109,12 @@ generator.TTBox.prototype.show = function() {
 	var me = this;
 
 	me.container.css("display", "block");
-	//me.container.css("opacity", 0);
 
-
-	//setTimeout( function() { 
-		me.container.fadeIn(function() {
-			me.window.animate({ top: "toggle",
-				               opacity: "toggle"});
-		});
-	//}, 200 );
-
-	/*me.container.fadeIn(1000, function() {
-	});*/
+	me.container.fadeIn(function() {
+		me.resize();
+		me.window.animate({    top: "toggle",
+			               opacity: "toggle"});
+	});
 }
 
 generator.TTBox.prototype.hide = function() {
@@ -147,8 +143,11 @@ generator.TTBox.prototype.resize = function() {
 
 	var me = this;
 
-	if(me.height)
-		me.window.css("height", me.height);
+	if(me.window.height() + 30 >= me.container.height()) {
+		me.window.css("top", 0);
+	} else {
+		me.window.css("top", ((me.container.height() - me.window.height()) / 2) - 30 )
+	}
 
 	if(me.width) {
 		me.window.css("width", me.width);
