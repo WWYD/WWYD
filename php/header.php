@@ -39,6 +39,10 @@
 		<script src="../js/generator.div.js"></script>
 		<!-- <link rel="stylesheet" href="../css/generator.title.css"> -->
 
+		<!-- Pagination onglets -->
+		<script src="../js/generator.tab.js"></script>
+		<!-- <link rel="stylesheet" href="../css/generator.title.css"> -->
+
     </head>
 	
 	<body>

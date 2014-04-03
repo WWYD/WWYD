@@ -633,3 +633,56 @@ p a:hover {
 	color: gray;
 	padding: 5px;
 }
+
+/* Ajout admin - temporaire */
+
+#admin-panel {
+	margin-top: 10px;
+}
+
+.panel-menu {
+	width: 100%;
+	float: left;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	border-bottom: 1px solid #BBB;
+}
+
+.panel-menu li {
+	display: inline-block;
+	padding: 15px;
+	padding-left: 30px;
+	padding-right: 30px;
+
+	list-style-type: none;
+	list-style: none;
+
+	text-shadow: rgba(0, 0, 0, 0.2) 0px -1px 0px;
+
+}
+.panel-menu li:hover {
+	background-color: #FAFAFA;
+	cursor: pointer;
+}
+
+.panel-menu li.active {
+	border: 1px solid  #BBB;
+	border-bottom: 1px solid white;
+	margin-bottom: -1px;
+
+	border-radius: 4px 4px 0 0;
+	color: #e19118;
+}
+
+.panel-menu li.active {
+	background-color: white;
+	cursor: default;
+}
+
+.panel-content {
+	float: right;
+	padding: 30px;
+	margin-right: -30px;
+	width: 100%;
+}
