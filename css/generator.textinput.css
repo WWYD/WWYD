@@ -14,15 +14,13 @@ input:focus, input:focus + .form-connection-info, textarea:focus{
 	float: left;
 
 	margin-top: -7px;
-
+	margin-left: -7px;
 
 	text-align: center;
 
 	bottom: 0px;
 	border: 1px solid #bbb;
 	border-radius: 0 4px 4px 0;
-
-	margin-left: -7px;
 
 	display: inline-block;
 	font-family: 'Glyphicons Halflings';
@@ -32,7 +30,6 @@ input:focus, input:focus + .form-connection-info, textarea:focus{
 	-moz-osx-font-smoothing: grayscale;
 
 	padding-top: 2px;
-
 }
 
 .form-connection-info:after {
@@ -54,4 +51,45 @@ input:focus, input:focus + .form-connection-info, textarea:focus{
 	font-size: 20px;
 	margin-top: 8px;
 	color: #336600;
+}
+
+
+.form-connection.form-show-autocomplete  {
+	border-radius: 4px 4px 0 0;
+	border-bottom: 0;
+}
+
+.form-autocomplete {
+	border-radius: 0 0 4px 4px;
+	margin-top: 0px;
+	position: absolute;
+	height: auto;
+	padding: 0;
+
+	box-shadow: 0px 2px 5px 1px #cfcfcf;
+}
+
+.form-autocomplete ul {
+	list-style: none;
+	padding: 0;
+	margin: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.form-autocomplete li {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.form-autocomplete li.selected {
+	background-color: #F1F1F1;
+}
+
+.form-autocomplete li:hover {
+	background-color: #E1E1E1;
+}
+
+.form-autocomplete li.selected:hover {
+	background-color: #E1E1E1;
 }

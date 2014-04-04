@@ -12,6 +12,7 @@
 				<span><span class="ok-sign"></span> Vous êtes connecté </span>
 			</div>
 		</div>
+		
 		<section >
 		<section style="width: 66.6%; float : left;">
 			<div class="content" >

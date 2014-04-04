@@ -9,6 +9,7 @@
 			</div>
 		</div>
 		
+		<section >
 		<section>
 			<section id="admin-panel" style="width: 100%; float: left;">
 				<!--<ul class="panel-menu">
@@ -43,7 +44,7 @@
 				// Test de fonctionnement des tabs -- temporaire avant le vrai code
 
 				// Valeurs des tabs
-				var login = new generator.TextInput({ placeholder : "Nom du compte", min_size : 3, check_onkey : true, show_validation : true });
+				var login = new generator.AutoCompleteInput({ placeholder : "Login" });
 				var mail = new generator.EmailInput({ placeholder : "Adresse mail", check_onkey : true, show_validation : true });
 
 				var pass = new generator.PasswordInput({ placeholder : 'Mot de passe', min_size : 3, check_onkey : true, show_validation : true, check_clbk : function() { return (pass_check.getValue() == pass.getValue()); }});
@@ -65,11 +66,11 @@
 				var tabs = new generator.Tab({ render_to : $('#admin-panel'),
 											   tabs :   [
 											   			 {
-											   			 	title    : "Test 1",
+											   			 	title    : "Utilisateurs",
 											   				elements :
 											   							new generator.Form(
 																			{ elements :
-																				[[{ item  : new generator.Title({ text: "Formulaire d'inscription" }), width : 4 }],
+																				[[{ item  : new generator.Title({ text: "Recherche utilisateurs" }), width : 4 }],
 																				 [{ label : 'Login', item : login, name : 'login' }],
 																				 [{ label : 'Adresse mail', item : mail, name : 'mail'}],
 																				 [],
@@ -86,7 +87,7 @@
 											   			 },
 
 											   			 {
-											   			 	title    : "Test 2",
+											   			 	title    : "Catégories",
 											   			    elements :
 											   							new generator.Form(
 																			{ elements :

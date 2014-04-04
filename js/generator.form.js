@@ -26,6 +26,7 @@
 
 	Methodes :
 		setRenderTo() : change le render_to 
+		setFocus()    : met le focus sur un éléments du form 
 		init()        : initialise l'objet 
 		check()       : vérifie le validité des champs
 		send()        : vérifie et envoit les données, avant
@@ -51,6 +52,13 @@ generator.Form = function(args) {
 
 generator.Form.prototype.setRenderTo = function(renderTo) {
 	this.renderTo = renderTo;
+}
+
+generator.Form.prototype.setFocus = function() {
+	var me = this;
+
+	if(me.fields.length > 0)
+		setTimeout( function() { me.fields[0].element.focus() }, 500 );
 }
 
 generator.Form.prototype.check = function(e) {
@@ -203,8 +211,9 @@ generator.Form.prototype.init = function() {
 		me.container.append(table);
 	}
 
-	if(me.fields.length > 0)
-		setTimeout( function() { me.fields[0].element.focus() }, 500 );
+	me.setFocus();
+	/*if(me.fields.length > 0)
+		setTimeout( function() { me.fields[0].element.focus() }, 500 );*/
 
 	// Submit
 	me.submit = $('<input type="submit" class="btn" style="display: inline-block;" />');
@@ -216,4 +225,3 @@ generator.Form.prototype.init = function() {
 	centered.append(me.submit);
 	me.container.append(centered);
 }
-

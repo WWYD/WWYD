@@ -682,7 +682,10 @@ p a:hover {
 
 .panel-content {
 	float: right;
-	padding: 30px;
-	margin-right: -30px;
 	width: 100%;
+}
+
+.panel-content > div {
+	padding: 40px;
+	padding-top: 20px;
 }
