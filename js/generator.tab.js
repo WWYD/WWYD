@@ -1,11 +1,30 @@
+/* =====================================================
+			         generator.Tab
+	----------------------------------------------------
+	Permet de gérer et de générer des onglets.
+	----------------------------------------------------
+	Propriétés :
+		render_to     : élément où afficher les onglets (append)
+		tabs          : contenu des tabulations. Attend un tableau
+		                d'éléments pouvant être affiché.
+		creation_clbk : callback de creation
+
+	Methodes :
+		setRenderTo() : change le render_to 
+		setFocus()    : met le focus sur un éléments du form 
+		init()        : initialise l'objet 
+		check()       : vérifie le validité des champs
+		send()        : vérifie et envoit les données, avant
+		                de traiter la réponse
+   ===================================================== */
 
 this.generator = this.generator || {};
 
 generator.Tab = function(args) {
 	var args = args || {};
 
-	this.cls = "panel-menu";
-	this.clsContent = "panel-content";
+	this.cls = "tab-menu";
+	this.clsContent = "tab-content";
 	this.renderTo = args.render_to || null;
 
 	this._tabs = args.tabs || false;

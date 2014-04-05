@@ -34,6 +34,9 @@
 						</form>
 					</table>
 				</div> -->
+				( Test horrible pour le changement de panel de l'onglet 1 ) : <br/>
+				<a href="#" onclick="panel1.showPrevious()">previous    </a>
+				<a href="#" onclick="panel1.showNext()">next</a> <br/>
 			</section>
 		</section>
 
@@ -62,28 +65,52 @@
 				var firstname2 = new generator.TextInput({ placeholder : 'Prénom (Facultatif)'});
 				var lastname2 = new generator.TextInput({ placeholder : 'Nom (Facultatif)'});
 
+				 panel1 = new generator.Panel(
+					 { panels : 
+					 	[
+					 	    [
+						new generator.Form( { elements :
+							[[{ item  : new generator.Title({ text: "Recherche utilisateurs" }), width : 4 }],
+							 [{ label : 'Login', item : login, name : 'login' }],
+							 [{ label : 'Adresse mail', item : mail, name : 'mail'}],
+							 [],
+							 [{ label : 'Mot de passe', item : pass, name : 'password' }],
+							 [{ label : 'Vérification', item : pass_check }],
+							 [],
+							 [{ label : 'Prénom', item : firstname, name : 'firstname'}],
+							 [{ label : 'Nom', item : lastname, name : 'lastname'}]
+							],
+							design : "table", target : "form - new.php", success_clbk : function() { alert("success"); },
+							error_clbk : function() { alert("error"); }, fail_clbk : function() { alert("fail"); }
+						})
+						],
+
+						[
+						new generator.Form( { elements :
+							[[{ item  : new generator.Title({ text: "Recherche utilisateurs - panel 2" }), width : 4 }],
+							 [{ label : 'Login', item : login2, name : 'login' }],
+							 [{ label : 'Adresse mail', item : mail, name : 'mail'}],
+							 [],
+							 [{ label : 'Mot de passe', item : pass, name : 'password' }],
+							 [{ label : 'Vérification', item : pass_check }],
+							 [],
+							 [{ label : 'Prénom', item : firstname, name : 'firstname'}],
+							 [{ label : 'Nom', item : lastname, name : 'lastname'}]
+							],
+							design : "table", target : "form - new.php", success_clbk : function() { alert("success"); },
+							error_clbk : function() { alert("error"); }, fail_clbk : function() { alert("fail"); }
+						})
+						],
+						]
+					 }
+					);
+
 				// Creation des tabs
 				var tabs = new generator.Tab({ render_to : $('#admin-panel'),
 											   tabs :   [
 											   			 {
 											   			 	title    : "Utilisateurs",
-											   				elements :
-											   							new generator.Form(
-																			{ elements :
-																				[[{ item  : new generator.Title({ text: "Recherche utilisateurs" }), width : 4 }],
-																				 [{ label : 'Login', item : login, name : 'login' }],
-																				 [{ label : 'Adresse mail', item : mail, name : 'mail'}],
-																				 [],
-																				 [{ label : 'Mot de passe', item : pass, name : 'password' }],
-																				 [{ label : 'Vérification', item : pass_check }],
-																				 [],
-																				 [{ label : 'Prénom', item : firstname, name : 'firstname'}],
-																				 [{ label : 'Nom', item : lastname, name : 'lastname'}]
-																				],
-																				design : "table", target : "form - new.php", success_clbk : function() { alert("success"); },
-																				error_clbk : function() { alert("error"); }, fail_clbk : function() { alert("fail"); }
-																			}
-											   							)
+											   				elements : panel1
 											   			 },
 
 											   			 {

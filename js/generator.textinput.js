@@ -231,6 +231,29 @@ generator.PasswordInput = function(args) {
 
 generator.PasswordInput.prototype = generator.TextInput.prototype;
 
+/* =====================================================
+			         generator.AutoCompleteInput
+	----------------------------------------------------
+	Permet de gérer et de générer des inputs textuels
+	avec autocompletion.
+	----------------------------------------------------
+	Propriétés :
+		render_to        : élément où afficher le formulaire (append)
+		placeholder      : texte écrit quand le champ est vide
+		min_size         : taille minimum de lancement de l'autocompletion
+		max_size         : taille maximum (255 par défaut)
+
+	Methodes :
+		setRenderTo()      : change le render_to 
+		init()             : initialise l'objet 
+		check()            : vérifie l'autocompletion
+		keyListener()      : affecte une fonction à l'événement
+		                     keypress
+		getValue()         : retourne la valeur du champ
+		setValue()         : fixe la valeur du champ
+		showAutocomplete() : lance la recherche et l'affiche
+		hideAutocomplete() : cache et vide la recherche en cours
+   ===================================================== */
 
 generator.AutoCompleteInput = function(args) {
 	this.cls = "form-connection";
@@ -246,7 +269,7 @@ generator.AutoCompleteInput = function(args) {
 	this.disabled = args.disabled || false;
 	this.width = args.width || 208;
 
-	this.target = "../js/test.php";
+	this.target = args.target || "../js/test.php"; //"target.php";
 }
 
 generator.AutoCompleteInput.prototype.setRenderTo = generator.TextInput.prototype.setRenderTo;

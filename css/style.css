@@ -640,7 +640,7 @@ p a:hover {
 	margin-top: 10px;
 }
 
-.panel-menu {
+.tab-menu {
 	width: 100%;
 	float: left;
 	margin: 0;
@@ -649,7 +649,7 @@ p a:hover {
 	border-bottom: 1px solid #BBB;
 }
 
-.panel-menu li {
+.tab-menu li {
 	display: inline-block;
 	padding: 15px;
 	padding-left: 30px;
@@ -661,12 +661,12 @@ p a:hover {
 	text-shadow: rgba(0, 0, 0, 0.2) 0px -1px 0px;
 
 }
-.panel-menu li:hover {
+.tab-menu li:hover {
 	background-color: #FAFAFA;
 	cursor: pointer;
 }
 
-.panel-menu li.active {
+.tab-menu li.active {
 	border: 1px solid  #BBB;
 	border-bottom: 1px solid white;
 	margin-bottom: -1px;
@@ -675,17 +675,18 @@ p a:hover {
 	color: #e19118;
 }
 
-.panel-menu li.active {
+.tab-menu li.active {
 	background-color: white;
 	cursor: default;
 }
 
-.panel-content {
+.tab-content {
 	float: right;
 	width: 100%;
 }
 
-.panel-content > div {
+.tab-content > div {
 	padding: 40px;
 	padding-top: 20px;
 }
+

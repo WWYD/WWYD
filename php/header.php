@@ -43,6 +43,10 @@
 		<script src="../js/generator.tab.js"></script>
 		<!-- <link rel="stylesheet" href="../css/generator.title.css"> -->
 
+		<!-- Sytème de panneaux -->
+		<script src="../js/generator.panel.js"></script>
+		<!-- <link rel="stylesheet" href="../css/generator.title.css"> -->
+
     </head>
 	
 	<body>
