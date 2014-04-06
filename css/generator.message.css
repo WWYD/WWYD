@@ -37,7 +37,7 @@
    	width: 450px;
     margin-left:-210px;
    	top: 255px;
-	box-shadow: 0px 0px 35px #CCC;
+	box-shadow: 0px 0px 10px #777;*/
 	z-index: 1500;
 }
 
@@ -67,7 +67,7 @@
 /* Pop-up modale */
 .modal-pop-up {
 	display: block;
-	position: absolute;
+	position: fixed;
 	height: 100%;
 	width: 100%;
 	cursor: default;

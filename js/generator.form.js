@@ -14,6 +14,9 @@
 		               pour être envoyée a target
 		submit_value : valeur du bouton d'envoi
 		target       : fichier à qui envoyer les données
+		source       : fichier d'où lire les données. Si celui-ci
+		               n'est pas définit, alors le formulaire sera
+		               vide. Utilisé pour les formulaires de modification
 		success_clbk : callback de retour positif de target
 		error_clbk   : callback de retour négatif de target
 		fail_clbk    : erreur lors de l'appel de target
@@ -22,7 +25,10 @@
 		               on peut donner une taille personnalisée à
 		               un champ avec l'élement "width". Attention
 		               utiliser des label avec les éléments ajoute
-		               une nouvelle cellule.
+		               une nouvelle cellule
+		send         : redéfinition de la fonction d'envois du formulaire
+		submits      : permet d'utiliser plusieurs submits dans le
+		               même formulaire
 
 	Methodes :
 		setRenderTo() : change le render_to 
@@ -31,6 +37,10 @@
 		check()       : vérifie le validité des champs
 		send()        : vérifie et envoit les données, avant
 		                de traiter la réponse
+		fill(data)    : si source est définit, rempli le formulaire
+		                à l'aide de source en envoyant data
+		disable()     : désactive les champs du formulaire
+		enable()      : active les champs du formulaire
    ===================================================== */
 
 this.generator = this.generator || {};
@@ -43,9 +53,15 @@ generator.Form = function(args) {
 	this.elements = args.elements || [];
 	this.submit_value = args.submit_value || "Valider";
 	this.target = args.target || "target.php";
+	this.source = args.source || false;
+	this._submits = args.submits || false;
+	this.send = args.send || this.send;
 	this.success_clbk = args.success_clbk;
 	this.error_clbk = args.error_clbk;
-	this.fail_clbk = args.error_ajax_clbk;
+	this.fail_clbk = args.fail_clbk;
+	this.success_load_clbk = args.success_load_clbk;
+	this.error_load_clbk = args.error_load_clbk;
+	this.fail_load_clbk = args.error_load_fail;
 	this.design = args.design || "flow"; // flow ou table (voir + loin pour table)
 	this.fields = [];
 }
@@ -57,8 +73,10 @@ generator.Form.prototype.setRenderTo = function(renderTo) {
 generator.Form.prototype.setFocus = function() {
 	var me = this;
 
-	if(me.fields.length > 0)
-		setTimeout( function() { me.fields[0].element.focus() }, 500 );
+	if(typeof me.firstEditable != 'undefined')
+		setTimeout( function() { 
+			me.fields[me.firstEditable].element.focus(); 
+		}, 500 );
 }
 
 generator.Form.prototype.check = function(e) {
@@ -77,8 +95,8 @@ generator.Form.prototype.check = function(e) {
 	return result;
 }
 
-generator.Form.prototype.send = function(e) {
-	var me = this;
+generator.Form.prototype.send = function(e, target, me) {
+	var me = me || this;
 
 	if(me.check()) {
 		var to_send = {};
@@ -87,7 +105,7 @@ generator.Form.prototype.send = function(e) {
 		});
 
 		$.ajax({ type     : 'POST',
-	             url      :  me.target,
+	             url      :  target || me.target,
 	             dataType : "json",
 	             data     : { data : JSON.stringify({ data : to_send}) } })
 	           .done(function(data) {
@@ -97,18 +115,28 @@ generator.Form.prototype.send = function(e) {
 	                       me.success_clbk(data);
 	           	   } else if(data.error) {
 	           	   	  console.log("Erreur PHP");
+
 	           	      if(me.error_clbk)
-	                       me.error_clbk(data);
+	                       me.error_clbk(data, me);
+	                   else
+	                   	   generator.Message.prototype.genError(data, false, me);
 	           	   } else {
 		           	   console.log("Erreur structure réponse");
-		           	   if(me.fail_clbk)
-		           	   	   me.fail_clbk();
+
+		           	   if(me.error_clbk)
+		           	   	   me.error_clbk(data, me);
+		           	   	else
+		           	   	  generator.Message.prototype.genError(data, false, me);
 	           	   }
 	           })
-	           .fail(function() {
+	           .fail(function(jqXHR) {
 	           	   console.log("Erreur Ajax");
+
 	           	   if(me.fail_clbk)
-	           	   	   me.fail_clbk();
+	           	   	   me.fail_clbk(jqXHR, me);
+	           	   	else
+	                   generator.Message.prototype.genAjaxError(jqXHR, false, me);
+
 	           });
     }
 }
@@ -121,6 +149,7 @@ generator.Form.prototype.init = function() {
 		 //Enter keycode
 		if(code == 13) {
 		   me.send(e);
+		   $("input").blur();
 		}
 
 	};
@@ -156,6 +185,12 @@ generator.Form.prototype.init = function() {
 				if(element.item.getValue && element.name && !element.disabled) {
 					element.item.name = element.name;
 					me.fields[i++] = element.item;
+
+					if(typeof me.firstEditable == 'undefined' && 
+						me.fields[i-1].isEditable && 
+						me.fields[i-1].isEditable()) {
+							me.firstEditable = i-1;
+					}
 				}
 			}
 		});
@@ -176,33 +211,43 @@ generator.Form.prototype.init = function() {
 
 			// On attend ici des lignes
 			$(line_elements).each(function(index, element) {
+				if(element.label) {
+
+					var label = $('<td />');
+
+					label.text(element.label);
+					line.append(label);
+				}
+
+				var data = $('<td />');
+
+				if(element.space)
+					data.css("width", element.space);
+
+				if(element.width)
+					data.attr("colspan", element.width);
+
 				if(element.item) {
-					if(element.label) {
-
-						var label = $('<td />');
-
-						label.text(element.label);
-						line.append(label);
-					}
-
-					var data = $('<td />');
-
-					if(element.width)
-						data.attr("colspan", element.width);
-
 					element.item.setRenderTo(data);
 					element.item.init();
 
 					if(element.item.keyListener)
 						element.item.keyListener(keyListener);
 
-					line.append(data);
 
 					if(element.item.getValue && element.name && !element.disabled) {
 						element.item.name = element.name;
 						me.fields[i++] = element.item;
+					
+						if(typeof me.firstEditable == 'undefined' && 
+							me.fields[i-1].isEditable && 
+							me.fields[i-1].isEditable()) {
+								me.firstEditable = i-1;
+						}
 					}
-				}	
+				}
+				
+				line.append(data);	
 			});
 
 			table.append(line);
@@ -212,16 +257,146 @@ generator.Form.prototype.init = function() {
 	}
 
 	me.setFocus();
-	/*if(me.fields.length > 0)
-		setTimeout( function() { me.fields[0].element.focus() }, 500 );*/
+
+	var centered  = $('<p style="text-align: center; margin: 0;" />');
 
 	// Submit
-	me.submit = $('<input type="submit" class="btn" style="display: inline-block;" />');
-	me.submit.val(this.submit_value);
-	me.submit.on("click", function(e) {
-		me.send(e);
-	});
-	var centered  = $('<p style="text-align: center; margin: 0;" />');
-	centered.append(me.submit);
+	if(!me._submits) {
+		// Un seul, implicite
+		me.submit = $('<button class="generated-button" />');
+		me.submit.html(this.submit_value);
+		me.submit.on("click", function(e) {
+			me.send(e);
+		});
+		centered.append(me.submit);
+	} else {
+		// Plusieurs submits
+		me.submits = [];
+		$(me._submits).each(function(index, element) {
+			var sub = {  target   : element.target || false,
+		                  value   : element.value  || "Submit",
+		                  send    : element.send   || me.send,
+		                  element : $('<button class="generated-button" />')
+		              };
+
+			sub.element.on('click', function(e) {
+				sub.send(e, sub.target, me);
+			});
+			sub.element.html(sub.value);
+
+			centered.append(sub.element);
+
+			me.submits.push(sub);
+		});
+	}
+	
 	me.container.append(centered);
 }
+
+
+generator.Form.prototype.empty = function() {
+	var me = this;
+
+   // Pour chaque champ
+   $(me.fields).each(function(index, element) {
+   		// Si le champs à un nom
+   		if(element.name && element.setValue)
+   			element.setValue(element.default ? element.default : '');
+   });
+}
+
+generator.Form.prototype.disable = function() {
+	var me = this;
+	
+   // Pour chaque champ
+   $(me.fields).each(function(index, element) {
+   		// Si le champs à un element
+   		if(element.element)
+   			element.element.attr("disabled", "disabled");
+   });
+
+   // Un seul submit
+   if(me.submit)
+   		me.submit.attr("disabled", "disabled");
+   	// Plusieurs
+   	else {
+   		$(me.submits).each(function(index, element) {
+   			element.element.attr("disabled", "disabled");
+   		});
+   	}
+}
+
+generator.Form.prototype.enable = function() {
+	var me = this;
+
+   // Pour chaque champ
+   $(me.fields).each(function(index, element) {
+   		// Si le champs à un nom
+   		if(element.element && ( !element.isEditable || element.isEditable() ))
+   			element.element.attr("disabled", false);
+   });
+
+   // Un seul submit
+   if(me.submit)
+   		me.submit.attr("disabled", false);
+   	// Plusieurs
+   	else {
+   		$(me.submits).each(function(index, element) {
+   			element.element.attr("disabled", false);
+   		});
+   	}
+}
+
+generator.Form.prototype.fill = function(data) {
+	var me = this;
+
+	me.empty();
+
+	if(me.source) {
+		$.ajax({ type     : 'POST',
+	             url      :  me.source,
+	             dataType : "json",
+	             data     : { data : data } })
+	           .done(function(data) {
+
+	           	   if(data.success) {
+	           	      if(me.success_load_clbk)
+	                       me.success_load_clbk(data);
+	                   // Pour chaque champ
+	                   $(me.fields).each(function(index, element) {
+	                   		// Si le champs à un nom
+	                   		if(element.name && element.setValue && data.success[element.name])
+	                   			element.setValue(data.success[element.name]);
+	                   });
+	           	   } else if(data.error) {
+	           	   	  console.log("Erreur PHP");
+
+	           	   	  me.empty();
+
+	           	      if(me.error_load_clbk)
+	                       me.error_load_clbk(data, me);
+	                   else
+	                   	   generator.Message.prototype.genError(data, false, me);
+	           	   
+	           	   } else {
+		           	   console.log("Erreur structure réponse");
+
+	           	   	  me.empty();
+
+		           	   if(me.error_load_clbk)
+		           	   	   me.error_load_clbk(data, me);
+	                   else
+	                   	   generator.Message.prototype.genError(data, false, me);
+
+	           	   }
+	           })
+	           .fail(function(jqXHR) {
+	           	   console.log("Erreur Ajax");
+
+	           	   if(me.fail_load_clbk)
+	           	   	   me.fail_load_clbk(jqXHR, me);
+	                else
+	                   generator.Message.prototype.genAjaxError(jqXHR, false, me);
+	           });
+    }
+}	

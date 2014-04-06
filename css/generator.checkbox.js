@@ -1,0 +1,1 @@
+generator.checkbox.js

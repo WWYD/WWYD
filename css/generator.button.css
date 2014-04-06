@@ -1,0 +1,39 @@
+.generated-button {
+	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 2px 0px;
+	background-image: linear-gradient(rgb(240, 173, 78) 0px, rgb(236, 151, 31) 100%);
+	border: 1px rgb(213, 133, 18) solid;
+	border-radius: 4px;
+	padding: 7px;
+	padding-left: 12px;
+	padding-right: 12px;
+	color: white;
+	font-size: 15px;
+	text-shadow: rgba(0, 0, 0, 0.2) 0px -1px 0px;
+	display: inline-block;
+	height: 38;
+}
+
+.generated-button:hover {
+	border-color: #d58512;
+	cursor: pointer;
+}
+
+.generated-button:active {
+	background-image: linear-gradient(rgb(236, 151, 31)  0px, rgb(240, 173, 78) 100%);
+	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 2px 0px;
+	box-shadow: inset 0px 2px 5px 0px #656565;
+}
+
+.generated-button:disabled {
+	background-image: linear-gradient(rgb(245, 245, 245) 0px, rgb(232, 232, 232) 100%);
+	border: 1px solid lightgray;
+	color: lightgray;
+}
+
+.generated-button + .generated-button {
+	margin-left: 15px;
+}
+
+.generated-button:focus{
+	outline: 1px auto #FFCC24;
+}

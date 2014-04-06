@@ -56,6 +56,7 @@ generator.Message.prototype.init = function() {
 
 	me.container.append(h_title);
 	me.container.append(p_message);
+
 	// Si pop-up dismissible
 	if(me.dismissible) {
 		var exit = $('<div class="close" />');
@@ -76,12 +77,22 @@ generator.Message.prototype.init = function() {
 		me.modal_window = $('<div class="modal-pop-up" />');
 		$("body").append(me.modal_window);
 
-		if(me.disable) 
-			me.disable.find('input,button').attr('disabled', true).blur();
+		if(me.disable && me.disable.disable)
+			me.disable.disable(); 
 	}
 
+	$(window).resize(function() {
+		me.resize();
+	});
+	
+	me.resize();
+
 	// Affichage
-	$("body").append(me.container);
+	if(me.modal)	
+		me.modal_window.append(me.container);
+	else
+		$("body").append(me.container);
+
 	me.container.animate({ top: "toggle",
 			               opacity: "toggle"}, 
 			               function() {
@@ -102,12 +113,48 @@ generator.Message.prototype.dismiss = function(e) {
 					        if(me.modal) 
 						    	me.modal_window.remove();
 
-					        if(me.disable)
-						   		me.disable.find('input,button').attr('disabled', false);
+
+							if(me.disable && me.disable.enable)
+								me.disable.enable(); 
 
 		                    this.remove(); // Suppression fenêtre
 
 		                    if(me.deletion_callback) 
 		                       	me.deletion_callback();
 	                       });
+}
+
+generator.Message.prototype.resize = function() {
+
+	var me = this;
+
+	if(me.container.height() + 30 >= me.modal_window.height()) {
+		me.container.css("top", 0);
+	} else {
+		me.container.css("top", ((me.modal_window.height() - me.container.height() - 30) / 2));
+	}
+}
+
+generator.Message.prototype.genAjaxError = function(jqXHR, dismiss_clbk, disable) {
+	var error = new generator.Message({ type : 'error',
+		                                title : 'Erreur '+jqXHR.status, 
+                                        message : 'Le traitement à échoué avec l\'erreur suivante : '+jqXHR.statusText , 
+                               		    modal : true, dismissible : true,
+                               		    deletion_clbk : dismiss_clbk || false,
+                               		    disable : disable || false
+                                      });
+	error.init();
+
+}
+
+generator.Message.prototype.genError = function(msg, dismiss_clbk, disable) {
+	var error = new generator.Message({ type : 'error',
+		                                title : (msg && msg.error && msg.error.title) ? msg.error.title : 'Erreur', 
+                                        message :  (msg && msg.error && msg.error.msg) ? msg.error.msg : 'Une erreur est survenue pendant le traitement',  
+                               		    modal : true, dismissible : true,
+                               		    deletion_clbk : dismiss_clbk || false,
+                               		    disable : disable || false
+                                      });
+	error.init();
+
 }

@@ -33,6 +33,7 @@ generator.TextInput = function(args) {
 	this.type = "text";
 	this.renderTo = args.render_to || false;
 	this.placeholder = args.placeholder || "";
+	this.default = args.default || "";
 	this.min_size = args.min_size || 0;
 	this.max_size = args.max_size || 255;
 	this.disabled = args.disabled || false;
@@ -41,10 +42,15 @@ generator.TextInput = function(args) {
 	this.valid_check_callback = args.valid_check_clbk || false;
 	this.check_callback = args.check_clbk || false;
 	this.show_validation = args.show_validation || false;
+	this.css = args.css || null;
 }
 
 generator.TextInput.prototype.setRenderTo = function(renderTo) {
 	this.renderTo = renderTo;
+}
+
+generator.TextInput.prototype.isEditable = function() {
+	return !this.disabled;
 }
 
 generator.TextInput.prototype.check = function(e) {
@@ -107,6 +113,10 @@ generator.TextInput.prototype.init = function() {
 		} else {
 			me.element.css('width', '208px');
 		}
+
+		if(me.css)
+			me.element.css(me.css);
+
 	} else {
 		console.log("Pas de renderTo défini");
 	}
@@ -156,6 +166,7 @@ generator.EmailInput = function(args) {
 	this.cls = "form-connection";
 	this.type = "text";
 	this.placeholder = args.placeholder || "";
+	this.default = args.default || "";
 	this.disabled = args.disabled || false;
 	this.check_onkey = args.check_onkey || false;
 	this.error_check_callback = args.error_check_clbk || false;
@@ -197,6 +208,7 @@ generator.EmailInput.prototype.check = function() {
 }
 
 generator.EmailInput.prototype.setRenderTo = generator.TextInput.prototype.setRenderTo;
+generator.EmailInput.prototype.isEditable = generator.TextInput.prototype.isEditable;
 generator.EmailInput.prototype.init = generator.TextInput.prototype.init;
 generator.EmailInput.prototype.keyListener = generator.TextInput.prototype.keyListener;
 generator.EmailInput.prototype.getValue = generator.TextInput.prototype.getValue;
@@ -219,6 +231,7 @@ generator.PasswordInput = function(args) {
 	this.cls = "form-connection";
 	this.type = "password";
 	this.placeholder = args.placeholder || "";
+	this.default = args.default || "";
 	this.check_onkey = args.check_onkey || false;
 	this.error_check_callback = args.error_check_clbk || false;
 	this.valid_check_callback = args.error_check_clbk || false;
@@ -259,6 +272,7 @@ generator.AutoCompleteInput = function(args) {
 	this.cls = "form-connection";
 	this.type = "text";
 	this.placeholder = args.placeholder || "";
+	this.default = args.default || "";
 	this.check_onkey = true; // Utilisé pour lancer la recherche automatiquement
 	this.error_check_callback = false;
 	this.valid_check_callback = false;
@@ -273,6 +287,7 @@ generator.AutoCompleteInput = function(args) {
 }
 
 generator.AutoCompleteInput.prototype.setRenderTo = generator.TextInput.prototype.setRenderTo;
+generator.AutoCompleteInput.prototype.isEditable = generator.TextInput.prototype.isEditable;
 generator.AutoCompleteInput.prototype.keyListener = generator.TextInput.prototype.keyListener;
 generator.AutoCompleteInput.prototype.getValue = generator.TextInput.prototype.getValue;
 generator.AutoCompleteInput.prototype.setValue = generator.TextInput.prototype.setValue;
@@ -350,6 +365,9 @@ generator.AutoCompleteInput.prototype.init = function() {
 
 		me.element.css('width', me.width);
 		me.autocomplete_zone.css('width', me.width - 2);
+
+		if(me.css)
+			me.element.css(me.css);
 		
 	} else {
 		console.log("Pas de renderTo défini");
@@ -370,7 +388,7 @@ generator.AutoCompleteInput.prototype.showAutocomplete = function() {
 generator.AutoCompleteInput.prototype.hideAutocomplete = function() {
 	var me = this;
 
-	this.autocomplete_zone.slideUp(function() {
+	this.autocomplete_zone.slideUp(200, function() {
 		me.element.removeClass('form-show-autocomplete');
 	}); // on cache
 	this.resetAutocomplete(); // on vide
@@ -415,21 +433,18 @@ generator.AutoCompleteInput.prototype.check = function() {
        	   	  	me.autocomplete_zone.append(list);
 
        	   	  	me.element.addClass('form-show-autocomplete');
-       	   	  	me.autocomplete_zone.slideDown();
+       	   	  	me.autocomplete_zone.slideDown(200);
        	   	  } else {
        	   	  	me.hideAutocomplete();
        	   	  }
-
+       	   	  // Pas de gestion d'erreur ici
        	   } else if(data.error) {
        	   	  console.log("Erreur PHP");
-
        	   } else {
            	   console.log("Erreur structure réponse");
-
        	   }
        })
        .fail(function() {
        	   console.log("Erreur Ajax");
-       	   me.autocomplete_zone.html("Erreur Ajax");
        });
 }

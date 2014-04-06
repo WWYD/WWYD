@@ -49,14 +49,18 @@
 						 [],
 						 [{ label : 'Prénom', item : firstname, name : 'firstname'}],
 						 [{ label : 'Nom', item : lastname, name : 'lastname'}]
-						], design : "table", target : "form - new.php", success_clbk : function(data) {
+						], 
+						design : "table", 
+						submit_value : "Enregistrer le compte",
+						target : "form - new.php", 
+						success_clbk : function(data) {
 								var error = new generator.Message({ type : 'success', title : data.success.title, 
 			          				                                message : data.success.msg, 
 			          				                                modal : true, dismissible : true, 
 			          				                                disable : box.window });
 								box.hide();
 								error.init();
-						}, error_clbk : error_clbk, fail_clbk : fail_clbk } )
+						}, /*error_clbk : error_clbk, fail_clbk : fail_clbk*/ } )
 				});
 
 				box.init();

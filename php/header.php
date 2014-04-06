@@ -31,6 +31,14 @@
 		<script src="../js/generator.textinput.js"></script>
 		<link rel="stylesheet" href="../css/generator.textinput.css">
 
+		<!-- Bouttons -->
+		<script src="../js/generator.button.js"></script>
+		<link rel="stylesheet" href="../css/generator.button.css">
+
+		<!-- Checkboxs -->
+		<script src="../js/generator.checkbox.js"></script>
+		<link rel="stylesheet" href="../css/generator.checkbox.css">
+
 		<!-- Titres -->
 		<script src="../js/generator.title.js"></script>
 		<link rel="stylesheet" href="../css/generator.title.css">
@@ -41,7 +49,7 @@
 
 		<!-- Pagination onglets -->
 		<script src="../js/generator.tab.js"></script>
-		<!-- <link rel="stylesheet" href="../css/generator.title.css"> -->
+		<link rel="stylesheet" href="../css/generator.tab.css"> 
 
 		<!-- Sytème de panneaux -->
 		<script src="../js/generator.panel.js"></script>

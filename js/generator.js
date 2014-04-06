@@ -1,9 +1,11 @@
 
-this.html = this.html || {};
+this.generator = this.generator || {};
 
+this.generator.icon = function(name) {
+	return '<span class="icon '+name+'"></span>';
+}
 
-
-
+/*
 // Menu navigation
 html.Menu = function(args) {
 	this.cls = "generated-menu";
@@ -31,7 +33,7 @@ html.Menu.prototype.init = function() {
 	me.renderTo.append(me.container);
 };
 
-
+*/
 
 /*
 // Input type téléphone

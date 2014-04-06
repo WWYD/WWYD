@@ -8,6 +8,8 @@
 		render_to    : élément où afficher le titre (append)   
 	Methodes :
 		init()       : initialise l'objet   
+		setValue()   : change la valeur du titre
+		getValue()   : valeur du titre
    ===================================================== */
 
 this.generator = this.generator || {};
@@ -17,6 +19,7 @@ generator.Title = function(args) {
 
 	this.cls = "generated-title";
 	this.text = args.text || "";
+	this.default = args.default || this.text;
 	this.renderTo = args.render_to || null;
 }
 
@@ -36,3 +39,13 @@ generator.Title.prototype.init = function() {
 		me.renderTo.append(me.container);
 	}
 }
+
+generator.Title.prototype.setValue = function(data) {
+	this.text = data;
+	this.container.text(this.text);
+}
+
+generator.Title.prototype.getValue = function() {
+	return this.text;
+}
+
