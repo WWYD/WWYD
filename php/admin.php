@@ -63,10 +63,8 @@
 					                                              show_validation : true,
 					                                              check_clbk : tab1_p2_points_clbk });           // -- Nombre de points de l'utilisateur
 
-					var tab1_p2_admin = new generator.Checkbox({ disabled : true });              // -- Admin ?
-					var tab1_p2_premium = new generator.Checkbox({ disabled : true });            // -- Premium ?
-
-			                                                                    // -- Message d'erreur
+					var tab1_p2_admin = new generator.Checkbox({ disabled : true });                             // -- Admin ?
+					var tab1_p2_premium = new generator.Checkbox({ disabled : true });                           // -- Premium ?
 
 					var tab1_p2_back = new generator.Button({ text : generator.icon('arrow-left')+' Revenir à la recherche', 
 															  css  : { width : "250" },
@@ -150,45 +148,105 @@
 
 					var tab1_p = new generator.Panel({ panels : [ tab1_p1, tab1_p2 ] });                         // -- Panneaux du premier onglet
 
-					var tab1 = { title    : '<span class="icon user"></span> Utilisateurs', elements : tab1_p };                                 // -- Contenu du premier onglet
+					var tab1 = { title    : '<span class="icon user"></span> Utilisateurs', elements : tab1_p };       
+					                                                                                             // -- Contenu du premier onglet
 
 				// Second onglet
-					// Placeholder en attendant de le faire !
-					var login2 = new generator.TextInput({ placeholder : "Nom du compte", min_size : 3, check_onkey : true, show_validation : true });
-					var mail2 = new generator.EmailInput({ placeholder : "Adresse mail", check_onkey : true, show_validation : true });
+					// Panneau 1 de recherche
+					var tab2_p1_func = function(data) {
+						var button = new generator.Button({ text  : generator.icon('pencil')+" Modifier",
+										   	                      small : true,
+															      css   : { 'float' : 'right', 'margin-top' : '-40px' },
+															      onClick : function() {
+															      	tab2_p.showNext(data.id);
+															      }
+														  });
 
-					var pass2 = new generator.PasswordInput({ placeholder : 'Mot de passe', min_size : 3, check_onkey : true, show_validation : true, check_clbk : function() { return (pass_check.getValue() == pass.getValue()); }});
-					var pass_check2 = new generator.PasswordInput({ placeholder : 'Vérification mot de passe', min_size : 3, check_onkey : true, check_clbk : function() { pass.check(); }});
+						return new generator.Div({
+							title : data.name,
+							elements  : [
+										   new generator.Paragraph({ text : data.description }),
+										   button
+							            ]
+						});
+					};
 
-					var firstname2 = new generator.TextInput({ placeholder : 'Prénom (Facultatif)'});
-					var lastname2 = new generator.TextInput({ placeholder : 'Nom (Facultatif)'});
+					var tab2_p1_search = new generator.Paginate( {
+				   			    				source    : "admin_show_cat.php",
+				   			    				page_size : 5,
+				   			    				model     : tab2_p1_func,
+				   			    				data      : {}
+				   			    			});
 
-					var tab2 = {
-				   			 	title    : '<span class="icon list"></span> Catégories',
-				   			    elements :
-				   							new generator.Form(
-												{ elements :
-													[[{ item  : new generator.Title({ text: "Formulaire d'inscription 2" }), width : 4 }],
-													 [{ label : 'Login 2', item : login2, name : 'login' }],
-													 [{ label : 'Adresse mail 2', item : mail2, name : 'mail'}],
-													 [],
-													 [{ label : 'Mot de passe 2', item : pass2, name : 'password' }],
-													 [{ label : 'Vérification 2', item : pass_check2 }],
-													 [],
-													 [{ label : 'Prénom 2', item : firstname2, name : 'firstname'}],
-													 [{ label : 'Nom 2', item : lastname2, name : 'lastname'}]
-													],
-													design : "table", target : "form - new.php", success_clbk : function() { alert("success"); },
-													error_clbk : function() { alert("error"); }, fail_clbk : function() { alert("fail"); }
-												}
-				   							)
-				   			   };
+					var tab2_p1 = { elements : [ tab2_p1_search ] };   
 
-				   	var tab3 = { title : '<span class="icon edit"></span> Sujets & messages' };
+					// Panneau d'édition
+					var tab2_p2_title = new generator.Title({ text: "Modification catégorie 'error'" });         // -- titre
+
+					var tab2_p2_name = new generator.TextInput({ min_size : 3 });                                // -- nom catégorie
+
+					var tab2_p2_back = new generator.Button({ text : generator.icon('arrow-left')+' Revenir à la recherche', 
+															  css  : { width : "250" },
+						                                      onClick : function() { 
+						                                      	tab2_p.showPrevious(); 
+						                                      } 
+						                                     });                                                 // -- Bouton de retour
+
+					var tab2_p2_error_load_clbk = function(data) {
+						 tab2_p2_form.disable();
+						 generator.Message.prototype.genError(data, function() {
+						 	tab2_p.showPrevious(); 
+						 });
+					};                                                                                          // -- Erreur de chargement, aucun utilisateur correspondant
+
+					var tab2_p2_fail_load_clbk = function(data) {
+						 tab2_p2_form.disable();
+						 generator.Message.prototype.genAjaxError(data, function() {
+						 	tab2_p.showPrevious(); 
+						 });                                                                                    // -- Erreur Ajax
+					};
+
+					var tab2_p2_success_load_clbk = function(data) {
+						 tab2_p2_form.enable();
+					};    
+
+					var tab2_p2_form = new generator.Form(
+						        { 	elements :
+										[[{ item  : tab2_p2_title, name : 'title', width : 4 }],
+										 [{ label : 'Nom catégorie', item : tab2_p2_name, name : 'name' }],
+										 [],
+										 [{ item : tab2_p2_back,  name : 'back_button',  width : 2 }],
+										 []
+										],
+									design : "table",  
+									target : "admin_change_cat.php", 
+									source : "admin_info_cat.php",
+									success_load_clbk : tab2_p2_success_load_clbk,
+									error_load_clbk   : tab2_p2_error_load_clbk,
+									fail_load_clbk    : tab2_p2_fail_load_clbk,
+									submits : [{ target : 'admin_change_cat.php', 
+									             value  : generator.icon('tick')+' Modifier la catégorie' 
+									           },
+									           { target : 'admin_delete_cat.php', 
+									             value  : generator.icon('cross')+' Supprimer la catégorie' 
+									           }
+									          ]
+								});   
+
+					var tab2_p2 = { elements : [ tab2_p2_form ] };   
+
+
+					var tab2_p = new generator.Panel({ panels : [ tab2_p1, tab2_p2 ] });                                                             // -- Panneaux du second onglet
+
+					var tab2 = { title    : generator.icon('list')+' Catégories',
+				   			     elements : [ tab2_p ] };
+
+				// Troisième onglet
+				   	var tab3 = { title : generator.icon('edit')+' Sujets & messages' };
 
 				// Construction des onglets
-				var tab = new generator.Tab({ render_to : $('#admin-panel'), tabs : [ tab1, tab2, tab3 ] });
-				tab.init();
+					var tab = new generator.Tab({ render_to : $('#admin-panel'), tabs : [ tab1, tab2, tab3 ] });
+					tab.init();
 
 			});
 

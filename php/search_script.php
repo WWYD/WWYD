@@ -39,7 +39,7 @@
 			$str_query .= " ORDER BY topic.date DESC";
 		}
 
-		$str_query .= " LIMIT ?, 10";
+		$str_query .= " LIMIT ?, 3";
 
 		try {
 			// Requête principale

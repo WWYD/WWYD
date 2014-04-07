@@ -43,6 +43,10 @@
 		<script src="../js/generator.title.js"></script>
 		<link rel="stylesheet" href="../css/generator.title.css">
 
+		<!-- Paragraphes -->
+		<script src="../js/generator.paragraph.js"></script>
+		<!-- <link rel="stylesheet" href="../css/generator.paragraph.css"> -->
+
 		<!-- Div formatées -->
 		<script src="../js/generator.div.js"></script>
 		<!-- <link rel="stylesheet" href="../css/generator.title.css"> -->
@@ -53,7 +57,11 @@
 
 		<!-- Sytème de panneaux -->
 		<script src="../js/generator.panel.js"></script>
-		<!-- <link rel="stylesheet" href="../css/generator.title.css"> -->
+		<!-- <link rel="stylesheet" href="../css/generator.panel.css"> -->
+
+		<!-- Sytème de pagination -->
+		<script src="../js/generator.paginate.js"></script>
+		<link rel="stylesheet" href="../css/generator.paginate.css">
 
     </head>
 	

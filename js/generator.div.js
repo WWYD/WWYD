@@ -25,6 +25,8 @@ generator.Div.prototype.init = function() {
 	me.container = $('<div />');
 	me.container.addClass(me.cls);
 
+	me.intern = $('<p />');
+
 	if(me.height)
 		me.container.css("height", me.height);
 
@@ -44,12 +46,15 @@ generator.Div.prototype.init = function() {
 	// Ajout des éléments
 	if(me.elements) {
 		$(me.elements).each(function (index, element) {
-			element.setRenderTo(me.container);
+			element.setRenderTo(me.intern);
 			element.init();
 		});
 	} else if(me.html) {
-		me.container.append(me.html);
+		var div = $
+		me.intern.append(me.html);
 	}
+
+	me.container.append(me.intern);
 
 	// Affichage
 	if(me.renderTo)

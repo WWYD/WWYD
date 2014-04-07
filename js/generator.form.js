@@ -61,7 +61,7 @@ generator.Form = function(args) {
 	this.fail_clbk = args.fail_clbk;
 	this.success_load_clbk = args.success_load_clbk;
 	this.error_load_clbk = args.error_load_clbk;
-	this.fail_load_clbk = args.error_load_fail;
+	this.fail_load_clbk = args.fail_load_clbk;
 	this.design = args.design || "flow"; // flow ou table (voir + loin pour table)
 	this.fields = [];
 }

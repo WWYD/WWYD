@@ -76,18 +76,18 @@ generator.Panel.prototype.init = function() {
 		me.creation_callback(me.container);
 }
 
-generator.Panel.prototype.showNext = function() {
+generator.Panel.prototype.showNext = function(value) {
 
 	var me = this;
 
 	if(me.activeIndex + 1 < me.panels.length) {
 		// Si on définit une fonction pour récupérer sa valeur
-		if(me.panels[me.activeIndex].valueNext) {
+		if(me.panels[me.activeIndex].valueNext || value) {
 			// Pour chaque élément du panneau suivant
 			$(me.panels[me.activeIndex+1].elements).each(function(index, element) {
 				// Si on peut le remplir, one le fait avec notre valeur
 				if(element.fill)
-					element.fill(me.panels[me.activeIndex].valueNext());
+					element.fill(me.panels[me.activeIndex].valueNext ? me.panels[me.activeIndex].valueNext() : value);
 			});
 		}
 
@@ -102,18 +102,18 @@ generator.Panel.prototype.showNext = function() {
 		console.log("No next panel");
 }
 
-generator.Panel.prototype.showPrevious = function() {
+generator.Panel.prototype.showPrevious = function(value) {
 
 	var me = this;
 
 	if(me.activeIndex > 0) {
 		// Si on définit une fonction pour récupérer sa valeur
-		if(me.panels[me.activeIndex].valuePrevious) {
+		if(me.panels[me.activeIndex].valuePrevious || value) {
 			// Pour chaque élément du panneau precedant
 			$(me.panels[me.activeIndex-1].elements).each(function(index, element) {
 				// Si on peut le remplir, one le fait avec notre valeur
 				if(element.fill)
-					element.fill(me.panels[me.activeIndex].valuePrevious());
+					element.fill(me.panels[me.activeIndex].valuePrevious ? me.panels[me.activeIndex].valuePrevious() : value);
 			});
 		}
 

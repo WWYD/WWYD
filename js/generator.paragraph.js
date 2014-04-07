@@ -1,7 +1,7 @@
 /* =====================================================
-			         generator.Button
+			         generator.Paragraph
 	----------------------------------------------------
-	Permet d'afficher un titre de type h3
+	Permet d'afficher des paragraphes
 	----------------------------------------------------
 	Propriétés :
 	    text         : texte du titre
@@ -14,61 +14,47 @@
 
 this.generator = this.generator || {};
 
-generator.Button = function(args) {
+generator.Paragraph = function(args) {
 	var args = args || {};
 
-	this.cls = "generated-button";
+	this.cls = "generated-paragraph";
 	this.text = args.text || "";
 	this.default = args.default || this.text;
-	this.disabled = args.disabled || false;
 	this.renderTo = args.render_to || null;
-	this.small = args.small || false;
 	this.css = args.css || null;
-	this.onClick = args.onClick || null;
-	this.onHover = args.onHover || null;
 }
 
-generator.Button.prototype.setRenderTo = function(renderTo) {
+generator.Paragraph.prototype.setRenderTo = function(renderTo) {
 	this.renderTo = renderTo;
 }
 
-generator.Button.prototype.isEditable = function() {
-	return !this.disabled;
+generator.Paragraph.prototype.isEditable = function() {
+	return false;
 }
 
-generator.Button.prototype.init = function() {
+generator.Paragraph.prototype.init = function() {
 	
 	var me = this;
 
 	if(me.renderTo) {
-		me.element = $('<button />');
+		me.element = $('<p />');
 		me.element.addClass(me.cls);
 		me.element.html(me.text);
-		if(me.onClick)
-			me.element.on('click', function(e) {
-				me.onClick(e);
-			});
-		if(me.onHover)
-			me.element.on('hover', function(e) {
-				me.onHover(e);
-			});
-
-		if(me.small)
-			me.element.addClass('btnsmall');
 
 		if(me.css)
 			me.element.css(me.css);
 
 		me.renderTo.append(me.element);
-	}
+	} else
+		console.log("No render");
 }
 
-generator.Button.prototype.setValue = function(data) {
+generator.Paragraph.prototype.setValue = function(data) {
 	this.text = data;
 	this.element.html(this.text);
 }
 
-generator.Button.prototype.getValue = function() {
+generator.Paragraph.prototype.getValue = function() {
 	return this.text;
 }
 
