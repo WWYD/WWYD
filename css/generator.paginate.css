@@ -52,3 +52,7 @@
 .paginate button.selected + button {
 	border-left: #d58512 1px solid;
 }
+
+.content-paginate {
+	margin-top: 10px;
+}

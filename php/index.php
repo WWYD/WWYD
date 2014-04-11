@@ -2,23 +2,22 @@
 		include("header.php");
 		$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));		
 ?>
-		<div style="width: 100%; height: 150px; background-color: #DEDEDE; margin-bottom: 30px;">
-			<div style="margin: auto; width: 80%;">
-				<p style="padding: 30px; font-size : 19pt;"><b><i>Vous avez un dilemme à gérer ?</i></b></p>
-				<p style="margin-top: -70px; padding: 30px; font-size : 14pt;">Un choix à faire et vous ne pouvez pas prendre de décision ?<br/>
+		<div id="indexTile">
+			<section >
+				<p><b><i>Vous avez un dilemme à gérer ?</i></b></p>
+				<p>Un choix à faire et vous ne pouvez pas prendre de décision ?<br/>
 				Laissez donc les internautes choisir pour vous !</p>
-			</div>
+			</section>
 			<div class="notification">
 				<span><span class="ok-sign"></span> Vous êtes connecté </span>
 			</div>
 		</div>
 		
-		<section >
+		<section>
 		<section style="width: 66.6%; float : left;">
 			<div class="content" >
 				<div class="content-group">
-					<div class="content-elem daily" style="<?php if(!isset($_SESSION["user"]))
-									{ ?> width: 97.9% <?php } ?>">
+					<div class="content-elem daily" style="<?php if(!isset($_SESSION["user"])) { ?> width: 97.9% <?php } ?>">
 						<div class="content-bordered">
 							<div class="content-bordered-title">
 								<h4 class="panel-title">Situation du jour</h4>

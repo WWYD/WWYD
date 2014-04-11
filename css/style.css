@@ -454,6 +454,28 @@ section {
 	padding-right: 0px;
 }
 
+#indexTile{
+	width: 100%;
+	height: 150px;
+	background-color: #DEDEDE;
+	margin-top: -30px;
+	margin-bottom: 20px;
+}
+
+#indexTile p {
+	padding: 30px; 
+	padding-left: 0;
+}
+
+#indexTile p:first-child {
+	font-size : 19pt;
+}
+
+#indexTile p:nth-child(2) {
+	margin-top: -70px;
+	font-size : 14pt;
+}
+
 .content {
 	max-width: 1200px;
 	margin: 0;

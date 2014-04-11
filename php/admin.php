@@ -153,6 +153,13 @@
 
 				// Second onglet
 					// Panneau 1 de recherche
+					var tab2_p1_button_new = new generator.Button({ text  : generator.icon('plus')+" Ajouter nouvelle catégorie",
+																	css : { "margin-botton" : "10px" },
+																    onClick : function() {
+																    	tab2_p2_box.show();
+																    }
+																   });
+
 					var tab2_p1_func = function(data) {
 						var button = new generator.Button({ text  : generator.icon('pencil')+" Modifier",
 										   	                      small : true,
@@ -178,12 +185,13 @@
 				   			    				data      : {}
 				   			    			});
 
-					var tab2_p1 = { elements : [ tab2_p1_search ] };   
+					var tab2_p1 = { elements : [ tab2_p1_button_new, tab2_p1_search ] };   
 
 					// Panneau d'édition
 					var tab2_p2_title = new generator.Title({ text: "Modification catégorie 'error'" });         // -- titre
 
-					var tab2_p2_name = new generator.TextInput({ min_size : 3 });                                // -- nom catégorie
+					var tab2_p2_name = new generator.TextInput({ min_size : 3, check_onkey : true, show_validation : true, });
+					                                                                                             // -- nom catégorie
 
 					var tab2_p2_back = new generator.Button({ text : generator.icon('arrow-left')+' Revenir à la recherche', 
 															  css  : { width : "250" },
@@ -213,7 +221,9 @@
 					var tab2_p2_form = new generator.Form(
 						        { 	elements :
 										[[{ item  : tab2_p2_title, name : 'title', width : 4 }],
+										 [{ label : 'ID', item : new generator.TextInput({ min_size : 0, disabled : true }), name : 'id' }],
 										 [{ label : 'Nom catégorie', item : tab2_p2_name, name : 'name' }],
+										 [{ label : 'Description catégorie', item : new generator.TextInput({ min_size : 0 }), name : 'desc' }],
 										 [],
 										 [{ item : tab2_p2_back,  name : 'back_button',  width : 2 }],
 										 []
@@ -224,17 +234,55 @@
 									success_load_clbk : tab2_p2_success_load_clbk,
 									error_load_clbk   : tab2_p2_error_load_clbk,
 									fail_load_clbk    : tab2_p2_fail_load_clbk,
+									success_clbk : function(data) { 
+                  			   			var success = new generator.Message({ type : 'success', title : data.success.title, 
+      				                        message : data.success.msg, 
+      				                        modal : true,
+      				                        dismissible : true
+      				                    });
+                         	    		success.init();
+                         	    		tab2_p2_form.empty();
+                         	    		tab2_p.showPrevious();
+                         	    		// Ici, relancer la pagination
+							        },
 									submits : [{ target : 'admin_change_cat.php', 
 									             value  : generator.icon('tick')+' Modifier la catégorie' 
 									           },
-									           { target : 'admin_delete_cat.php', 
+									           { target : 'admin_del_cat.php', 
 									             value  : generator.icon('cross')+' Supprimer la catégorie' 
 									           }
 									          ]
 								});   
 
-					var tab2_p2 = { elements : [ tab2_p2_form ] };   
+					// Formulaire d'ajout TTbox
+					var tab2_p2_form_new = new generator.Form(
+						        { 	elements :
+										[[{ item  : new generator.Title({ text: "Ajout d'une catégorie" }), name : 'title', width : 4 }],
+										 [{ label : 'Nom catégorie', item : new generator.TextInput({ min_size : 3, check_onkey : true, show_validation : true, }), name : 'name' }],
+										 [{ label : 'Description catégorie', item : new generator.TextInput({ min_size : 0 }), name : 'desc' }],
+										 []
+										],
+									design : "table",
+									target : 'admin_add_cat.php',
+									success_clbk : function(data) { 
+                  			   			var success = new generator.Message({ type : 'success', title : data.success.title, 
+      				                        message : data.success.msg, 
+      				                        modal : true,
+      				                        dismissible : true
+      				                    });
+                         	    		success.init();
+                         	    		tab2_p2_form_new.empty();
+                         	    		tab2_p2_box.hide();
+			                        },
+									submits : [{ target : 'admin_add_cat.php', 
+									             value  : generator.icon('tick')+' Ajouter la catégorie' 
+									           }]
+								});
 
+					tab2_p2_box = new generator.TTBox( { elements : [tab2_p2_form_new], dismiss_on_close : false });
+			        tab2_p2_box.init();
+
+					var tab2_p2 = { elements : [ tab2_p2_form ] };   
 
 					var tab2_p = new generator.Panel({ panels : [ tab2_p1, tab2_p2 ] });                                                             // -- Panneaux du second onglet
 

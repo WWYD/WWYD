@@ -35,8 +35,8 @@ generator.TTBox = function(args) {
 	this.width = args.width || false;
 	this.elements = args.elements || false;
 	this.html = args.html || false;
-	this.dismissible = args.dismissible || true;
-	this.dismiss_on_close = args.dismiss_on_close || true;
+	this.dismissible = typeof args.dismissible == 'undefined' ? true : args.dismissible;
+	this.dismiss_on_close = args.dismiss_on_close;
 	this.creation_callback = args.creation_clbk || false;
 	this.deletion_callback = args.deletion_clbk || false;
 }
@@ -144,6 +144,8 @@ generator.TTBox.prototype.dismiss = function() {
 									me.deletion_clbk();
 							});
 		               });
+
+	console.log("non");
 }
 
 generator.TTBox.prototype.resize = function() {
