@@ -1,6 +1,6 @@
 <?php
 
-	$per_page = 10;
+	$per_page = 5;
 
 	/* Test variables */
 	if (isset($_POST["title"]) AND isset($_POST["resolved"]) AND isset($_POST["category"]) AND isset($_POST["ranking"]) AND isset($_POST["start_"])) {
@@ -39,7 +39,7 @@
 			$str_query .= " ORDER BY topic.date DESC";
 		}
 
-		$str_query .= " LIMIT ?, 3";
+		$str_query .= " LIMIT ?, ".$per_page;
 
 		try {
 			// Requête principale

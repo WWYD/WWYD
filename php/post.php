@@ -1,261 +1,240 @@
 <?php 
 
-	include("header.php");
-	
-	if(isset($_GET["topic_id"])){
-		$st = $_GET["topic_id"];
-		$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(
-			                  PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-							  
-				$topic_query = $bdd->prepare('SELECT * FROM topic WHERE id = '.$st);
-				$topic_query->execute();
+	if(isset($_GET["data"][0])){
 
-				$posts_query = $bdd->prepare('SELECT post.id, content, date,post.user_id, topic_id, is_answer, SUM(value) as note
-											  FROM post left join vote on (post_id = post.id)
-											  WHERE topic_id = '.$st.'
-											  GROUP BY post.id
-											  ORDER BY date ASC');
-				$posts_query->execute();
+		$bdd = BBD_connect();
 
-				$topic_data = $topic_query->fetch();
-				if($topic_data["title"] == NULL)
-				{
-					header("Location: index.php");
-				}
-				$title = $topic_data["title"];
-				$content = $topic_data["content"];
-				$id_author = $topic_data["user_id"];
-				
-				$author_query = $bdd->prepare('SELECT * FROM user WHERE  id= '.$id_author);
-				$author_query->execute();
-				
-				$author_data = $author_query->fetch();
-				$author_name = $author_data["login"];
-				$author_solde = $author_data["nb_point"];
-				$author_grade = $author_data["rank_id"];
-				$author_premium = $author_data["premium"];
-				
-				$query2	= $bdd->query('SELECT user_id FROM topic WHERE id ='.mysql_real_escape_string($_GET['topic_id']));
-				$data = $query2->fetch();	
-		}
-	else
-		header("Location: index.php");
-			
+		// Info du post et du posteur
+		$query = $bdd->prepare("SELECT topic.id as topic_id, topic.title as topic_title, topic.content as topic_content, topic.date as topic_date,
+									   category.id as topic_cat_id, category.name as topic_cat, topic.answered as topic_answered,
+							           user.id as user_id, user.login as user_login, user.nb_point as user_point, user.premium as user_premium, 
+							           user.admin as user_admin, user.banned as user_banned, rank.name as  user_rank
+							    FROM topic
+							    LEFT JOIN user ON user.id = topic.user_id
+							    LEFT JOIN rank ON user.rank_id = rank.id
+							    LEFT JOIN category ON category.id = topic.category_id
+							    WHERE topic.id = ?");
+		$query->execute(array($_GET["data"][0]));
+
+
+		if($data = $query->fetch()) {
+			$topic = array();
+			$topic['id'] = $data['topic_id'];
+			$topic['title'] = $data['topic_title'];
+			$topic['content'] = $data['topic_content'];
+			$topic['date'] = $data['topic_date'];
+			$topic['cat_id'] = $data['topic_cat_id'];
+			$topic['topic_cat'] = $data['topic_cat'];
+			$topic['answered'] = $data['topic_answered'];
+
+			$user = array();
+			$user['id'] = $data['user_id'];
+			$user['login'] = $data['user_login'];
+			$user['point'] = $data['user_point'];
+			$user['premium'] = $data['user_premium'];
+			$user['admin'] = $data['user_admin'];
+			$user['banned'] = $data['user_banned'];
+			$user['rank'] = $data['user_rank'];
+		} else
+			header("Location: ?/");
+
+	} else
+		header("Location: ?/");
 ?>
+
+		<!-- Question -->
 		<div style="min-height: 250px; width: 100%;  background-color: #DEDEDE;">
+
+			<!-- Titre & question -->
 			<div class="content" style="padding: 30px; margin-right: 390px;">
-				<p style="font-size: 22pt; padding-left: 20px;"><i>"<?php echo $title; ?>"</i></p>
-				<p><?php echo $content; ?></p>
+				<p style="font-size: 22pt; padding-left: 20px;"><i>"<?php echo $topic['title']; ?>"</i></p>
+				<p><?php echo $topic['content']; ?></p>
 			</div>
 			
+			<!-- Badge utilisateur -->
 			<div class="content-elem login" style="width: 390px; position: absolute; top: 60px; right: 10px; z-index: 1;">
 				<div class="content-bordered">
 					<p>
-						<img src="../img/apple-touch-icon-57x57-precomposed.png" alt="#" class="thumbnail"></img>
-                        	<?php
-                            	echo '<span class="span-user-name" >&nbsp;&nbsp;<a href="profil.php">'.$author_name.'</a></span>';
-								echo '<hr/>';
-								echo '<ul class="list-unstyled">';
-								echo '<li><b>Solde :</b> <span class="badge"> '.$author_solde.' points</span></li>';
-								
-								$query = $bdd->prepare('SELECT name FROM rank WHERE id = :nb');
-								$query->bindValue(':nb', $author_grade, PDO::PARAM_INT);
-								$query->execute();
-								$data = $query->fetch();
-								echo '<li><b>Grade :</b> '.$data['name'].'</li>';
-								if (isset($_SESSION['user']))
-								{
-									if($_SESSION["user"]["premium"])
-										echo '<li><b>Premium :</b> Oui</li>';
-								}
-								else
-									echo '<li><b>Premium :</b> Non</li>';
-							?>
+						<img src="img/icon.png" alt="#" class="thumbnail"></img>
+                    	<span class="span-user-name" >&nbsp;&nbsp;
+                    		<a href="/?/profil.html/<?php echo $user['id']; ?>" class="<?php if ($user['banned']) { echo "admin-ban"; } else if ($user['premium']) { echo "admin-login"; } ?>">
+                    			<?php echo $user['login']; ?>
+                    		</a>
+                    	</span>
+						<hr/>
+						<ul class="list-unstyled">
+							<li>
+								<b>Solde :</b><span class="badge"><?php echo $user['point']; ?> points</span>
+							</li>
+							<li>
+								<b>Grade :</b> <?php echo $user['rank']; ?>
+							</li>
+							<li>
+							 	<b>Premium :</b>
+								<?php if ($user['premium']) { ?> Oui <?php } else { ?> Non <?php } ?>
+							</li>
 						</ul>
 					</p>
 				</div>
 			</div>
 		</div>
 		
+		<!-- Réponses -->
 		<section>
 			<section style="width: 66.6%; float: left;">
-				<div class="content">
-					<div class="content-group" id="content-group">
+				<div class="content" id="content">
 
-					<?php 
-
-					// Si user connecté, on fait apparaitre le bouton pour poster une réponse
-					if (isset($_SESSION['user']))
-					{
-						echo '<div class="content-elem">';
-							echo '<div class="content-bordered btn" id="respond_display_button_zone">';
-								echo '<span style="margin-left: 45%" id="respond_display_button">Répondre</span>';
-							echo '</div>';
-						echo '</div>';
-					}
-					else
-					{
-						echo '<div class="content-elem">';
-							echo '<div class="content-bordered btn connection" style="background-image: linear-gradient(rgb(240, 240, 240) 0px, rgb(220, 220, 220) 100%); border: solid 1px #777">';
-								echo '<span style="margin-left: 38%; color: black;">Connectez-vous pour répondre</span>';
-							echo '</div>';
-						echo '</div>';
-					}
-					?>
+					<!-- Zone de réponses -->
+					<?php if (is_co()) { 
+							if($_SESSION['user']['banned']) { ?>
+						<div class="content-elem">
+							<div class="content-bordered btn btn-disabled center">Le utilisateurs bannis ne peuvent pas répondre</div>
+						</div>
+						<?php } else { ?>
+						<div class="content-elem">
+							<div class="content-bordered btn center" id="respond_display_button_zone">Répondre</div>
+						</div>
+					<?php }
+						} else { ?>
+						<div class="content-elem">
+							<div class="content-bordered btn btn-disabled center">
+								Connectez-vous pour répondre
+							</div>
+						</div>
+					<?php } ?>
 
 					<div class="content-elem" id="respond-zone" style="display: none">
 						<div class="content-bordered respond-zone">
 							<textarea id="reponse_textzone"></textarea>
 							<p style="height: 20px; padding-right: 0px;">
 								<button type="button" class="btn" id="comment_button" style="float: right">
-									Répondre <span class="respond"></span>
+									Répondre <span class="icon respond"></span>
 								</button>
 							</p>
 						</div>
 					</div>	
 
-
+					<!-- Réponses -->
 					<?php
+
+					// Liste des messages
+					$query = $bdd->prepare("SELECT post.id as id, post.content as content, post.date as date, post.is_answer as is_answer,
+											       user.id as poster_id, user.login as login, user.premium as premium, user.admin as admin, user.banned as banned,
+											       COALESCE(SUM(vote.value), 0) as value
+											FROM post
+											LEFT JOIN user ON user.id = post.user_id
+											LEFT JOIN vote ON vote.post_id = post.id
+											WHERE post.topic_id = ?
+											GROUP BY post.id ");
+					$query->execute(array($topic['id']));
+
 					$empty = true;
 
-					$r = "";
-					$answer = "";
-
-					while($comment = $posts_query->fetch())
-					{
+					while($data = $query->fetch()) {
 						$empty = false;
-						$comment_author_query = $bdd->prepare('SELECT login, premium FROM user WHERE id = '.$comment["user_id"]);
-						$comment_author_query->execute();
-						$comment_author = $comment_author_query->fetch(PDO::FETCH_ASSOC);
-						
-						// TODO: Gérer ca au niveau SQL
-						if ($comment["note"] == null)
-							$comment["note"] = 0;
 
-						if($comment_author["premium"] == 1)
-							$premium = '<span class="badge" style="background-color: rgb(236, 151, 31)">Premium</span>';
-						else
-							$premium = '';
-						
-						//$query = $bdd->query('SELECT answered FROM topic WHERE topic_data["id"]');
-						if($comment['is_answer']) {
-							$answer = '<div class="content-elem select-answer">'.
-		                              '<div class="content-bordered">'.
-									     '<div class="content-bordered-title">'.
-										     '<h4 class="panel-title">'.$comment_author["login"].' '.
-											     '<span class="badge" style="background-color: rgb(236, 151, 31)">Réponse séléctionnée</span>'.' '.$premium.
-												     '<span style="float: right">'.
-													     '<span class="badge" id="badgeInt">'.$comment["note"].'</span>&nbsp;&nbsp;'.
-													     '<span class="like"><input type="hidden" value="'.$comment["id"].'"></span>'.
-													     '<span class="dislike"><input type="hidden" value="'.$comment["id"].'">'.
-												     '</span>'.
-											     '</span>'.
-										     '</h4>'.
-									     '</div>'.
-									     '<p style="font-size: 12pt">'.$comment["content"].'</p>'.
-								     '</div>'.
-							     '</div>'; 
+						?>
+						<div class="content-elem <?php if($data["is_answer"]) { echo "select-answer"; } ?>" rel="<?php echo $data["id"]; ?>" >
+							<div class="content-bordered">
+								<div class="content-bordered-title">
+									<h4 class="panel-title">
+										<a href="?/profil.html/<?php echo $data["poster_id"]; ?>">
+											<?php echo $data["login"]; ?>
+										</a>
+										<?php if($data['is_answer']) { ?> <span class="badge" style="background-color: rgb(236, 151, 31)">Réponse séléctionnée</span> <?php }
+											  if($data['premium'])   { ?> <span class="badge-premium">Premium</span><?php } 
+										?>
+										<span style="float: right">
+											<span class="badge badgeInt"><?php echo $data["value"]; ?></span>&nbsp;&nbsp;
+											<span class="icon like"><input type="hidden" value="<?php echo $data["id"]; ?>"></span>
+											<span class="icon dislike"><input type="hidden" value="<?php echo $data["id"]; ?>"></span>
+										</span>
+									</h4>
+								</div>
+								<p style="font-size: 12pt"><?php echo $data["content"]; ?></p>
+								<?php
+									if(is_co() AND !$topic['answered'] AND $user['id'] == $_SESSION['user']['id'] AND $data['poster_id'] != $user['id']) {
+										?> <button class="answered_button btn btnsmall" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -33px; margin-right: 5px;" >Sélectionner comme réponse</button> <?php
+									}
+								?>
+							</div>
+						</div>
+					<?php } 
 
-						} else {
-							$r  .= 	'<div class="content-elem" id="_'.$comment["id"].'">'.
-	                                  	'<div class="content-bordered">'.
-									     	'<div class="content-bordered-title">'.
-										     	'<h4 class="panel-title">'.
-											     	$comment_author["login"].' '.$premium.
-											     	'<span style="float: right">'.
-											     		'<span class="badge" id="badgeInt">'.$comment["note"].'</span>&nbsp;&nbsp;'.
-											     		'<span class="like"><input type="hidden" value="'.$comment["id"].'"></span>'.
-											     		'<span class="dislike"><input type="hidden" value="'.$comment["id"].'"></span>'.
-											     	'</span>'.
-										     	'</h4>'.
-									     	'</div>'.
-								     		'<p style="font-size: 12pt">'.$comment["content"].'</p>';
-											
-							if (isset($_SESSION['user']))
-							{
-								if($_SESSION['user']['id'] == $id_author && !$topic_data['answered'])
-									$r .= '<input id="'.$comment["id"].'" class="answered_button" type="checkbox" class="form-connection"></input>';
-							}
-							
-							$r .= '</div>'.'</div>'; 
-						 }
-					}
+					if($empty) { ?>
+						<div class="content-group" id="noans" style="display: block;">
+							<span class="info" style="margin-top: 15px;">
+								<h2>Aucune réponse</h2>
+								Ce sujet n'a encore reçu aucune réponse. Soyez le premier !
+							</span>
+						</div>
+					<?php } ?>
 
-					echo $answer;
-					echo $r;
-
-					if($empty == true)
-					{
-						echo '<div class="content-elem info" id="noans">';
-							echo'<p style="font-size: 12pt"><h2>Résultat vide</h2>Il n\'y a pas encore de réponse pour ce topic</p>';
-						echo '</div>';
-					}
-					?>
 					<script type="text/javascript">
+					$(document).ready(function () {
 						var id;
-						$(".answered_button").click(function (){
-							id = this.id;
+
+						// Selection de la réponse
+						$(".answered_button").click(function (e){
+							id = $(e.target).attr("rel");
 							$.ajax({
   								type: "POST",
-								url: "select_answer_post.php",
-								data: { post_id : id}
+								url: "php/script/post_select_answer.php",
+								data: { post_id : id, topic_id : '<?php echo $_GET["data"][0]; ?>' }
 							})
 							.done(function( msg ) {
-								$(".answered_button").slideUp(200);
-								$("#_"+id).children().children(".content-bordered-title").css("background-image", "linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%)");
-								$("#_"+id).children().css("box-shadow", "0px 0px 5px 0px #d58512");
+								$(".answered_button").fadeOut(200);
+								console.log($("[rel="+id+"]"));
+								$(".content-elem[rel="+id+"] .content-bordered-title").css("background-image", "linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%)");
+								$("[rel="+id+"]").children().css("box-shadow", "0px 0px 5px 0px #d58512");
 							  });
 						});
 							
-						// Si le premier bouton "Répondre" est cliqué, on fait apparaitre un champ de texte pour rédiger
-						// et un deuxième bouton Répondre pour valider l'envoi.
-						// Le premier bouton devient "Masquer" pour annuler la rédaction
+						// Réponse défillante
 						$("#respond_display_button_zone").click(function(){
 							$("#respond-zone").slideToggle(200, function(){
-							if($("#respond_display_button").text() == "Répondre")
-								$("#respond_display_button").text("Masquer");
+							if($("#respond_display_button_zone").text() == "Répondre")
+								$("#respond_display_button_zone").text("Masquer");
 							else
-								$("#respond_display_button").text("Répondre");
+								$("#respond_display_button_zone").text("Répondre");
 							});
 						});
 
-
-						// Deuxième bouton "Répondre" cliqué -> envoi du commentaire via ajax
+						// Deuxième bouton "Répondre"
 						$("#comment_button").click(function (){
 							$.ajax({
   								type: "POST",
-								url: "replyPost.php",
-								data: { content: $("#reponse_textzone").val(), topic_id: "<?php echo $_GET['topic_id']; ?>" }
+								url: "php/script/post_reply.php",
+								data: { content: $("#reponse_textzone").val(), topic_id: '<?php echo $_GET["data"][0]; ?>' }
 							})
 							.done(function( msg ) {
-							    $("#content-group").append($(msg));
-							    $("#reponse_textzone").val("");
-							    $("#appears").fadeIn(200);	
+							    $("#content").append($(msg));
 							    $("#noans").slideToggle(200);
-							    $("#respond_display_button").text("Répondre");
-							    $("#respond-zone").slideToggle(200);
-							  });
-							});
 
-						$(".dislike").click(function() 
-						{
+							    $("#appears").fadeIn(200);	
+
+							    $("#respond_display_button_zone").fadeOut(200);
+							    $("#respond-zone").slideToggle(200);
+							});
+						});
+
+						// Votes
+						$(".dislike").click(function() {
 							console.log('dislike');
 							var me = $(this);
 
 							$.ajax({
 								type: "POST",
-								url: "vote.php",
+								url: "php/script/post_vote.php",
 								data: {
 									post_id: $(this).find('input').val(),
 									vote_type: "dislike"
 								}
 							})
-							.done(function( msg ) 
-							{
+							.done(function( msg ) {
 								console.log(msg);
 
-								if (msg == "Vote bien pris en compte")
-								{					
+								if(msg.indexOf("Succès") == 0) {					
 									var badge = me.prevAll('.badge').eq(0);
 									badge.text((parseInt(badge.text())) - 1);
 								}	
@@ -269,35 +248,30 @@
 
 							$.ajax({
 								type: "POST",
-								url: "vote.php",
+								url: "php/script/post_vote.php",
 								data: {
 									post_id: $(this).find('input').val(),
 									vote_type: "like"
 								}
 							})
-							.done(function( msg ) 
-							{
+							.done(function( msg ) {
 								console.log(msg);
-								if (msg == "Vote bien pris en compte")
-								{					
+
+								if(msg.indexOf("Succès") == 0) {
 									var badge = me.prevAll('.badge').eq(0);
 									badge.text((parseInt(badge.text())) + 1);
-								}	
+								}
 							});
 						});
+					});
 
 					</script>
 					
 						
-					</div>
 				</div>
 			</section>
-			<section style="width: 30.3%; float: left;">
+			<section style="width: 30.3%; float: left; margin-left: 15px;">
 		        <?php
-					include('category.php');
+					include('php/_category.php');
 				?>		
 			</section>
-
-<?php
-	include("footer.php");
-?>

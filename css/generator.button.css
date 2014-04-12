@@ -39,7 +39,7 @@
 }
 
 
-.generated-button.btnsmall {
+.generated-button.btnsmall, .btnsmall {
 	font-size: 80%;
 	padding: 2px 5px;
 	height: 27px;

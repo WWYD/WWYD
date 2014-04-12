@@ -1,5 +1,6 @@
 <?php
-	include("header.php");
+	if(!(is_co() && $_SESSION['user']['admin']))
+		header("Location: ?/");
 ?>
 
 		<div style="width: 100%;  background-color: #DEDEDE;">
@@ -9,7 +10,6 @@
 			</div>
 		</div>
 		
-		<section >
 		<section>
 			<section id="admin-panel" style="width: 100%; float: left;">
 				<!-- Panneau admin Javascript -->
@@ -25,7 +25,7 @@
 				// Premier onglet
 					// Premier panneau - recherche d'utilisateur avec autocompletion
 					var tab1_p1_title = new generator.Title({ text: "Modération utilisateurs" });               // -- titre
-					var tab1_p1_login = new generator.AutoCompleteInput({ placeholder : "Login" });             // -- login avec autocompletion
+					var tab1_p1_login = new generator.AutoCompleteInput({ placeholder : "Login", target : "php/script/search_user.php" });             // -- login avec autocompletion
 
 					var tab1_p1_form = new generator.Form(
 						        { 	elements :
@@ -123,18 +123,18 @@
 									 []
 									],
 									design : "table", 
-									target : "admin_change_user.php", 
-									source : "admin_search_user.php",
+									target : "php/script/admin_change_user.php", 
+									source : "php/script/admin_search_user.php",
 									/*success_clbk : function() { alert("success"); },
 									error_clbk : function() { alert("error"); }, 
 									fail_clbk : generator.Message.prototype.genAjaxError,*/
 									success_load_clbk : tab1_p2_success_load_clbk,
 									error_load_clbk   : tab1_p2_error_load_clbk,
 									fail_load_clbk    : tab1_p2_fail_load_clbk,
-									submits : [{ target : 'admin_change_user.php', 
+									submits : [{ target : 'php/script/admin_change_user.php', 
 									             value  : generator.icon('tick')+' Modifier les informations de l\'utilisateur' 
 									           },
-									           { target : 'admin_delete_user.php', 
+									           { target : 'php/script/admin_delete_user.php', 
 									             value  : generator.icon('cross')+' Supprimer l\'utilisateur' 
 									           }
 									          ]
@@ -179,7 +179,7 @@
 					};
 
 					var tab2_p1_search = new generator.Paginate( {
-				   			    				source    : "admin_show_cat.php",
+				   			    				source    : "php/script/admin_show_cat.php",
 				   			    				page_size : 5,
 				   			    				model     : tab2_p1_func,
 				   			    				data      : {}
@@ -229,8 +229,8 @@
 										 []
 										],
 									design : "table",  
-									target : "admin_change_cat.php", 
-									source : "admin_info_cat.php",
+									target : "php/script/admin_change_cat.php", 
+									source : "php/script/admin_info_cat.php",
 									success_load_clbk : tab2_p2_success_load_clbk,
 									error_load_clbk   : tab2_p2_error_load_clbk,
 									fail_load_clbk    : tab2_p2_fail_load_clbk,
@@ -245,10 +245,10 @@
                          	    		tab2_p.showPrevious();
                          	    		// Ici, relancer la pagination
 							        },
-									submits : [{ target : 'admin_change_cat.php', 
+									submits : [{ target : 'php/script/admin_change_cat.php', 
 									             value  : generator.icon('tick')+' Modifier la catégorie' 
 									           },
-									           { target : 'admin_del_cat.php', 
+									           { target : 'php/script/admin_del_cat.php', 
 									             value  : generator.icon('cross')+' Supprimer la catégorie' 
 									           }
 									          ]
@@ -263,7 +263,7 @@
 										 []
 										],
 									design : "table",
-									target : 'admin_add_cat.php',
+									target : 'php/script/admin_add_cat.php',
 									success_clbk : function(data) { 
                   			   			var success = new generator.Message({ type : 'success', title : data.success.title, 
       				                        message : data.success.msg, 
@@ -274,7 +274,7 @@
                          	    		tab2_p2_form_new.empty();
                          	    		tab2_p2_box.hide();
 			                        },
-									submits : [{ target : 'admin_add_cat.php', 
+									submits : [{ target : 'php/script/admin_add_cat.php', 
 									             value  : generator.icon('tick')+' Ajouter la catégorie' 
 									           }]
 								});
@@ -300,7 +300,3 @@
 
 		-->
 		</script>
-
-<?php
-	include("footer.php");
-?>

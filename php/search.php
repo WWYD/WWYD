@@ -1,18 +1,15 @@
 <?php 
-	$title = "Recherche";
-	include("header.php");
-	$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+	$bdd = BBD_connect();	
 
-	if(isset($_GET['id']))
-		$id = $_GET['id'];
+	if(isset($_GET['data'][0]))
+		$id = $_GET['data'][0]+0;
 	else
 		$id = 0;
-
 ?>
 		<div style="width: 100%;  background-color: #DEDEDE;">
-			<div class="content" style="padding: 30px; margin: auto;">
+			<div class="content" style="padding: 30px; margin: auto; margin-top: -30px;">
 				<p style="font-size: 22pt; padding-left: 20px;">Recherche de question</p>
-				<form class="content-bordered" style="padding: 27px;" id="search-form">
+				<form class="content-bordered" style="padding: 27px; padding-top: 15px;" id="search-form">
 					<table>
 						<tr>
 							<td style="padding-top: 15px;">Titre</td>
@@ -50,7 +47,9 @@
 					    </tr>
 				    </table>
 				</form>
-				<button type="button" id="start-search" class="btn" style=" margin: auto; margin-top: 10px; margin-bottom: -19px;">Lancer la recherche</button>
+				<button type="button" id="start-search" class="btn" style=" margin: auto; margin-top: 10px; margin-bottom: -19px;">
+					Lancer la recherche
+				</button>
 			</div>
 		</div>
 		
@@ -74,20 +73,20 @@
 									'<h4 class="panel-title">'+title+'</h4>'+
 								'</div>'+
 								'<p style="font-size: 12pt">'+
-									'Dans <a href="#?id='+category_id+'"">'+category+'</a> par <a href="#?id='+login_id+'">'+login+'</a> le '+day[2]+'/'+day[1]+'/'+day[0]+' <span class="badge">'+answers+' réponses</span>'+
-									'<a href="post.php?topic_id='+id+'"><button type="button" class="btn btnsmall" style="float: right; margin-top: -2px;">'+
-									'Voir <span class="respond"></span></button></a></p>'+
+									'Dans <a href="?/search.html/'+category_id+'"">'+category+'</a> par <a href="?/profil.html/'+login_id+'">'+login+'</a> le '+day[2]+'/'+day[1]+'/'+day[0]+' <span class="badge">'+answers+' réponses</span>'+
+									'<a href="?/post.html/'+id+'"><button type="button" class="btn btnsmall" style="float: right; margin-top: -2px;">'+
+									'Voir <span class="icon respond"></span></button></a></p>'+
 							'</div>'+
 						   '</div>';
 				}
 
 				function error(div, title, msg) {
-					div.html('<span class="error" style="display: none;"><h2>'+title+'</h2>'+msg+'</span>');
+					div.html('<span class="error" style="display: none; margin-top: 15px;"><h2>'+title+'</h2>'+msg+'</span>');
 					div.children().fadeIn(300);
 				}
 
 				function info(div, title, msg) {
-					div.html('<span class="info" style="display: none;"><h2>'+title+'</h2>'+msg+'</span>');
+					div.html('<span class="info" style="display: none; margin-top: 15px;"><h2>'+title+'</h2>'+msg+'</span>');
 					div.children().fadeIn(300);
 				}
 
@@ -99,6 +98,8 @@
 					var category = $("#category").val();
 					var ranking = $("#ranking").val();
 					var start = 0;
+
+					var perPage = 5;
 
 					function make_search(update) {
 
@@ -112,7 +113,7 @@
 
 						$('html,body').animate({scrollTop: 0}, function() {
 							$.ajax({ type: "POST",
-								  	 url: "search_script.php",
+								  	 url: "php/script/search_topic.php",
 	               					 dataType: "json",
 								     data: { title: title,
 								             resolved: resolved,
@@ -138,7 +139,7 @@
 										    	};
 										    	// Pagination
 										    	result += '<div class="content-elem paginate">';
-										    	for (var i = 0; i*10 < data.size; i++) {
+										    	for (var i = 0; i*perPage < data.size; i++) {
 										    		if(i == data.start)
 										    			result += '<button type="button" class="selected">'+(i+1)+'</button>';
 										    		else
@@ -187,7 +188,3 @@
 
 			-->
 			</script>
-			
-<?php
-	include("footer.php");
-?>

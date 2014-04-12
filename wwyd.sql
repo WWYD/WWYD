@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Ven 07 Mars 2014 à 15:29
--- Version du serveur: 5.5.24-log
--- Version de PHP: 5.4.3
+-- Généré le: Sam 12 Avril 2014 à 03:18
+-- Version du serveur: 5.6.12-log
+-- Version de PHP: 5.4.12
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données: `wwyd`
 --
+CREATE DATABASE IF NOT EXISTS `wwyd` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `wwyd`;
 
 -- --------------------------------------------------------
 
@@ -29,22 +31,26 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Contenu de la table `category`
 --
 
-INSERT INTO `category` (`id`, `name`) VALUES
-(1, 'Humour'),
-(2, 'Général'),
-(3, 'Politique'),
-(4, 'Cinéma'),
-(5, 'Littérature'),
-(6, 'Jeux Vidéo'),
-(7, 'Sport'),
-(8, 'Sexe');
+INSERT INTO `category` (`id`, `name`, `description`) VALUES
+(1, 'Humour', 'Tout ce qui est drôle.'),
+(2, 'Général', ''),
+(3, 'Politique', ''),
+(4, 'Cinéma', ''),
+(5, 'Littérature', 'Vraiment ?'),
+(6, 'Jeux Vidéo', ''),
+(7, 'Sport', ''),
+(8, 'Sexe', ''),
+(9, 'ceci est un test', '123'),
+(10, '12121212', '22222222'),
+(11, '12121212', '');
 
 -- --------------------------------------------------------
 
@@ -62,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `topic_id` (`topic_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
 
 --
 -- Contenu de la table `post`
@@ -86,7 +92,19 @@ INSERT INTO `post` (`id`, `content`, `date`, `user_id`, `topic_id`, `is_answer`)
 (20, 'Il est en cuir ?', '2014-03-07 16:25:58', 4, 4, 0),
 (21, 'Kev Adams, il é tro bô', '2014-03-07 16:27:04', 4, 24, 0),
 (22, 'Sonic c''est la p*te de Mario pendant les JO non ?', '2014-03-07 16:28:02', 4, 25, 0),
-(23, 'Il vibre le canard ?', '2014-03-07 16:28:35', 4, 3, 0);
+(23, 'Il vibre le canard ?', '2014-03-07 16:28:35', 4, 3, 0),
+(24, 'test', '2014-03-08 03:43:36', 1, 2, 0),
+(25, 'Tuer le chat', '2014-03-09 02:18:25', 25, 1, 0),
+(26, 'coucou', '2014-04-11 03:05:21', 4, 1, 0),
+(27, 'ehrq', '2014-04-12 04:39:19', 4, 2, 0),
+(28, 'trsj,kjty', '2014-04-12 04:39:35', 4, 2, 0),
+(29, 'tyektyuk', '2014-04-12 04:40:33', 4, 2, 0),
+(30, 'yflktydl', '2014-04-12 04:40:46', 4, 2, 0),
+(31, 'tyulktuylk', '2014-04-12 04:41:33', 4, 2, 0),
+(32, 'ghfhfhf', '2014-04-12 04:41:47', 4, 25, 0),
+(33, 'gfjdfghj', '2014-04-12 04:44:02', 4, 25, 0),
+(34, 'KYKDTYGDYT', '2014-04-12 04:51:06', 4, 25, 0),
+(35, 'DHDFHDFHFFHDFH', '2014-04-12 04:51:32', 4, 25, 0);
 
 -- --------------------------------------------------------
 
@@ -188,20 +206,22 @@ CREATE TABLE IF NOT EXISTS `user` (
   `nb_euro` int(11) NOT NULL,
   `admin` tinyint(1) NOT NULL,
   `premium` tinyint(1) NOT NULL DEFAULT '0',
+  `banned` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `rank` (`rank_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Contenu de la table `user`
 --
 
-INSERT INTO `user` (`id`, `login`, `mail`, `password`, `first_name`, `last_name`, `rank_id`, `nb_point`, `nb_euro`, `admin`, `premium`) VALUES
-(1, 'Teybeo', 'teybeo@swag.fr', 'password', 'Thibault', 'D''Archivio', 30, 9000, 0, 1, 0),
-(2, 'Guiks', 'guiks@geek.gks', 'password', 'Guillaume', 'Delapré', 30, 9000, 0, 1, 0),
-(3, 'TicTacTaw', 'tic@tac.taw', 'password', 'Thibault', 'Crosnier', 30, 9000, 0, 1, 1),
-(4, 'Vuzi', 'vuzi@vouzi.va', 'password', 'Guillaume', 'Villerez', 30, 9000, 0, 1, 1),
-(5, 'Supnude', 'troll@boulet.biz', 'password', 'Martin', 'Boulet', 1, 42, 0, 0, 0);
+INSERT INTO `user` (`id`, `login`, `mail`, `password`, `first_name`, `last_name`, `rank_id`, `nb_point`, `nb_euro`, `admin`, `premium`, `banned`) VALUES
+(1, 'Teybeo', 'teybeo@swag.fr', 'password', 'Thibault', 'D''Archivio', 30, 9000, 0, 1, 0, 0),
+(2, 'Guiks', 'guiks@geek.gks', 'password', 'Guillaume', 'Delapré', 30, 9000, 0, 1, 0, 0),
+(3, 'TicTacTaw', 'tic@tac.taw', 'password', 'Thibault', 'Crosnier', 30, 9000, 0, 1, 1, 0),
+(4, 'Vuzi', 'vuzi@vouzi.va', 'password', 'Guillaume', 'Villerez', 30, 9000, 0, 1, 1, 0),
+(5, 'Supnude', 'troll@boulet.biz', 'password', 'Martin', 'Boulet', 1, 42, 0, 0, 0, 0),
+(25, 'vuzi4', 'vuzi@vuzi.fr', '123', '', '', 1, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -217,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `vote` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `post_id` (`post_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Contenu de la table `vote`
@@ -246,7 +266,13 @@ INSERT INTO `vote` (`id`, `post_id`, `user_id`, `value`) VALUES
 (20, 11, 4, 1),
 (21, 12, 4, -1),
 (22, 18, 4, 1),
-(23, 13, 4, -1);
+(23, 13, 4, -1),
+(24, 19, 1, 1),
+(25, 10, 1, -1),
+(26, 5, 25, -1),
+(27, 6, 25, 1),
+(28, 24, 4, 1),
+(29, 22, 4, -1);
 
 --
 -- Contraintes pour les tables exportées

@@ -1,8 +1,9 @@
 <?php
-/*
-if(isset($_POST['data'])) {*/
 
-	// Une page en particulier
+session_start();
+
+if(isset($_SESSION['user']) && $_SESSION['user']['admin']) {
+
 	if(isset($_POST['page']) && isset($_POST['page_size'])) {
 		try {
 		    $bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
@@ -37,10 +38,10 @@ if(isset($_POST['data'])) {*/
 	 	} catch(Exception $e) {
 			$result = array('error' => array('title' => 'Erreur', 'msg' => 'Erreur base de données'));
 		}
-	}/*
-} else
-	$result = array('error' => array('title' => 'Erreur', 'msg' => 'Aucune données reçues'));*/
+	}
 
-echo json_encode($result);	
+
+	echo json_encode($result);	
+}
 
 ?>

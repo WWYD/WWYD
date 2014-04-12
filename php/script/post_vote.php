@@ -2,12 +2,12 @@
 
 session_start();
 
-    if (isset($_SESSION['user']['id']) && isset($_POST['post_id']) && isset($_POST['vote_type'])) 
+    if (isset($_SESSION['user']) && isset($_POST['post_id']) && isset($_POST['vote_type'])) 
     {
         try 
         {
             $post_id = mysql_real_escape_string($_POST['post_id']);
-            $user_id = $_SESSION['user']['id'];
+            $user_id = mysql_real_escape_string($_SESSION['user']['id']);
 
             $bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
            
@@ -18,20 +18,24 @@ session_start();
             {
                 if($_POST['vote_type'] == 'like')
                     $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", 1)');
-                if($_POST['vote_type'] == 'dislike')
+                else if($_POST['vote_type'] == 'dislike')
                     $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", -1)');
-                
+                else {
+                    echo "Erreur : Type vote";
+                    exit();
+                }
+
                 if ($query == FALSE)
-                    echo "Erreur: Requête invalide";
+                    echo "Erreur : Requête invalide";
                 else
-                    echo "Vote bien pris en compte";
+                    echo "Succès : Vote bien pris en compte";
             } else
-                echo "Vous avez déja voté";
+                echo "Erreur : Vous avez déja voté";
                
         } catch ( Exception $e ) {
-            echo 1;
+             echo "Erreur : BDD";
         }
     }
     else
-        echo "Erreur";
+        echo "Erreur : Connexion";
 ?>

@@ -31,6 +31,11 @@ h3 {
 	font-size: 24px;
 	font-weight: normal;
 }
+
+.center {
+	text-align: center;
+}
+
 /********************/
 
 
@@ -53,6 +58,7 @@ h3 {
 .content-bordered .content-bordered-title .panel-title {
 	margin: 5px;
 	font-weight: normal;
+
 }
 
 
@@ -139,6 +145,18 @@ header {
 	-webkit-animation-play-state:running;
 }
 
+.main-title {
+	font-weight: bold;
+}
+
+.main-title span:nth-child(odd) {
+	color: #E19118;
+}
+
+.main-title span:nth-child(even) {
+	color: #EEEEEE;
+}
+
 #header-login {
 	float: left;
 	display: block;
@@ -149,6 +167,10 @@ header {
 
 .deconnection {
 	float: right;
+}
+
+.connection {
+
 }
 
 @media screen and (max-width: 1022px) {
@@ -194,6 +216,20 @@ header {
 	padding-right: 6px;
 	white-space: nowrap;
 }
+
+.badge-premium {
+	background-image: linear-gradient(rgb(240, 173, 78) 0px, rgb(236, 151, 31) 100%);
+	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 2px 2px 0px;
+	color: white;
+	font-weight: bold;
+	border-radius: 8px;
+	font-size: 70%;
+	padding: 2px;
+	padding-left: 6px;
+	padding-right: 6px;
+	white-space: nowrap;
+}
+
 /********************/
 
 /* Listes */
@@ -265,52 +301,21 @@ header {
 }
 
 .respond:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\e095";
 }
 
 .home:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\e021";
 }
 
 
 .contact:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\e041";
 }
 
 .like:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\2b";
+	font-size: 80%;
 }
 
 .like:hover {
@@ -319,15 +324,8 @@ header {
 }
 
 .dislike:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\2212";
+	font-size: 80%;
 }
 
 .dislike:hover{
@@ -336,53 +334,25 @@ header {
 }
 
 .ok-sign:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\e084";
 	color: green;
 }
 
 .false:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\e083";
 	color: red;
 }
 
 .best:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\e013";
 }
 
 .search:before {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	-webkit-font-smoothing: antialiased;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 1;
 	content: "\e003";
+}
+
+.chev-right:before {
+	content: "\e011";;
 }
 
 
@@ -403,6 +373,33 @@ header {
 	display: block;
 }
 
+.btn.button-style2 {
+	margin-top: -7px;
+	padding-left: 30px;
+	padding-right: 30px;
+	background-image:
+	linear-gradient(rgb(50, 50, 50) 0px, rgb(25, 25, 25) 100%);
+}
+.btn.connection, .btn.registration {
+	margin-top: -7px;
+	margin-right: 15px;
+	padding-left: 30px;
+	padding-right: 30px;
+	float: right;
+}
+
+.btn.registration {
+	background-image: linear-gradient(rgb(50, 50, 50) 0px, rgb(25, 25, 25) 100%);
+}
+
+.btn.deconnection {
+	margin-top: -7px;
+	margin-right: -15px;
+	margin-left: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
 .btn:hover {
 	border-color: #d58512;
 	cursor: pointer;
@@ -414,10 +411,10 @@ header {
 	box-shadow: inset 0px 2px 5px 0px #656565;
 }
 
-.btn:disabled {
+.btn:disabled, .btn-disabled {
 	background-image: linear-gradient(rgb(245, 245, 245) 0px, rgb(232, 232, 232) 100%);
 	border: 1px solid lightgray;
-	color: lightgray;
+	color: gray;
 }
 /********************/
 
@@ -448,7 +445,7 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 /********************/
 
 /* Contenu page */
-section {
+section, footer {
 	max-width: 1200px;
 	margin: auto;
 	padding-right: 0px;
@@ -512,6 +509,22 @@ section {
 	margin-top: -60px;
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.admin-login {
+	color : darkred;
+}
+
+.admin-login:hover {
+	color : darkred;
+}
+
+.admin-ban {
+	color: gray;
+}
+
+.admin-ban:hover {
+	color: gray;
 }
 
 @media screen and (max-width: 1100px) {
@@ -646,18 +659,6 @@ p a {
 p a:hover {
 	color: #2a6496;
 	text-decoration: underline;
-}
-
-.icon {
-	position: relative;
-	top: 1px;
-	display: inline-block;
-	font-family: 'Glyphicons Halflings';
-	font-style: normal;
-	font-weight: 400;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 .copyright {
