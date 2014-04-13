@@ -6,7 +6,7 @@
 
 		// Info du post et du posteur
 		$query = $bdd->prepare("SELECT topic.id as topic_id, topic.title as topic_title, topic.content as topic_content, topic.date as topic_date,
-									   category.id as topic_cat_id, category.name as topic_cat, topic.answered as topic_answered,
+									   category.id as topic_cat_id, category.name as topic_cat, topic.answered as topic_answered, topic.pot_point as points,
 							           user.id as user_id, user.login as user_login, user.nb_point as user_point, user.premium as user_premium, 
 							           user.admin as user_admin, user.banned as user_banned, rank.name as  user_rank
 							    FROM topic
@@ -26,6 +26,7 @@
 			$topic['cat_id'] = $data['topic_cat_id'];
 			$topic['topic_cat'] = $data['topic_cat'];
 			$topic['answered'] = $data['topic_answered'];
+			$topic['points'] = $data['points'];
 
 			$user = array();
 			$user['id'] = $data['user_id'];
@@ -84,6 +85,22 @@
 			<section style="width: 66.6%; float: left;">
 				<div class="content" id="content">
 
+					<!-- Information sur le message -->
+					<div class="content-bordered content-elem" style="margin-top : 10px; margin-bottom: -8px;">
+						<p style="font-size: 12pt">
+							<ul><li>
+						Aucune réponse n'est selectionnée.</li>
+							<?php if($topic['points'] > 0 AND !$topic['answered']) { ?>
+							<li>Répondez, et si votre réponse est selectionnée vous gagnerez <span class="badge"><?php echo $topic['points']; ?></span> points !</li>
+							<?php } else if($topic['answered']) { ?>
+							<li>Une réponse à été sélectionnée !</li>
+							<?php } ?>
+							<li>Les autres utilisateurs peuvent également voter pour vous et vous faire gagner des points !</li>
+							
+							</ul>
+						</p>
+					</div>
+
 					<!-- Zone de réponses -->
 					<?php if (is_co()) { 
 							if($_SESSION['user']['banned']) { ?>
@@ -118,7 +135,7 @@
 					<?php
 
 					// Liste des messages
-					$query = $bdd->prepare("SELECT post.id as id, post.content as content, post.date as date, post.is_answer as is_answer,
+					$query = $bdd->prepare("SELECT post.id as id, post.content as content, DATE_FORMAT(post.date, '%d/%m/%y - %Hh%i') as date, post.is_answer as is_answer,
 											       user.id as poster_id, user.login as login, user.premium as premium, user.admin as admin, user.banned as banned,
 											       COALESCE(SUM(vote.value), 0) as value
 											FROM post
@@ -134,15 +151,25 @@
 						$empty = false;
 
 						?>
-						<div class="content-elem <?php if($data["is_answer"]) { echo "select-answer"; } ?>" rel="<?php echo $data["id"]; ?>" >
+						<div class="content-elem <?php 
+							if($data["is_answer"]) { echo "select-answer"; }
+
+							if($data["value"]+0 < 0 AND $data["value"]+0 >= -3 ) { echo " disliked-1"; }            // 0 à -3
+							else if($data["value"]+0 < -3 AND $data["value"]+0 > -10 ) { echo " disliked-2"; }  // -3 à -10
+							else if($data["value"]+0 < -10) { echo " disliked-3"; }  // -10 à --
+							?>"                 
+							rel="<?php echo $data["id"]; ?>" >
 							<div class="content-bordered">
 								<div class="content-bordered-title">
 									<h4 class="panel-title">
 										<a href="?/profil/<?php echo $data["poster_id"]; ?>">
 											<?php echo $data["login"]; ?>
 										</a>
+										<span class="date">[<?php echo $data['date']; ?>]</span>
 										<?php if($data['is_answer']) { ?> <span class="badge" style="background-color: rgb(236, 151, 31)">Réponse séléctionnée</span> <?php }
 											  if($data['premium'])   { ?> <span class="badge-premium">Premium</span><?php } 
+											  if($data['admin'])     { ?> <span class="badge-admin">Admin</span><?php } 
+											  if($data['banned'])     { ?> <span class="badge">Banni</span><?php } 
 										?>
 										<span style="float: right">
 											<span class="badge badgeInt"><?php echo $data["value"]; ?></span>&nbsp;&nbsp;

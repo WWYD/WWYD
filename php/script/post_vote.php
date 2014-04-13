@@ -19,7 +19,7 @@ session_start();
                 if($_POST['vote_type'] == 'like')
                     $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", 1)');
                 else if($_POST['vote_type'] == 'dislike')
-                    $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", -1)');
+                    $query = $bdd->query('INSERT INTO vote VALUES (default, "'.$post_id.'", "'.$user_id.'", -515)');
                 else {
                     echo "Erreur : Type vote";
                     exit();

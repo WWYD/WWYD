@@ -74,7 +74,7 @@ if(isset($_SESSION['user'])) {
 				   		$id = -1;
 
 				    // On enlève les points à l'utilisateur
-				    $query = $bdd->prepare('UPDATE user SET pot_point = (pot_point - ?) WHERE id = ?');
+				    $query = $bdd->prepare('UPDATE user SET nb_point = (nb_point - ?) WHERE id = ?');
 				    $query->execute(array($data->pot_point, $_SESSION['user']['id']));
 
 					

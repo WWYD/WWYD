@@ -225,6 +225,19 @@ header {
 	white-space: nowrap;
 }
 
+.badge-admin {
+	background-color: darkred;
+	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 2px 2px 0px;
+	color: white;
+	font-weight: bold;
+	border-radius: 8px;
+	font-size: 70%;
+	padding: 2px;
+	padding-left: 6px;
+	padding-right: 6px;
+	white-space: nowrap;
+}
+
 .badge-premium {
 	background-image: linear-gradient(rgb(240, 173, 78) 0px, rgb(236, 151, 31) 100%);
 	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 2px 2px 0px;
@@ -283,6 +296,10 @@ header {
 
 .floppy-disk:before {
 	content: "\e172";
+}
+
+.warning-sign:before {
+	content: "\e101";
 }
 
 .tick:before {
@@ -672,6 +689,26 @@ td span
 	box-shadow: 0px 0px 5px 0px #d58512;
 }
 /********************/
+
+.disliked-1:hover, .disliked-2:hover, .disliked-3:hover {
+	opacity: 1;
+}
+
+.disliked-1, .disliked-2, .disliked-3 {
+	transition: opacity .3s linear;
+}
+
+.disliked-1 {
+	opacity: 0.7;
+}
+
+.disliked-2 {
+	opacity: 0.5;
+}
+
+.disliked-3 {
+	opacity: 0.2;
+}
 
 p a {
 	color: #428bca;
