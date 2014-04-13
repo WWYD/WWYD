@@ -493,29 +493,42 @@ generator.TextArea.prototype.init = function() {
 	}
 }
 
-generator.TextInput.prototype.keyListener = function(f) {
-	this.element.on('keypress', function(e) {
-		f(e);
-	});
+generator.TextArea.prototype.getValue = generator.TextInput.prototype.getValue
+generator.TextArea.prototype.setValue = generator.TextInput.prototype.setValue
+
+
+
+generator.Hidden = function(args) {
+	this.cls = "form-connection";
+	this.renderTo = args.render_to || false;
+	this.default = args.default || "";
+	this.css = args.css || null;
 }
 
-generator.TextInput.prototype.getValue = function() {
+generator.Hidden.prototype.setRenderTo = function(renderer) {
+	this.renderTo = renderer;
+}
+
+generator.Hidden.prototype.init = function() {
 	var me = this;
 
-	if(me.element) {
-		return me.element.val();
+	if(me.renderTo) {
+		me.element = $('<input type="hidden" />');
+
+		me.element.val(this.default);
+
+		me.element.addClass(me.cls);
+		me.element.addClass("form-connection");
+
+		me.renderTo.append(me.element);
+		
+		if(me.css)
+			me.element.css(me.css);
+
 	} else {
-		console.log("Pas d'element initialisé'");
-		return false;
+		console.log("Pas de renderTo défini");
 	}
 }
 
-generator.TextInput.prototype.setValue = function(value) {
-	var me = this;
-
-	if(me.element)
-		me.element.val(value);
-	else
-		console.log("Pas d'element initialisé'");
-
-}
+generator.Hidden.prototype.getValue = generator.TextInput.prototype.getValue
+generator.Hidden.prototype.setValue = generator.TextInput.prototype.setValue

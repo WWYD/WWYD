@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 12 Avril 2014 à 03:18
+-- Généré le: Dim 13 Avril 2014 à 14:18
 -- Version du serveur: 5.6.12-log
 -- Version de PHP: 5.4.12
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `name` varchar(50) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Contenu de la table `category`
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `topic_id` (`topic_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
 
 --
 -- Contenu de la table `post`
@@ -104,7 +104,14 @@ INSERT INTO `post` (`id`, `content`, `date`, `user_id`, `topic_id`, `is_answer`)
 (32, 'ghfhfhf', '2014-04-12 04:41:47', 4, 25, 0),
 (33, 'gfjdfghj', '2014-04-12 04:44:02', 4, 25, 0),
 (34, 'KYKDTYGDYT', '2014-04-12 04:51:06', 4, 25, 0),
-(35, 'DHDFHDFHFFHDFH', '2014-04-12 04:51:32', 4, 25, 0);
+(35, 'DHDFHDFHFFHDFH', '2014-04-12 04:51:32', 4, 25, 0),
+(36, 'ndbfqdfgngt', '2014-04-13 02:45:48', 4, 1, 0),
+(37, 'xxxxx', '2014-04-13 02:46:41', 4, 1, 0),
+(38, 'cccc', '2014-04-13 02:47:09', 4, 2, 0),
+(39, 'bbbbb', '2014-04-13 02:50:34', 4, 1, 0),
+(40, 'dfdfd', '2014-04-13 03:19:35', 4, 2, 0),
+(41, 'rtjfghj', '2014-04-13 15:13:01', 4, 28, 0),
+(42, 'ghkgh', '2014-04-13 15:54:54', 4, 28, 0);
 
 -- --------------------------------------------------------
 
@@ -173,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `topic` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`category_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 --
 -- Contenu de la table `topic`
@@ -186,7 +193,14 @@ INSERT INTO `topic` (`id`, `title`, `content`, `date`, `user_id`, `category_id`,
 (4, 'Un portefeuille trouvé.', 'Problème épineux, dois-je le garder ou non ?', '2014-02-12 00:00:00', 2, 2, 0, 0, 0),
 (23, 'Un entretien avec DSK', 'Laisseriez votre fille avoir un entretien d''embauche avec Dominique Strauss-Kahn ?', '2014-01-07 07:39:04', 4, 3, 1, 0, 0),
 (24, 'Patrick Timsit ou Kev Adams ?', 'Suite à une visite chez ma voyante préférée, on m''a annoncé que mon fils aurait soit le physique de Patrick Timsit soit l''intelligence de Kev Adams.\r\nJ''ai peur et je ne sais pas ce que je préfèrerais. Qu''en pensez-vous ?', '2014-03-01 12:41:18', 1, 4, 0, 0, 0),
-(25, 'Sonic ou Mario ?', 'C''est l''éternel débat qui recommence.', '2014-02-12 10:32:22', 3, 6, 0, 0, 0);
+(25, 'Sonic ou Mario ?', 'C''est l''éternel débat qui recommence.', '2014-02-12 10:32:22', 3, 6, 0, 0, 0),
+(27, 'tess', 'frgfsdg', '2014-04-13 00:00:00', 2, 1, 0, 122, 0),
+(28, 'Bonjour', 'coucouc\n', '2014-04-13 00:00:00', 4, 1, 0, 200, 0),
+(29, '12121', '2121', '2014-04-13 00:00:00', 4, 1, 0, 14, 0),
+(30, 'vvvvv', 'vvvvvv', '2014-04-13 00:00:00', 4, 1, 0, 1, 0),
+(31, '-&egrave;klotl-kl-_u&egrave;kt', 'l-kt&egrave;_lkt-&egrave;ultk-&egrave;', '2014-04-13 00:00:00', 4, 1, 0, 4, 0),
+(32, 'eee', 'eeee', '2014-04-13 15:58:34', 1, 1, 0, 0, 0),
+(33, 'fgjfgjfgj', 'yjkjkyrtfjryjy', '2014-04-13 15:59:05', 4, 1, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -209,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `banned` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `rank` (`rank_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Contenu de la table `user`
@@ -237,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `vote` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `post_id` (`post_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 --
 -- Contenu de la table `vote`
@@ -272,7 +286,11 @@ INSERT INTO `vote` (`id`, `post_id`, `user_id`, `value`) VALUES
 (26, 5, 25, -1),
 (27, 6, 25, 1),
 (28, 24, 4, 1),
-(29, 22, 4, -1);
+(29, 22, 4, -1),
+(30, 27, 4, 1),
+(31, 28, 4, -1),
+(32, 29, 4, 1),
+(33, 41, 4, 1);
 
 --
 -- Contraintes pour les tables exportées

@@ -54,6 +54,7 @@
 
 
 	function parse_date($date) {
+		return $date;
 		$date = explode(" ", $date);
 
 		// Heure

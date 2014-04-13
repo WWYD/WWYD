@@ -71,7 +71,7 @@
 							</div>
 							<ul class="list-unstyled">
 							<?php
-								$query = $bdd->prepare("SELECT topic.id AS id, topic.title AS title, post.date AS date, COUNT(post.id) AS nb_post
+								$query = $bdd->prepare("SELECT topic.id AS id, topic.title AS title, DATE_FORMAT(topic.date, '%d/%m/%y - %Hh%i') AS date_, topic.pot_point as points, COUNT(post.id) AS nb_post, topic.answered AS answered
 														FROM category
 														RIGHT JOIN topic ON topic.category_id = category.id
 														LEFT JOIN post ON post.topic_id = topic.id
@@ -85,10 +85,15 @@
 								while($data = $query->fetch()){ ?>
 
 								<li>
-										<span class="date">[<?php echo parse_date($data['date']); ?>]</span>
+										<span class="date">[<?php echo $data['date_']; ?>]</span>
 										<a href="?/post/<?php echo $data['id']; ?>">
 											<?php echo $data['title']; ?>
-											<span class="badge" style="float: right; margin-right: 10px;"><?php echo $data['nb_post']; ?></span>
+											<span class="badge" style="float: right; margin-right: 10px;"><?php echo $data['nb_post']; ?> rep.</span>
+											<?php if($data['points'] > 0 AND !$data['answered']) { ?>
+											<span class="badge" style="float: right; margin-right: 10px;"><?php echo $data['points']; ?> points</span>
+											<?php } else if ($data['answered']) {  ?>
+											<span class="badge-premium" style="float: right; margin-right: 10px;">Répondu</span>
+											<?php } ?>
 										</a>
 								</li>
 				
@@ -105,7 +110,7 @@
 
 							<ul class="list-unstyled">
 							<?php
-								$query = $bdd->prepare("SELECT topic.id AS id, topic.title AS title, post.date AS date, COUNT(post.id) AS nb_post
+								$query = $bdd->prepare("SELECT topic.id AS id, topic.title AS title, DATE_FORMAT(topic.date, '%d/%m/%y - %Hh%i') AS date_, topic.pot_point as points, COUNT(post.id) AS nb_post, topic.answered AS answered
 														FROM category
 														RIGHT JOIN topic ON topic.category_id = category.id
 														LEFT JOIN post ON post.topic_id = topic.id
@@ -119,10 +124,15 @@
 								while($data = $query->fetch()){ ?>
 
 								<li>
-										<span class="date">[<?php echo parse_date($data['date']); ?>]</span>
+										<span class="date">[<?php echo $data['date_']; ?>]</span>
 										<a href="?/post/<?php echo $data['id']; ?>">
 											<?php echo $data['title']; ?>
-											<span class="badge" style="float: right; margin-right: 10px;"><?php echo $data['nb_post']; ?></span>
+											<span class="badge" style="float: right; margin-right: 10px;"><?php echo $data['nb_post']; ?> rep.</span>
+											<?php if($data['points'] > 0 AND !$data['answered']) { ?>
+											<span class="badge" style="float: right; margin-right: 10px;"><?php echo $data['points']; ?> points</span>
+											<?php } else if ($data['answered']) {  ?>
+											<span class="badge-premium" style="float: right; margin-right: 10px;">Répondu</span>
+											<?php } ?>
 										</a>
 								</li>
 				
@@ -142,8 +152,8 @@
 					<h3>Les 15 dernières réponses</h3>
 					<table class="table table-striped table-hover">
 						<?php
-							$query = $bdd->prepare("SELECT id_ AS id, title_ AS title, date_ AS date,  COUNT(date_) AS nb_post
-													FROM (SELECT topic.id AS id_, topic.title AS title_, post.date AS date_
+							$query = $bdd->prepare("SELECT id_ AS id, title_ AS title, date_ AS date, COUNT(date_) AS nb_post, points_ as points, answered_ AS answered
+													FROM (SELECT topic.id AS id_, topic.title AS title_, DATE_FORMAT(topic.date, '%d/%m/%y - %Hh%i') AS date_, topic.pot_point as points_, topic.answered AS answered_
 														  FROM post
 														  RIGHT JOIN topic ON post.topic_id = topic.id
 														  RIGHT JOIN category ON topic.category_id = category.id
@@ -164,7 +174,7 @@
 										 <?php echo $data['title']; ?> 
 									</a>
 									<span class="badge" style="float: right"><?php echo $data['nb_post']; ?></span>
-									<span class="date" style="font-size: 70%; float: right;">[<?php echo parse_date($data['date']); ?>]</span>
+									<span class="date" style="font-size: 70%; float: right;">[<?php echo $data['date']; ?>]</span>
 								</td>
 							</tr>
 			
@@ -189,12 +199,17 @@
 				});
 
 				var page_func = function(data) {
-					console.log(data);
 
-					if(data.answered == "1")
+					var an = '';
+					var p = '';
+
+					if(data.answered == "1") {
 						var an = '<span class="badge-premium">Répondu</span>';
-					else
-						var an = '';
+					} else if(parseInt(data.points) > 0) {
+						var p = '<span class="badge" style="float: right;">'+data.points+' points</span>';
+					}
+
+					console.log(data.points);
 
 					if(data.content.length > 100) {
 						text = data.content.slice(0,100)+"...";
@@ -205,7 +220,7 @@
 					return '<div class="content-elem fresh">'+
 						'<div class="content-bordered">'+
 							'<div class="content-bordered-title">'+
-								'<h4 class="panel-title"><a href="?/post/'+data.id+'"><i>'+data.title+'</i></a> par <a href="?/profil/'+data.login_id+'">'+data.login+'</a> <span class="date">['+data.date_+']</span> '+an+' <span class="badge" style="float: right;">'+data.nb_post+' réponses</span></h4>'+
+								'<h4 class="panel-title"><a href="?/post/'+data.id+'"><i>'+data.title+'</i></a> par <a href="?/profil/'+data.login_id+'">'+data.login+'</a> <span class="date">['+data.date_+']</span> '+an+' <span class="badge" style="float: right;">'+data.nb_post+' réponses</span>'+p+'</h4>'+
 							'</div>'+
 							'<p>'+
 								text+
@@ -217,7 +232,7 @@
 
 				// Pagination
 				var page = new generator.Paginate( {
-									    				source    : "php/script/show_topic.php",
+									    				source    : "php/script/topic_show.php",
 									    				page_size : 5,
 									    				model     : page_func,
 									    				data      : <?php echo $id_cat; ?>
@@ -227,7 +242,7 @@
 
 				// Ajout de nouveau message
 					var points_clbk = function(e, element) {
-													  return !isNaN(parseInt(element.val()));
+													  return !isNaN(parseInt(element.val())) && parseInt(element.val()) >= 0;
 												  };
 
 					var login = new generator.TextInput({ placeholder : "Question", min_size : 3, check_onkey : true, show_validation : true });
@@ -238,6 +253,7 @@
 					                                              value : 0 });
 
 					var content = new generator.TextArea({ placeholder : 'contenu', css : {width : "100%", height : "300px"}});
+					var cat_id = new generator.Hidden({ default : <?php echo $id_cat; ?> });
 
 
 					box = new generator.TTBox( { width: 560, elements : 
@@ -246,19 +262,26 @@
 							 [{ label : 'Titre', item : login, name : 'title' }, { label : 'Cagnote', item : cagnote, name : 'pot_point' }],
 							 [{ item  : new generator.Title({ text: "Contenu question" }), width : 4 }],
 							 [{ item : content, name : 'content', width : 5}],
-							 [],
+							 [{ item : cat_id, name : 'category_id', width : 5}],
 							], 
 							design : "table", 
 							submit_value : "Poster votre question !",
-							target : "php/script/user_registration.php", 
+							target : "php/script/topic_new.php", 
 							success_clbk : function(data) {
 									var error = new generator.Message({ type : 'success', title : data.success.title, 
 				          				                                message : data.success.msg, 
-				          				                                modal : true, dismissible : true, 
-				          				                                disable : box.window });
+				          				                                modal : true, dismissible : false, 
+				          				                                disable : box.window ,
+					      				                            	creation_clbk : function() {
+					      				                            		window.setTimeout( function() { 
+					      				                            			window.location.href = '?/post/'+data.success.id; 
+					      				                            		}, 1000 );
+					      				                            	}});
 									box.hide();
 									error.init();
-							}, /*error_clbk : error_clbk, fail_clbk : fail_clbk*/ } )
+							 } 
+						   } 
+						)
 					});
 
 					box.init();
