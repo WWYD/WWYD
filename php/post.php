@@ -50,12 +50,14 @@
 					<!-- Badge utilisateur -->
 					<div class="content-elem login-no-stretch" style="float: right; margin-top: -130px; margin-right: 10px;">
 						<div class="content-bordered">
-		                    	<div class="" style="padding-top: 10px;" >&nbsp;&nbsp;
-									<img src="img/icon.png" alt="#" class="thumbnail"></img>
-		                    		<a href="?/profil/<?php echo $user['id']; ?>" class="user-name <?php if ($user['banned']) { echo "admin-ban"; } else if ($user['admin']) { echo "admin-login"; } ?>">
-		                    			<?php echo $user['login']; ?>
-		                    		</a>
-		                    	</div>
+							<p style="margin-top: 0; padding-top: 10px; height: 25px; width: 100%;">
+								<img src="img/icon.png" alt="#" class="thumbnail"></img>
+								<span class="span-user-name" >
+									<a href="?/profil/<?php echo $user['id']; ?>" class="<?php if ($user['banned']) { echo "admin-ban"; } else if ($user['admin']) { echo "admin-login"; } ?>">
+							           <?php echo $user['login']; ?>
+							        </a>
+								</span>
+							</p>
 								<hr/>
 								<ul class="list-unstyled">
 									<li>
@@ -70,6 +72,7 @@
 									</li>
 								</ul>
 						</div>
+		                    	
 					</div>
 					<?php echo BBCode($topic['content']); ?>
 				</p>

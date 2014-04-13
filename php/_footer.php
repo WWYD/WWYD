@@ -31,7 +31,7 @@
 				// Pop-up inscription
 				$(".registration").on("click", function(e) {
 
-					var login = new generator.TextInput({ placeholder : "Nom du compte", min_size : 3, check_onkey : true, show_validation : true });
+					var login = new generator.TextInput({ placeholder : "Nom du compte", min_size : 3, max_size : 15, check_onkey : true, show_validation : true });
 					var mail = new generator.EmailInput({ placeholder : "Adresse mail", check_onkey : true, show_validation : true });
 
 					var pass = new generator.PasswordInput({ placeholder : 'Mot de passe', min_size : 3, check_onkey : true, show_validation : true, check_clbk : function() { return (pass_check.getValue() == pass.getValue()); }});

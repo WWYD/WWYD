@@ -282,6 +282,7 @@ header {
 	border: 1px #D6D6D6 solid;
 	padding: 5px;
 	box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 2px 0px;
+	float: left;
 }
 /********************/
 
@@ -575,11 +576,20 @@ section, footer {
 }
 
 .span-user-name {
-	font-size: 20pt;
+	font-size: 17pt;
 	font-weight: 500;
-	margin-top: -60px;
-	display: inline-block;
-	vertical-align: middle;
+	display: block;
+	margin-top: 20px;
+	float: left;
+	-margin-right: 40px;
+	max-width: 128px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.span-user-name a {
+	margin-left: 5px;
+	padding: 5px;
 }
 
 .user-name {
