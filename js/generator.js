@@ -5,6 +5,106 @@ this.generator.icon = function(name) {
 	return '<span class="icon '+name+'"></span>';
 }
 
+this.generator.BBCode = function(text) {
+
+	// Balises simples
+	balises = { b : "b", i : "i", u : 'u', quote : 'div class="quote" ' };
+
+	for(balise in balises) {
+		r = new RegExp("\\[" + balise + "\\](.*)\\[\\/" + balise + "\\]");
+		text = text.replace(r,  "<"+balises[balise]+">$1</"+balises[balise]+">");
+	}
+
+	// Quotes avec nom
+	text = text.replace(/\[quote=(.*)\](.*)\[\/quote\]/, '<div class="quote"><span class="quoted"><b>$1</b> à dit :</span>$2</div>');
+
+	return text;
+}
+
+this.generator.htmlEntities = function(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+this.generator.scriptPHP = function(args) {
+
+	this.connection = args.connection || false;  // Si on doit être connecté
+	this.banned = args.banned || false;          // Si on doit ne pas être ban
+
+	this.fields = args.fields || [];             // Liste des champs à vérifier
+
+	this.SQL = args.SQL || "";                   // Requête SQL
+
+	this.SQL_type = args.SQL_type || "select";        // Type de requête
+	this.success = args.success || "";           // En cas de succès, message à envoyer
+
+	// Début de la page
+	this.PHP = "<?php\n";
+	if(this.connection)
+		this.PHP += "\tsession_start();\n";
+
+	// Première série de vérification
+	this.PHP += "\tif(";
+	if(this.connection) {
+		this.PHP += "isset($_SESSION['user']) AND ";
+		if(this.banned) {
+			this.PHP += "$_SESSION['user']['banned'] AND ";
+		}
+	}
+	this.PHP += "isset($_POST['data'])) {\n";
+
+		// Décodage du JSON vers des objets
+		this.PHP += "\t\t$data = json_decode($_POST['data']);\n";
+		this.PHP += "\t\tif(isset($data->data)) {\n";
+			this.PHP += "\t\t\t$data = $data->data;\n";
+
+			// Vérification des champs
+			this.PHP += "\t\t\tif(";
+			for(var i = 0; i < this.fields.length; i++) {
+				if(i > 0)
+					this.PHP += ' AND ';
+				this.PHP += 'isset($data->'+this.fields[i]+')';
+			}
+			this.PHP += ") {\n";
+			
+				// Try & catch
+				this.PHP += "\t\t\t\ttry {\n";
+
+				// Cas d'un select
+				if(this.SQL_type == 'select') {
+					// Requête
+					this.PHP += "\t\t\t\t\t$query = $bdd -> prepare('"+this.SQL+"');\n";
+					// Champs
+					this.PHP += "\t\t\t\t\t$query->execute(Array(";
+					for(var i = 0; i < this.fields.length; i++) {
+						if(i > 0)
+							this.PHP += ', ';
+						this.PHP += '$data->'+this.fields[i];
+					}
+					this.PHP += "));\n"
+					// Récupération
+					this.PHP += "\t\t\t\t\twhile($data = $query->fetch()) { }\n"
+				}
+
+				// Fin try & catch
+				this.PHP += "\t\t\t\t} catch ( Exception $e ) {\n";
+				this.PHP += "\t\t\t\t\t$r = array('error' => array('title' => 'Erreur', 'msg' => 'Erreur BDD'));\n";
+				this.PHP += "\t\t\t\t}\n";
+
+			// Fin de vérification des champs
+			this.PHP += "\t\t\t} else\n\t\t\t\t$r = array('error' => array('title' => 'Erreur', 'msg' => 'Données reçues incomplètes'));\n";
+		
+		// Fin de vérification des champs
+		this.PHP += "\t\t} else\n\t\t\t$r = array('error' => array('title' => 'Erreur', 'msg' => 'Données reçues ma formées'));\n";
+
+	// Fin de vérification des champs
+	this.PHP += "\t} else\n\t\t$r = array('error' => array('title' => 'Erreur', 'msg' => 'Aucune données reçues'));\n";
+
+	this.PHP += "\techo json_encode($r);\n";
+	this.PHP += "?>\n\n";
+
+	return generator.htmlEntities(this.PHP);
+}
+
 /*
 // Menu navigation
 html.Menu = function(args) {

@@ -71,7 +71,7 @@
 								</ul>
 						</div>
 					</div>
-					<?php echo $topic['content']; ?>
+					<?php echo BBCode($topic['content']); ?>
 				</p>
 			</section>
 		</div>
@@ -137,7 +137,7 @@
 					<?php
 
 					// Liste des messages
-					$query = $bdd->prepare("SELECT post.id as id, post.content as content, DATE_FORMAT(post.date, '%d/%m/%y - %Hh%i') as date, post.is_answer as is_answer,
+					$query = $bdd->prepare("SELECT post.id as id, post.content as content, DATE_FORMAT(post.date, '%d/%m/%y - %Hh%i') as date, DATE_FORMAT(post.last_edit, '%d/%m/%y - %Hh%i') as last_edit, post.is_answer as is_answer,
 											       user.id as poster_id, user.login as login, user.premium as premium, user.admin as admin, user.banned as banned,
 											       COALESCE(SUM(vote.value), 0) as value
 											FROM post
@@ -179,18 +179,23 @@
 										</span>
 									</h4>
 								</div>
-								<div class="p" style="font-size: 12pt"><?php echo BBCode($data["content"]); ?></div>
+								<div class="p post-data" style="font-size: 12pt" rel="<?php echo $data["id"]; ?>" ><?php echo BBCode($data["content"]); ?></div>
+								<input type="hidden" class="post-source" rel="<?php echo $data["id"]; ?>" value="<?php echo $data["content"]; ?>" />
 								<div class="content-bordered-sub">
-										<span class="date">Ajouté le [<?php echo $data['date']; ?>]</span>
+										<span class="date">Ajouté le [<?php echo $data['date']; ?>] </span>
 										<?php 
+											if(!is_null($data['last_edit'])) {
+												?> <span class="date" style="float: left; display:inline"> modifié le [<?php echo $data['last_edit']; ?>]</span> <?php
+											}
+
 											if(is_co() AND $data['poster_id'] == $_SESSION['user']['id']) {
-												?> <button class="edit_button btn btnsmall" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -5px; margin-right: -5px;" >Editer</button> <?php
+												?> <button class="edit_button btn btnsmall icon edit" rel="<?php echo $data["id"]; ?>" style="display:inline; float: right; margin-top: -5px; margin-right: -5px;" > Editer</button> <?php
 											} else {
-												?> <button class="edit_button btn btnsmall" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -5px; margin-right: -5px; margin-left: 10px;" >Répondre</button> <?php
+												?> <button class="respond_button btn btnsmall icon respond" rel="<?php echo $data["id"]; ?>" style="display:inline; float: right; margin-top: -5px; margin-right: -5px; margin-left: 10px;" > Répondre</button> <?php
 											}
 											
 											if(is_co() AND !$topic['answered'] AND $user['id'] == $_SESSION['user']['id'] AND $data['poster_id'] != $user['id']) {
-												?> <button class="answered_button btn btnsmall" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -5px; margin-right: -5px;" >Sélectionner comme réponse</button> <?php
+												?> <button class="answered_button btn btnsmall icon star" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -5px; margin-right: -5px;" > Sélectionner comme réponse</button> <?php
 											}
 										?>
 								</div>
@@ -246,7 +251,7 @@
 								data: { content: $("#reponse_textzone").val(), topic_id: '<?php echo $_GET["data"][0]; ?>' }
 							})
 							.done(function( msg ) {
-							    $("#content").append($(msg));
+							    $("#content").append(msg);
 							    $("#noans").slideToggle(200);
 
 							    $("#appears").fadeIn(200);	
@@ -302,6 +307,73 @@
 							});
 						});
 					});
+
+					// Fenêtre édition
+					var content = new generator.TextArea({ placeholder : 'contenu', css : {width : "550px", height : "300px"}});
+					var post_id = new generator.Hidden({ default : 0 });
+
+
+					box = new generator.TTBox( { width: 560, elements : 
+						new generator.Form( { elements :
+							[[{ item  : new generator.Title({ text: "Edition message" }), width : 4 }],
+							 [{ item : content, name : 'content', width : 5}],
+							 [{ item : post_id, name : 'post_id', width : 5}],
+							], 
+							design : "table", 
+							submit_value : "Editer votre message",
+							target : "php/script/post_edit.php", 
+							success_clbk : function(data) {
+									// Remplacer le message
+									$('.post-data[rel='+post_id.getValue()+']').html(generator.BBCode(content.getValue()));
+
+									// Message
+									var succ = new generator.Message({ type : 'success', title : data.success.title, 
+				          				                                message : data.success.msg, 
+				          				                                modal : true, dismissible : true, 
+				          				                                disable : box.window });
+									box.hide();
+									succ.init();
+							 }
+						   } 
+						)
+					});
+
+					box.init();
+
+					// Edition
+					$(".edit_button").on('click', function(e) {
+						var id = $(e.target).attr("rel");
+						content.setValue($('.post-source[rel='+id+']').val());
+						post_id.setValue(id);
+						box.show();
+					});
+
+					// Répondre
+					$(".respond_button").on('click', function(e) {
+						var id = $(e.target).attr("rel");
+
+						var r_zone = $('#respond-zone');
+						var r_textzone = $('#reponse_textzone');
+
+						var element = $('.content-elem[rel='+id+']');
+
+						$('#respond_display_button_zone').slideUp();
+
+						if(r_zone.css("display") == "none") {
+							element.after(r_zone);
+							r_zone.slideDown();
+						} else {
+							r_zone.slideUp(function() {
+								element.after(r_zone);
+								r_zone.slideDown();
+							});
+						}
+
+						r_textzone.val(r_textzone.val()+'[quote='+element.find("h4 a").text().trim()+"]\n"+element.find(".post-source").val()+"\n[/quote]\n");
+
+					});
+
+					//$('body').html('<pre>'+generator.scriptPHP({ connection : true, banned : true, fields : ["login", "password"], SQL : "SELECT * FROM user WHERE login = ? AND password = ?", SQL_type : "select" })+'</pre>');
 
 					</script>
 					

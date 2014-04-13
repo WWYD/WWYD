@@ -63,13 +63,6 @@
 		return $text;
 	}
 
-	/*/echo BBCode("Bonjour [b] je suis gras [/b] et [i] italique [/i]. 
-		Et des fois, je cite des gens : 
-		[quote=vuzi]Je suis trop cool ![/quote] 
-		et oui 
-		[quote]loul[/quote]");*/
-	//exit();
-
 	function parse_date($date) {
 		return $date;
 		$date = explode(" ", $date);

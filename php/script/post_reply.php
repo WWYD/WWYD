@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	include('../utils.php');
 
 	if(isset($_SESSION['user']) && !$_SESSION['user']['banned']) {
 		if($_SESSION['user']['premium'])
@@ -7,21 +8,34 @@
 		else
 			$premium = "";
 		
-		if(isset($_SESSION['user']) && isset($_POST['content'])){
+		if(isset($_SESSION['user']) && isset($_POST['content']) && isset($_POST['topic_id'])){
 			try {
 				$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-				$query = $bdd->query('INSERT INTO post VALUES ("", "'.mysql_real_escape_string($_POST['content']).'", now(),"'.mysql_real_escape_string($_SESSION['user']['id']).'", "'.mysql_real_escape_string($_POST['topic_id']).'", 0)');
-				echo '<div class="content-elem">';
-								echo '<div class="content-bordered" id="appears" style="display: none">'.
-										 '<div class="content-bordered-title">'.
-										 '<h4 class="panel-title">'.$_SESSION['user']['login'].' '.$premium.'<span style="float: right"><span class="badge" id="badgeInt"></span>&nbsp;&nbsp;<span class="plus"></span><span class="vote"> </span><span class="less"></span></span></h4>'.
-									 '</div>'.
-									
-									'<p style="font-size: 12pt">'.$_POST["content"].'</p>'.
-								 '</div>'.
-							'</div>';
+				
+				$query = $bdd->prepare("INSERT INTO post (content, date, last_edit, user_id, topic_id, is_answer) 
+				                        VALUES ( ?, NOW(), NULL, ?, ?, 0))");
+				$query->execute(array($_POST['content'], $_SESSION['user']['id'], $_POST['topic_id']));
+
+				?>
+
+						<div class="content-elem ">
+							<div class="content-bordered">
+								<div class="content-bordered-title">
+									<h4 class="panel-title">
+										<a href="?/profil/<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['login']; ?></a>
+									</h4>
+								</div>
+								<div class="p post-data" style="font-size: 12pt" rel="6"><?php echo BBCode($_POST['content']); ?></div>
+								<div class="content-bordered-sub">
+									<span class="date">Ajouté à l'instant </span>
+								</div>
+							</div>
+						</div>
+
+				<?php
+
 			} catch ( Exception $e ) {
-				echo 1;
+				//echo 1;
 			}
 		}
 	}
