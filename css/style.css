@@ -539,7 +539,13 @@ section, footer {
 .login-no-stretch {
 	width: 32.3%;
 	float: left;
+
 	box-sizing: border-box;
+}
+
+.login {
+	width: 31.3%;
+	float: left;
 }
 
 .daily {
