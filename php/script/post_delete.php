@@ -1,11 +1,10 @@
 <?php
 	session_start();
 
-    if (isset($_SESSION['user']) && isset($_POST['post_id']) && isset($_POST['post_content']) && !$_SESSION['user']['banned']) {
+    if (isset($_SESSION['user']) && isset($_POST['post_id']) && !$_SESSION['user']['banned']) {
         try {
 
         	$_POST['post_id'] = mysql_real_escape_string($_POST['post_id']);
-        	$_POST['post_content'] = mysql_real_escape_string($_POST['post_content']);
 
 			$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 
@@ -15,7 +14,7 @@
 			$check_data = $check_query->fetch();
 			
 			if($check_data[0] == $_SESSION['user']['id'] OR $_SESSION['user']['admin']){
-				$query = $bdd -> prepare('UPDATE post SET content = '.$_POST['post_content'].' WHERE id ='.$_POST['post_id']); 
+				$query = $bdd -> prepare('DELETE FROM post WHERE id ='.$_POST['post_id']); 
 				$query -> execute();
 			}
 
