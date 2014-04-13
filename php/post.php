@@ -23,7 +23,7 @@
 			$topic['title'] = $data['topic_title'];
 			$topic['content'] = $data['topic_content'];
 			$topic['date'] = $data['topic_date'];
-			$topic['cat_id'] = $data['topic_cat_id'];
+			$id_cat = $topic['cat_id'] = $data['topic_cat_id'];
 			$topic['topic_cat'] = $data['topic_cat'];
 			$topic['answered'] = $data['topic_answered'];
 			$topic['points'] = $data['points'];
@@ -42,44 +42,53 @@
 	} else
 		header("Location: ?/");
 ?>
+		<!-- Titre & question -->
+		<div id="indexTile" style="height: inherit; min-height: 150px;">
+			<section>
+				<p style="font-size: 22pt;"><i>"<?php echo $topic['title']; ?>"</i></p>
+				<p>
+					<!-- Badge utilisateur -->
+					<div class="content-elem login-no-stretch" style="float: right; margin-top: -130px; margin-right: 10px;">
+						<div class="content-bordered">
+		                    	<div class="" style="padding-top: 10px;" >&nbsp;&nbsp;
+									<img src="img/icon.png" alt="#" class="thumbnail"></img>
+		                    		<a href="?/profil/<?php echo $user['id']; ?>" class="user-name <?php if ($user['banned']) { echo "admin-ban"; } else if ($user['premium']) { echo "admin-login"; } ?>">
+		                    			<?php echo $user['login']; ?>
+		                    		</a>
+		                    	</div>
+								<hr/>
+								<ul class="list-unstyled">
+									<li>
+										<b>Solde :</b><span class="badge"><?php echo $user['point']; ?> points</span>
+									</li>
+									<li>
+										<b>Grade :</b> <?php echo $user['rank']; ?>
+									</li>
+									<li>
+									 	<b>Premium :</b>
+										<?php if ($user['premium']) { ?> Oui <?php } else { ?> Non <?php } ?>
+									</li>
+								</ul>
+						</div>
+					</div>
+					<?php echo $topic['content']; ?>
+				</p>
+			</section>
+		</div>
 
-		<!-- Question -->
+
+
+<!--
 		<div style="min-height: 250px; width: 100%;  background-color: #DEDEDE;">
 
-			<!-- Titre & question -->
 			<div class="content" style="padding: 30px; margin-right: 390px;">
 				<p style="font-size: 22pt; padding-left: 20px;"><i>"<?php echo $topic['title']; ?>"</i></p>
 				<p><?php echo $topic['content']; ?></p>
 			</div>
 			
-			<!-- Badge utilisateur -->
-			<div class="content-elem login" style="width: 390px; position: absolute; top: 60px; right: 10px; z-index: 1;">
-				<div class="content-bordered">
-					<p>
-						<img src="img/icon.png" alt="#" class="thumbnail"></img>
-                    	<span class="span-user-name" >&nbsp;&nbsp;
-                    		<a href="?/profil/<?php echo $user['id']; ?>" class="<?php if ($user['banned']) { echo "admin-ban"; } else if ($user['premium']) { echo "admin-login"; } ?>">
-                    			<?php echo $user['login']; ?>
-                    		</a>
-                    	</span>
-						<hr/>
-						<ul class="list-unstyled">
-							<li>
-								<b>Solde :</b><span class="badge"><?php echo $user['point']; ?> points</span>
-							</li>
-							<li>
-								<b>Grade :</b> <?php echo $user['rank']; ?>
-							</li>
-							<li>
-							 	<b>Premium :</b>
-								<?php if ($user['premium']) { ?> Oui <?php } else { ?> Non <?php } ?>
-							</li>
-						</ul>
-					</p>
-				</div>
-			</div>
+
 		</div>
-		
+		-->
 		<!-- Réponses -->
 		<section>
 			<section style="width: 66.6%; float: left;">
@@ -304,6 +313,7 @@
 			</section>
 			<section style="width: 30.3%; float: left; margin-left: 15px;">
 		        <?php
+		        	include('php/_last_post_view.php');
 					include('php/_category.php');
 				?>		
 			</section>

@@ -536,9 +536,10 @@ section, footer {
 	padding: 0px;
 }
 
-.login {
-	width: 31.3%;
+.login-no-stretch {
+	width: 32.3%;
 	float: left;
+	box-sizing: border-box;
 }
 
 .daily {
@@ -557,6 +558,15 @@ section, footer {
 	margin-top: -60px;
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.user-name {
+	font-size: 20pt;
+	font-weight: 500;
+	margin-top: -50px;
+	margin-left: 90px;
+	display: block;
+	height: 50px;
 }
 
 .admin-login {
