@@ -52,7 +52,7 @@
 						<div class="content-bordered">
 		                    	<div class="" style="padding-top: 10px;" >&nbsp;&nbsp;
 									<img src="img/icon.png" alt="#" class="thumbnail"></img>
-		                    		<a href="?/profil/<?php echo $user['id']; ?>" class="user-name <?php if ($user['banned']) { echo "admin-ban"; } else if ($user['premium']) { echo "admin-login"; } ?>">
+		                    		<a href="?/profil/<?php echo $user['id']; ?>" class="user-name <?php if ($user['banned']) { echo "admin-ban"; } else if ($user['admin']) { echo "admin-login"; } ?>">
 		                    			<?php echo $user['login']; ?>
 		                    		</a>
 		                    	</div>
@@ -167,7 +167,6 @@
 										<a href="?/profil/<?php echo $data["poster_id"]; ?>">
 											<?php echo $data["login"]; ?>
 										</a>
-										<span class="date">[<?php echo $data['date']; ?>]</span>
 										<?php if($data['is_answer']) { ?> <span class="badge" style="background-color: rgb(236, 151, 31)">Réponse séléctionnée</span> <?php }
 											  if($data['premium'])   { ?> <span class="badge-premium">Premium</span><?php } 
 											  if($data['admin'])     { ?> <span class="badge-admin">Admin</span><?php } 
@@ -180,12 +179,21 @@
 										</span>
 									</h4>
 								</div>
-								<p style="font-size: 12pt"><?php echo $data["content"]; ?></p>
-								<?php
-									if(is_co() AND !$topic['answered'] AND $user['id'] == $_SESSION['user']['id'] AND $data['poster_id'] != $user['id']) {
-										?> <button class="answered_button btn btnsmall" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -33px; margin-right: 5px;" >Sélectionner comme réponse</button> <?php
-									}
-								?>
+								<div class="p" style="font-size: 12pt"><?php echo BBCode($data["content"]); ?></div>
+								<div class="content-bordered-sub">
+										<span class="date">Ajouté le [<?php echo $data['date']; ?>]</span>
+										<?php 
+											if(is_co() AND $data['poster_id'] == $_SESSION['user']['id']) {
+												?> <button class="edit_button btn btnsmall" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -5px; margin-right: -5px;" >Editer</button> <?php
+											} else {
+												?> <button class="edit_button btn btnsmall" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -5px; margin-right: -5px; margin-left: 10px;" >Répondre</button> <?php
+											}
+											
+											if(is_co() AND !$topic['answered'] AND $user['id'] == $_SESSION['user']['id'] AND $data['poster_id'] != $user['id']) {
+												?> <button class="answered_button btn btnsmall" rel="<?php echo $data["id"]; ?>" style="float: right; margin-top: -5px; margin-right: -5px;" >Sélectionner comme réponse</button> <?php
+											}
+										?>
+								</div>
 							</div>
 						</div>
 					<?php } 

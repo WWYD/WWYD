@@ -51,7 +51,24 @@
 		return isset($_SESSION["user"]);
 	}
 
+	function BBCode($text) {
 
+		$text = preg_replace('`\[b\](.+)\[/b\]`isU', '<b>$1</b>', $text); 
+		$text = preg_replace('`\[i\](.+)\[/i\]`isU', '<i>$1</i>', $text);
+		$text = preg_replace('`\[s\](.+)\[/s\]`isU', '<u>$1</u>', $text);
+		$text = preg_replace('#http://[a-z0-9._/-]+#i', '<a href="$0">$0</a>', $text);
+		$text = preg_replace('`\[quote=(.+)\](.+)\[/quote\]`isU', '<div class="quote"><span class="quoted"><b>$1</b> à dit :</span>$2</div>', $text);
+		$text = preg_replace('`\[quote\](.+)\[/quote\]`isU', '<div class="quote">$1</div>', $text);
+
+		return $text;
+	}
+
+	/*/echo BBCode("Bonjour [b] je suis gras [/b] et [i] italique [/i]. 
+		Et des fois, je cite des gens : 
+		[quote=vuzi]Je suis trop cool ![/quote] 
+		et oui 
+		[quote]loul[/quote]");*/
+	//exit();
 
 	function parse_date($date) {
 		return $date;

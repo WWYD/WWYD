@@ -2,7 +2,7 @@
 	<p>
 		<img src="img/icon.png" alt="#" class="thumbnail"></img>
 		<span class="span-user-name" >&nbsp;&nbsp;
-			<a href="?/profil/<?php echo $_SESSION["user"]['id']; ?>" class="<?php if ($_SESSION["user"]['banned']) { echo "admin-ban"; } else if ($_SESSION["user"]['premium']) { echo "admin-login"; } ?>">
+			<a href="?/profil/<?php echo $_SESSION["user"]['id']; ?>" class="<?php if ($_SESSION["user"]['banned']) { echo "admin-ban"; } else if ($_SESSION["user"]['admin']) { echo "admin-login"; } ?>">
 	                    			<?php echo $_SESSION["user"]['login']; ?>
 	        </a>
 		</span>

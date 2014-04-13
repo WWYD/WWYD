@@ -36,6 +36,10 @@ h3 {
 	font-weight: normal;
 }
 
+div.p {
+	padding: 15px;
+}
+
 .center {
 	text-align: center;
 }
@@ -66,13 +70,19 @@ h3 {
 }
 
 
-.content-bordered p {
+.content-bordered p, .content-bordered div.p {
 	padding-left: 20px;
 	padding-right: 20px;
 }
 
 .content-bordered-item + .content-bordered-item {
 	margin-left: 30px;
+}
+
+.content-bordered-sub {
+	border-top: 1px #D6D6D6 solid;
+	margin: 0 0 2px 0;
+	padding: 8px;
 }
 
 .only-reponsive { 
@@ -764,4 +774,30 @@ p a:hover {
 .date {
 	color: #AAA;
 	font-size: 90%;
+}
+
+.quote {
+	border: 1px #BBB solid;
+	color: #666;
+	display: block;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.quote .quoted {
+	display: block;
+	border-bottom: 1px #BBB solid;
+
+	margin-left: -15px;
+	margin-right: 15px;
+	margin-top: -5px;
+	margin-bottom: 5px;
+
+	padding: 2px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 4px;
+
+	float: left;
+	width: 100%;
 }
