@@ -5,12 +5,16 @@
     if (isset($_SESSION['user']) && isset($_POST['post_id']) && isset($_POST['topic_id'])) {
         try {
 
+        	$_POST['post_id'] = mysql_real_escape_string($_POST['post_id']);
+        	$_POST['topic_id'] = mysql_real_escape_string($_POST['topic_id']);
+
 			$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 			
 			// Vérifie qu'il n'y a pas déjà de réponse selectionné et que user est bien l'auteur
 			$check_query = $bdd -> prepare('SELECT * FROM topic WHERE id ='.$_POST['topic_id']);
 			$check_query -> execute();
-			$check_data = $check_query->fetch();			
+			$check_data = $check_query->fetch();
+
 			// Vérifie que user la réponse sélectionnée n'a pas été écrit par l'auteur
 			$check_query2 = $bdd -> prepare('SELECT user_id FROM post WHERE id ='.$_POST['post_id']);
 			$check_query2 -> execute();

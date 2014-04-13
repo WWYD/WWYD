@@ -76,29 +76,18 @@
 			</section>
 		</div>
 
-
-
-<!--
-		<div style="min-height: 250px; width: 100%;  background-color: #DEDEDE;">
-
-			<div class="content" style="padding: 30px; margin-right: 390px;">
-				<p style="font-size: 22pt; padding-left: 20px;"><i>"<?php echo $topic['title']; ?>"</i></p>
-				<p><?php echo $topic['content']; ?></p>
-			</div>
-			
-
-		</div>
-		-->
 		<!-- Réponses -->
 		<section>
 			<section style="width: 66.6%; float: left;">
 				<div class="content" id="content">
 
 					<!-- Information sur le message -->
-					<div class="content-bordered content-elem" style="margin-top : 10px; margin-bottom: -8px;">
+					<div class="content-bordered content-elem" style="margin-top : 0; margin-bottom: -8px;">
 						<p style="font-size: 12pt">
-							<ul><li>
-						Aucune réponse n'est selectionnée.</li>
+							<ul>
+							<?php if(!$topic['answered']) { ?>
+							<li>Aucune réponse n'est selectionnée.</li>
+							<?php } ?>
 							<?php if($topic['points'] > 0 AND !$topic['answered']) { ?>
 							<li>Répondez, et si votre réponse est selectionnée vous gagnerez <span class="badge"><?php echo $topic['points']; ?></span> points !</li>
 							<?php } else if($topic['answered']) { ?>
