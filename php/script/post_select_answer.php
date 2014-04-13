@@ -1,5 +1,8 @@
 <?php
 
+
+echo "bonjour le monde";
+
 session_start();
 
     if (isset($_SESSION['user']) && isset($_POST['post_id']) && isset($_POST['topic_id'])) {

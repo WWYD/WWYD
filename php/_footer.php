@@ -63,7 +63,7 @@
 				          				                                disable : box.window });
 									box.hide();
 									error.init();
-							}, /*error_clbk : error_clbk, fail_clbk : fail_clbk*/ } )
+							} } )
 					});
 
 					box.init();
@@ -71,7 +71,7 @@
 				});
 
 				// Pop-up connexion
-				$(".connection").on("click", function(e) {
+				$(".connection, .connection-show").on("click", function(e) {
 					box = new generator.TTBox( { width: 210, elements : 
 						new generator.Form( { elements : 
 							[{ label : "Login", item : new generator.TextInput({ placeholder : "Votre nom d'utilisateur"}), name : "login"},
@@ -88,7 +88,7 @@
 		                  				                                  }});
 	                         	    success.init();
 
-	                           }/*, error_clbk : error_clbk, fail_clbk : fail_clbk*/ } )
+	                           } } )
 					} );
 
 			        box.init();

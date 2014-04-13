@@ -4,7 +4,7 @@ session_start();
 $cfg['PersistentConnections'] = TRUE;
 
 // Test connexion
-if(isset($_SESSION['user'])) {
+if(isset($_SESSION['user']) && !$_SESSION['user']["banned"]) {
 	// Test données
 	if(isset($_POST['data'])) {
 		$data = json_decode($_POST['data'])->data;

@@ -105,17 +105,21 @@
 					<?php if (is_co()) { 
 							if($_SESSION['user']['banned']) { ?>
 						<div class="content-elem">
-							<div class="content-bordered btn btn-disabled center">Le utilisateurs bannis ne peuvent pas répondre</div>
+							<div class="content-bordered btn btn-disabled center">
+								<span class="icon warning-sign" ></span> Le utilisateurs bannis ne peuvent pas répondre
+							</div>
 						</div>
 						<?php } else { ?>
 						<div class="content-elem">
-							<div class="content-bordered btn center" id="respond_display_button_zone">Répondre</div>
+							<div class="content-bordered btn center" id="respond_display_button_zone">
+								<span class="icon respond" ></span> Répondre
+							</div>
 						</div>
 					<?php }
 						} else { ?>
 						<div class="content-elem">
-							<div class="content-bordered btn btn-disabled center">
-								Connectez-vous pour répondre
+							<div class="content-bordered btn btn-disabled center connection-show">
+								<span class="icon warning-sign" ></span> Connectez-vous pour répondre
 							</div>
 						</div>
 					<?php } ?>
@@ -210,6 +214,7 @@
 								data: { post_id : id, topic_id : '<?php echo $_GET["data"][0]; ?>' }
 							})
 							.done(function( msg ) {
+								alert(msg);
 								$(".answered_button").fadeOut(200);
 								console.log($("[rel="+id+"]"));
 								$(".content-elem[rel="+id+"] .content-bordered-title").css("background-image", "linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%)");

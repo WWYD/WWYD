@@ -44,9 +44,13 @@
 
 	      	    <div class="content-elem fresh">
 	      	    	<?php if(is_co()) { ?>
-		      	    <div class="btn new-cat" style="margin: 5px;"><span class="icon plus" ></span>Poser une nouvelle question</div>
+		      	    	<?php if($_SESSION['user']['banned']) { ?>
+		      	    	<div class="btn btn-disabled" style="margin: 5px;"><span class="icon warning-sign" ></span>Les utilisateurs bannis ne peuvent pas poster de nouvelles réponses</div>
+		      	    	<?php } else { ?>
+			      	    <div class="btn new-cat" style="margin: 5px;"><span class="icon plus" ></span>Poser une nouvelle question</div>
+			      	    <?php } ?>
 		      	    <?php } else { ?>
-		      	    <div class="btn new-cat" style="margin: 5px;"><span class="icon warning-sign" ></span>Vous devez être connecté pour poser une question</div>
+		      	    <div class="connection-show btn btn-disabled" style="margin: 5px;"><span class="icon warning-sign" ></span>Connectez vous pour pouvoir poser une question</div>
 		      	    <?php } ?>
 		      	    <div style="margin: 5px; margin-top: 12px; box-sizing: border-box;">
 		      	    	<div class="btn show-cat" style="width: 49%; float: left; box-sizing: border-box"><span class="icon eye" ></span>Voir toutes les questions</div>

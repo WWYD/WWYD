@@ -455,6 +455,15 @@ header {
 	border: 1px solid lightgray;
 	color: gray;
 }
+
+.btn:disabled:hover, .btn-disabled:hover {
+	background-image: linear-gradient(rgb(245, 245, 245) 0px, rgb(232, 232, 232) 100%);
+	border: 1px solid lightgray;
+	color: gray;
+}
+
+
+
 /********************/
 
 /* Formulaires */
