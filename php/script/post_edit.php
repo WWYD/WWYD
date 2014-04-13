@@ -18,7 +18,7 @@
 				$check_data = $check_query->fetch();
 				
 				if($check_data[0] == $_SESSION['user']['id'] OR $_SESSION['user']['admin']){
-					$query = $bdd -> prepare('UPDATE post SET content = "'.$data->content.'" WHERE id ='.$data->post_id); 
+					$query = $bdd -> prepare('UPDATE post SET content = "'.$data->content.'", last_edit = NOW() WHERE id ='.$data->post_id); 
 					$query -> execute();
 	        		$r = array('success' => array('title' => 'Message mis à jour', 'msg' => 'Votre message à correctement été modifié'));
 				} else 

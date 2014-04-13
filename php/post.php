@@ -188,7 +188,7 @@
 										<span class="date">Ajouté le [<?php echo $data['date']; ?>] </span>
 										<?php 
 											if(!is_null($data['last_edit'])) {
-												?> <span class="date" style="float: left; display:inline"> modifié le [<?php echo $data['last_edit']; ?>]</span> <?php
+												?> <span class="date" style=""> modifié le [<?php echo $data['last_edit']; ?>]</span> <?php
 											}
 
 											if(is_co() AND $data['poster_id'] == $_SESSION['user']['id']) {
