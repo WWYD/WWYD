@@ -13,7 +13,7 @@
 				$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 				
 				$query = $bdd->prepare("INSERT INTO post (content, date, last_edit, user_id, topic_id, is_answer) 
-				                        VALUES ( ?, NOW(), NULL, ?, ?, 0))");
+				                        VALUES ( ?, NOW(), NULL, ?, ?, 0)");
 				$query->execute(array($_POST['content'], $_SESSION['user']['id'], $_POST['topic_id']));
 
 				?>
