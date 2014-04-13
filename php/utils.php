@@ -8,7 +8,7 @@
 	// Retourne le fichier de la page à charger, ou un lien vers la page d'erreur le cas échéant
 	function get_page_to_load($URL) {
 
-		$_GET['data'] = [];
+		$_GET['data'] = array();
 
 		$URL = explode('/', $URL);
 		if(count($URL) > 1) {
@@ -18,14 +18,24 @@
 			}
 
 			switch ($URL[1]) {
+				case 'index':
 				case 'index.html':
 					return "php/index.php";
+				case 'post':
 				case 'post.html':
 					return "php/post.php";
+				case 'admin':
 				case 'admin.html':
 					return "php/admin.php";
+				case 'search':
 				case 'search.html':
 					return "php/search.php";
+				case 'profil':
+				case 'profil.html':
+					return "php/profil.php";
+				case 'category':
+				case 'category.html':
+					return "php/category.php";
 				default:
 					// Si erreur, page d'acceuil
 					return "php/index.php";
@@ -41,4 +51,17 @@
 		return isset($_SESSION["user"]);
 	}
 
+
+
+	function parse_date($date) {
+		$date = explode(" ", $date);
+
+		// Heure
+		$time = explode(":", $date[1]);
+
+		// Date
+		$date = explode("-", $date[0]);
+
+		return $date[2].'/'.$date[1].'/'.$date[0].' - '.$time[0].'h'.$time[1];
+	}
 ?>

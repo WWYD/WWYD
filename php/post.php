@@ -57,7 +57,7 @@
 					<p>
 						<img src="img/icon.png" alt="#" class="thumbnail"></img>
                     	<span class="span-user-name" >&nbsp;&nbsp;
-                    		<a href="/?/profil.html/<?php echo $user['id']; ?>" class="<?php if ($user['banned']) { echo "admin-ban"; } else if ($user['premium']) { echo "admin-login"; } ?>">
+                    		<a href="?/profil/<?php echo $user['id']; ?>" class="<?php if ($user['banned']) { echo "admin-ban"; } else if ($user['premium']) { echo "admin-login"; } ?>">
                     			<?php echo $user['login']; ?>
                     		</a>
                     	</span>
@@ -138,7 +138,7 @@
 							<div class="content-bordered">
 								<div class="content-bordered-title">
 									<h4 class="panel-title">
-										<a href="?/profil.html/<?php echo $data["poster_id"]; ?>">
+										<a href="?/profil/<?php echo $data["poster_id"]; ?>">
 											<?php echo $data["login"]; ?>
 										</a>
 										<?php if($data['is_answer']) { ?> <span class="badge" style="background-color: rgb(236, 151, 31)">Réponse séléctionnée</span> <?php }

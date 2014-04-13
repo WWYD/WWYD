@@ -2,7 +2,7 @@
 	<p>
 		<img src="img/icon.png" alt="#" class="thumbnail"></img>
 		<span class="span-user-name" >&nbsp;&nbsp;
-			<a href="?/profil.html"><?php echo $_SESSION["user"][1]; ?></a>
+			<a href="?/profil"><?php echo $_SESSION["user"][1]; ?></a>
 		</span>
 
 		<hr/>

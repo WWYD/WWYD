@@ -89,11 +89,17 @@
 						<a href="?/" class="icon home"> Accueil</a>
 					</li>
 					<li class="no-reponsive mn">
-						<a href="?/search.html/" class="icon search"> Recherche</a>
+						<a href="?/search/" class="icon search"> Recherche</a>
 					</li>
+					<?php if(is_co() AND $_SESSION['user']['admin']) { ?>
 					<li class="no-reponsive mn">
-						<a href="?/contact.html/" class="icon contact"> Contact</a>
+						<a href="?/admin/" class="icon contact"> Admin</a>
 					</li>
+					<?php } else { ?>
+					<li class="no-reponsive mn">
+						<a href="?/contact/" class="icon contact"> Contact</a>
+					</li>
+					<?php } ?>
 				</ul>
 					
 					<?php

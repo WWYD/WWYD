@@ -22,9 +22,13 @@ body {
     min-width: 650px;
 }
 
+a:hover {
+	color: #777;
+}
 a {
-	text-decoration: none;
 	color: inherit;
+	text-decoration: none;
+	transition: color .3s linear;
 }
 
 h3 {
@@ -65,6 +69,10 @@ h3 {
 .content-bordered p {
 	padding-left: 20px;
 	padding-right: 20px;
+}
+
+.content-bordered-item + .content-bordered-item {
+	margin-left: 30px;
 }
 
 .only-reponsive { 
@@ -230,6 +238,10 @@ header {
 	white-space: nowrap;
 }
 
+.badge + .badge {
+	margin-left: 10px;
+}
+
 /********************/
 
 /* Listes */
@@ -313,6 +325,10 @@ header {
 	content: "\e041";
 }
 
+.plus:before {
+	content: "\2b";
+}
+
 .like:before {
 	content: "\2b";
 	font-size: 80%;
@@ -352,7 +368,11 @@ header {
 }
 
 .chev-right:before {
-	content: "\e011";;
+	content: "\e011";
+}
+
+.eye:before {
+	content: "\e105";
 }
 
 
@@ -371,6 +391,7 @@ header {
 	font-size: 15px;
 	text-shadow: rgba(0, 0, 0, 0.2) 0px -1px 0px;
 	display: block;
+	text-align: center;
 }
 
 .btn.button-style2 {
@@ -461,7 +482,7 @@ section, footer {
 
 #indexTile p {
 	padding: 30px; 
-	padding-left: 0;
+	padding-left: 10px;
 }
 
 #indexTile p:first-child {
@@ -564,12 +585,12 @@ section, footer {
 
 .table-hover td{
 	padding-left: 9px;
-	transition: padding-left .3s ease-in;
+	transition: padding-left .2s ease-in;
 }
 			
 .table-hover td:hover{
-	padding-left: 45px;
-	transition: padding-left .3s ease-in;
+	padding-left: 20px;
+	transition: padding-left .2s ease-in;
 }
 /********************/
 
@@ -675,4 +696,9 @@ p a:hover {
 
 .content-bordered  + div {
 	margin-top: 15px;
+}
+
+.date {
+	color: #AAA;
+	font-size: 90%;
 }

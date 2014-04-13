@@ -448,3 +448,74 @@ generator.AutoCompleteInput.prototype.check = function() {
        	   console.log("Erreur Ajax");
        });
 }
+
+generator.TextArea = function(args) {
+	this.cls = "form-connection";
+	this.renderTo = args.render_to || false;
+	this.placeholder = args.placeholder || "";
+	this.default = args.default || "";
+	this.disabled = args.disabled || false;
+	this.css = args.css || null;
+}
+
+generator.TextArea.prototype.setRenderTo = function(renderTo) {
+	this.renderTo = renderTo;
+}
+
+generator.TextArea.prototype.isEditable = function() {
+	return !this.disabled;
+}
+
+
+generator.TextArea.prototype.init = function() {
+	var me = this;
+
+	if(me.renderTo) {
+		me.element = $('<textarea />');
+
+		me.element.attr("placeholder", this.placeholder);
+
+		if(me.disabled)
+			me.element.attr('disabled', 'disabled');
+
+		me.element.addClass(me.cls);
+		me.element.addClass("form-connection");
+
+		me.renderTo.append(me.element);
+
+		me.element.css('width', '208px');
+		
+		if(me.css)
+			me.element.css(me.css);
+
+	} else {
+		console.log("Pas de renderTo défini");
+	}
+}
+
+generator.TextInput.prototype.keyListener = function(f) {
+	this.element.on('keypress', function(e) {
+		f(e);
+	});
+}
+
+generator.TextInput.prototype.getValue = function() {
+	var me = this;
+
+	if(me.element) {
+		return me.element.val();
+	} else {
+		console.log("Pas d'element initialisé'");
+		return false;
+	}
+}
+
+generator.TextInput.prototype.setValue = function(value) {
+	var me = this;
+
+	if(me.element)
+		me.element.val(value);
+	else
+		console.log("Pas d'element initialisé'");
+
+}

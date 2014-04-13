@@ -68,7 +68,7 @@ generator.Paginate.prototype.makePagination = function(size) {
 
 			me.showPage(me.activeButton.html()-1);
 		});
-console.log('hey');
+
 		me.paginate.append(pageButton);
 	}
 
@@ -147,13 +147,16 @@ generator.Paginate.prototype.showPage = function(page) {
 		           	   		$(data.success).each(function(index, element) {
 		           	   			// Création
 		           	   			var piece = me.model(element);
-			           	   		if(piece) {
+
+			           	   		if(piece.init) {
 			           	   			if(piece.setRenderTo) { 
 			           	   				piece.setRenderTo(results);
 			           	   				piece.init();
 			           	   			}
 			           	   			// Ajout à la liste
 			           	   			elements.push(piece);
+			           	   		} else {
+			           	   			results.append($(piece));
 			           	   		}
 		           	   		});
 

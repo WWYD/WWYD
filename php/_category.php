@@ -17,7 +17,7 @@
 
 						<tr>
 							<td>
-								<a style="width: 100%; float: left;" href="?/search.html/<?php echo $data['id']; ?>">
+								<a style="width: 100%; float: left;" href="?/category/<?php echo $data['id']; ?>">
 									<?php echo $data['name']; ?>
 									<span class="badge" style="float: right"><?php echo $data['nb']; ?></span>
 								</a>

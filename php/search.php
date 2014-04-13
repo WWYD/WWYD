@@ -70,10 +70,10 @@
 					return '<div class="content-elem">'+
 					        '<div class="content-bordered">'+
 								'<div class="content-bordered-title">'+
-									'<h4 class="panel-title">'+title+'</h4>'+
+									'<h4 class="panel-title">'+title+' <span class="badge" style="float: right;">'+answers+' réponses</span></h4>'+
 								'</div>'+
 								'<p style="font-size: 12pt">'+
-									'Dans <a href="?/search.html/'+category_id+'"">'+category+'</a> par <a href="?/profil.html/'+login_id+'">'+login+'</a> le '+day[2]+'/'+day[1]+'/'+day[0]+' <span class="badge">'+answers+' réponses</span>'+
+									'Dans <a href="?/search.html/'+category_id+'"">'+category+'</a> par <a href="?/profil.html/'+login_id+'">'+login+'</a>  <span class="date">['+day[2]+'/'+day[1]+'/'+day[0]+']</span>'+
 									'<a href="?/post.html/'+id+'"><button type="button" class="btn btnsmall" style="float: right; margin-top: -2px;">'+
 									'Voir <span class="icon respond"></span></button></a></p>'+
 							'</div>'+

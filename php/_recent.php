@@ -12,7 +12,7 @@
 				$query2 = $bdd->prepare('SELECT COUNT(*) FROM post WHERE topic_id ='.$data['id']);
 				$query2 -> execute();
 				$data2 = $query2 -> fetch();
-				echo '<li><a href="post.php?topic_id='.$data['id'].'">'.$data["title"].' </a><span class="badge">'.$data2[0].' réponses</span></li>';
+				echo '<li><a href="?/post/'.$data['id'].'">'.$data["title"].' </a><span class="badge">'.$data2[0].' réponses</span></li>';
 			}
 		?>
 	</ul>
