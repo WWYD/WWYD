@@ -230,7 +230,6 @@
 								data: { post_id : id, topic_id : '<?php echo $_GET["data"][0]; ?>' }
 							})
 							.done(function( msg ) {
-								alert(msg);
 								$(".answered_button").fadeOut(200);
 								console.log($("[rel="+id+"]"));
 								$(".content-elem[rel="+id+"] .content-bordered-title").css("background-image", "linear-gradient(rgb(300, 233, 138) 0px, rgb(296, 211, 91) 100%)");

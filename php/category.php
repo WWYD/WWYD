@@ -224,7 +224,7 @@
 												  };
 
 					var login = new generator.TextInput({ placeholder : "Question", min_size : 3, check_onkey : true, show_validation : true });
-					var cagnote = new generator.TextInput({ placeholder : "Cagnote", 
+					var cagnote = new generator.TextInput({ placeholder : "Cagnotte", 
 					                                              check_onkey : true, 
 					                                              show_validation : true,
 					                                              check_clbk : points_clbk,
@@ -234,10 +234,10 @@
 					var cat_id = new generator.Hidden({ default : <?php echo $id_cat; ?> });
 
 
-					box = new generator.TTBox( { width: 560, elements : 
+					box = new generator.TTBox( { width: 570, elements : 
 						new generator.Form( { elements :
 							[[{ item  : new generator.Title({ text: "Nouvelle question dans <?php echo $cat['name']; ?>" }), width : 4 }],
-							 [{ label : 'Titre', item : login, name : 'title' }, { label : 'Cagnote', item : cagnote, name : 'pot_point' }],
+							 [{ label : 'Titre', item : login, name : 'title' }, { label : 'Cagnotte', item : cagnote, name : 'pot_point' }],
 							 [{ item  : new generator.Title({ text: "Contenu question" }), width : 4 }],
 							 [{ item : content, name : 'content', width : 5}],
 							 [{ item : cat_id, name : 'category_id', width : 5}],
