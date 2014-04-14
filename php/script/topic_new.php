@@ -18,9 +18,9 @@ if(isset($_SESSION['user']) && !$_SESSION['user']["banned"]) {
 			if($data->title != "" && $data->pot_point != "" && $data->content != "") {
 
 				// Sécurisation
-				$data->title = htmlentities($data->title);
+				$data->title = htmlspecialchars($data->title, ENT_QUOTES, "UTF-8");
 				$data->pot_point = $data->pot_point+0;
-				$data->content = htmlentities($data->content);
+				$data->content = htmlspecialchars($data->content, ENT_QUOTES, "UTF-8");
 
 				if($data->pot_point < 0) {
 					$result = array('error' => array('title' => 'Erreur', 'msg' => 'Cagnote impossible'));
