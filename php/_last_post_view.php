@@ -1,5 +1,5 @@
 <div class="categories">
-	<h3>Les 15 dernières réponses</h3>
+	<h3>Les 5 dernières réponses</h3>
 	<table class="table table-striped table-hover">
 		<?php
 			$query = $bdd->prepare("SELECT id_ AS id, title_ AS title, date_ AS date, COUNT(date_) AS nb_post, points_ as points, answered_ AS answered
