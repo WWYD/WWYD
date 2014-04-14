@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+	header('Content-Type: text/html; charset=utf-8');
+
 	$bdd = BBD_connect();	
 
 	if(isset($_GET['data'][0]))

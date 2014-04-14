@@ -1,4 +1,7 @@
 		<?php
+
+			header('Content-Type: text/html; charset=utf-8');
+
 			// On affiche la page d'un utilisateur
 			if(isset($_GET['data'][0])) {
 				$id = $_GET['data'][0];

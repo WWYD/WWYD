@@ -1,5 +1,7 @@
 <?php 
 
+	header('Content-Type: text/html; charset=utf-8');
+		
 	if(isset($_GET["data"][0])){
 
 		$bdd = BBD_connect();
@@ -193,7 +195,7 @@
 
 											if(is_co() AND $data['poster_id'] == $_SESSION['user']['id']) {
 												?> <button class="edit_button btn btnsmall icon edit" rel="<?php echo $data["id"]; ?>" style="display:inline; float: right; margin-top: -5px; margin-right: -5px;" > Editer</button> <?php
-											} else {
+											} else if (is_co()) {
 												?> <button class="respond_button btn btnsmall icon respond" rel="<?php echo $data["id"]; ?>" style="display:inline; float: right; margin-top: -5px; margin-right: -5px; margin-left: 10px;" > Répondre</button> <?php
 											}
 											
@@ -327,15 +329,15 @@
 							target : "php/script/post_edit.php", 
 							success_clbk : function(data) {
 									// Remplacer le message
-									$('.post-data[rel='+post_id.getValue()+']').html(generator.BBCode(content.getValue()));
+									$('.post-data[rel='+post_id.getValue()+']').html(generator.BBCode(generator.htmlEntities(content.getValue())));
 
 									// Message
 									var succ = new generator.Message({ type : 'success', title : data.success.title, 
 				          				                                message : data.success.msg, 
-				          				                                modal : true, dismissible : true, 
-				          				                                disable : box.window });
-									box.hide();
+				          				                                modal : true, dismissible : true,
+				          				                            	onDeletion : box.hide() });
 									succ.init();
+									
 							 }
 						   } 
 						)

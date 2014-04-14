@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=utf-8');
+
 	$per_page = 5;
 
 	/* Test variables */

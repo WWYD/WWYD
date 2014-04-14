@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=utf-8');
+
 session_start();
 
     if (isset($_SESSION['user']) && isset($_POST['post_id']) && isset($_POST['vote_type'])) 

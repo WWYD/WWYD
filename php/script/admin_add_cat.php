@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=utf-8');
+
 session_start();
 
 
@@ -17,7 +19,7 @@ if(isset($_SESSION['user']) && $_SESSION['user']['admin']) {
 					$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 
 					$query = $bdd->prepare('INSERT INTO category (name, description) VALUES (?, ?)');
-					$query->execute(array($data->name, $data->desc));
+					$query->execute(array(htmlspecialchars($data->name, ENT_QUOTES, "UTF-8"), htmlspecialchars($data->desc, ENT_QUOTES, "UTF-8")));
 					$query->closeCursor();
 
 					$result = array('success' => array('title' => 'Catégorie crée', 'msg' => "Nouvelle catégorie '".$data->name."' ajoutée"));

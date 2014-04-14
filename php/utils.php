@@ -1,5 +1,7 @@
 <?php
 
+	header('Content-Type: text/html; charset=utf-8');		
+
 	// Connexion à la base de donnée
 	function BBD_connect() {
 		return new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));

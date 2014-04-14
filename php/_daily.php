@@ -1,4 +1,6 @@
-
+<?php
+	header('Content-Type: text/html; charset=utf-8');		
+?>
 
 
 <div class="content-elem daily" style="<?php if(!is_co()) { ?> width: 97.9% <?php } ?>">

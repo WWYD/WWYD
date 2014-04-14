@@ -1,4 +1,7 @@
 <?php
+
+	header('Content-Type: text/html; charset=utf-8');
+
 	session_start();
 	include('../utils.php');
 
@@ -14,7 +17,7 @@
 				
 				$query = $bdd->prepare("INSERT INTO post (content, date, last_edit, user_id, topic_id, is_answer) 
 				                        VALUES ( ?, NOW(), NULL, ?, ?, 0)");
-				$query->execute(array($_POST['content'], $_SESSION['user']['id'], $_POST['topic_id']));
+				$query->execute(array(htmlspecialchars($_POST['content'], ENT_QUOTES, "UTF-8"), $_SESSION['user']['id'], $_POST['topic_id']));
 
 				?>
 
@@ -25,7 +28,7 @@
 										<a href="?/profil/<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['login']; ?></a>
 									</h4>
 								</div>
-								<div class="p post-data" style="font-size: 12pt" rel="6"><?php echo BBCode($_POST['content']); ?></div>
+								<div class="p post-data" style="font-size: 12pt" rel="6"><?php echo BBCode(htmlspecialchars($_POST['content'], ENT_QUOTES, "UTF-8")); ?></div>
 								<div class="content-bordered-sub">
 									<span class="date">Ajouté à l'instant </span>
 								</div>

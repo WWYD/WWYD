@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=utf-8');
+
 /* Test existence */
 if(isset($_POST['data'])) {
 	$data = json_decode($_POST['data'])->data;
@@ -44,7 +46,7 @@ if(isset($_POST['data'])) {
 
 			    // Ajout BDD
 			    $query = $bdd->prepare('INSERT INTO user (login, mail, password, first_name, last_name, rank_id) VALUES (?, ?, ?, ?, ?, 1)');
-			    $query->execute(array($data->login, $data->mail, $data->password, $data->firstname, $data->lastname));
+			    $query->execute(array(htmlspecialchars($data->login, ENT_QUOTES, "UTF-8"), htmlspecialchars($data->mail, ENT_QUOTES, "UTF-8"), htmlspecialchars($data->password, ENT_QUOTES, "UTF-8"), htmlspecialchars($data->firstname, ENT_QUOTES, "UTF-8"), htmlspecialchars($data->lastname, ENT_QUOTES, "UTF-8")));
 				
 				$result = array('success' => array('title' => 'Compte créé !', 'msg' => "Vous pouvez maintenant vous connecter avec votre compte"));
 			} catch ( Exception $e ) {

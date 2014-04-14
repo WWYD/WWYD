@@ -1,3 +1,6 @@
+<?php
+	header('Content-Type: text/html; charset=utf-8');
+?>
 <div class="categories">
 	<h3>Les 15 dernières réponses</h3>
 	<table class="table table-striped table-hover">

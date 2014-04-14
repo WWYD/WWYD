@@ -1,3 +1,7 @@
+<?php
+		header('Content-Type: text/html; charset=utf-8');	
+		$bdd = BBD_connect();		
+?>
 			<div class="categories">
 				<h3>Catégories</h3>
 				<table class="table table-striped table-hover">

@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=utf-8');
+
 session_start();
 
 if(isset($_SESSION['user']) && $_SESSION['user']['admin']) {
@@ -15,7 +17,7 @@ if(isset($_SESSION['user']) && $_SESSION['user']['admin']) {
 
 					$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 					$query = $bdd->prepare('UPDATE category SET name = ?, description = ? WHERE id = ?');
-					$query->execute(array($data->name, $data->desc, $data->id));
+					$query->execute(array(htmlspecialchars($data->name, ENT_QUOTES, "UTF-8"), htmlspecialchars($data->desc, ENT_QUOTES, "UTF-8"), $data->id));
 					$query->closeCursor();
 
 					$result = array('success' => array('title' => 'Catégorie modifiée', 'msg' => "La catégorie '".$data->name."' a été modifée avec succès"));

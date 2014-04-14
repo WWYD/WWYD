@@ -1,4 +1,6 @@
 <?php
+	header('Content-Type: text/html; charset=utf-8');		
+	
 	if(!(is_co() && $_SESSION['user']['admin']))
 		header("Location: ?/");
 ?>

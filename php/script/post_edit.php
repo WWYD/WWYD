@@ -1,4 +1,7 @@
 <?php
+
+	header('Content-Type: text/html; charset=utf-8');
+
 	session_start();
 
     if (isset($_SESSION['user']) && isset($_POST['data']) && !$_SESSION['user']['banned']) {
@@ -8,7 +11,7 @@
 	        try {
 
 	        	$data->post_id = mysql_real_escape_string($data->post_id);
-	        	$data->content = htmlentities(mysql_real_escape_string($data->content));
+	        	$data->content = htmlspecialchars(mysql_real_escape_string($data->content), ENT_QUOTES, "UTF-8");
 
 				$bdd = new PDO('mysql:host=localhost;dbname=wwyd', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 

@@ -1,4 +1,6 @@
-
+<?php
+	header('Content-Type: text/html; charset=utf-8');	
+?>
 <div class="content-bordered">
 	<div class="content-bordered-title">
 		<h4 class="panel-title">Situation récentes</h4>
