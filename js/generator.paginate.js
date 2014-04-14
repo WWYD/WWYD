@@ -49,6 +49,8 @@ generator.Paginate.prototype.makePagination = function(size) {
 
 	var i = 1;
 
+	me.paginate.empty();
+
 	for(; i <= size; i++) {
 		var pageButton = $('<button type="button" />');
 		pageButton.html(i);
@@ -89,7 +91,6 @@ generator.Paginate.prototype.initPaginate = function(data) {
 	             dataType : "json",
 	             data     : { data : me.data, page_size : me.page_size } })
 	           .done(function(data) {
-
 	           	   if(data.success) {
 	           	   		// Si on a renvoyé une taille et qu'on a plus d'un élément
 	           	   		if(data.success.size) {

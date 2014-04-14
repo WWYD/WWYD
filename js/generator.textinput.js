@@ -374,8 +374,6 @@ generator.AutoCompleteInput.prototype.init = function() {
 	}
 }
 
-
-
 generator.AutoCompleteInput.prototype.showAutocomplete = function() {
 	var me = this;
 
@@ -399,10 +397,14 @@ generator.AutoCompleteInput.prototype.resetAutocomplete = function() {
 	this.result_index = 0;
 }
 
-generator.AutoCompleteInput.prototype.check = function() {
+generator.AutoCompleteInput.prototype.check = function(e, no_auto) {
 	var me = this;
 
 	//me.autocomplete_zone.css('width', me.element.width());
+	if(no_auto) {
+		return true;
+	}
+
 	me.resetAutocomplete();
 	me.results.push(me.getValue());
 
@@ -521,6 +523,7 @@ generator.Hidden.prototype.init = function() {
 		me.element.addClass("form-connection");
 
 		me.renderTo.append(me.element);
+		console.log(me.renderTo);
 		
 		if(me.css)
 			me.element.css(me.css);

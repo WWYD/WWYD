@@ -52,7 +52,9 @@ generator.Form = function(args) {
 	this.renderTo = args.render_to || null;
 	this.elements = args.elements || [];
 	this.submit_value = args.submit_value || "Valider";
-	this.target = args.target || "target.php";
+	this.target = args.target;
+	if(typeof this.target == "undefined")
+		this.target = "target.php";
 	this.source = args.source || false;
 	this._submits = args.submits || false;
 	this.send = args.send || this.send;
@@ -64,6 +66,7 @@ generator.Form = function(args) {
 	this.fail_load_clbk = args.fail_load_clbk;
 	this.design = args.design || "flow"; // flow ou table (voir + loin pour table)
 	this.fields = [];
+	this.css = args.css || false;
 }
 
 generator.Form.prototype.setRenderTo = function(renderTo) {
@@ -86,7 +89,7 @@ generator.Form.prototype.check = function(e) {
 
 	$(me.fields).each(function(index, element) {
 		if(element.check)
-			if(element.check(e)) 
+			if(element.check(e, true)) 
 				result = result ? true : false;
 			else
 				result = false;
@@ -103,6 +106,8 @@ generator.Form.prototype.send = function(e, target, me) {
 		$(me.fields).each(function(index, element) {
 			to_send[element.name] = element.getValue();
 		});
+
+		if(target || me.target) {
 
 		$.ajax({ type     : 'POST',
 	             url      :  target || me.target,
@@ -138,6 +143,10 @@ generator.Form.prototype.send = function(e, target, me) {
 	                   generator.Message.prototype.genAjaxError(jqXHR, false, me);
 
 	           });
+		} else {
+   	      if(me.success_clbk)
+               me.success_clbk(to_send);
+		}
     }
 }
 
@@ -158,6 +167,9 @@ generator.Form.prototype.init = function() {
 	me.container = $('<div />');
 	me.container.addClass(me.cls);
 	me.renderTo.append(me.container);
+
+	if(me.css)
+		me.container.css(me.css);
 
 	// Elements
 	if(me.design == "flow") {
@@ -209,6 +221,7 @@ generator.Form.prototype.init = function() {
 
 			var line = $("<tr />");
 
+					console.log(line_elements);
 			// On attend ici des lignes
 			$(line_elements).each(function(index, element) {
 				if(element.label) {
@@ -227,13 +240,13 @@ generator.Form.prototype.init = function() {
 				if(element.width)
 					data.attr("colspan", element.width);
 
+
 				if(element.item) {
 					element.item.setRenderTo(data);
 					element.item.init();
 
 					if(element.item.keyListener)
 						element.item.keyListener(keyListener);
-
 
 					if(element.item.getValue && element.name && !element.disabled) {
 						element.item.name = element.name;

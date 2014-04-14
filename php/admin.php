@@ -46,7 +46,7 @@
 					var tab1_p2_title = new generator.Title({ text: "Modération utilisateur 'error'" });         // -- titre
 
 					var tab1_p2_id = new generator.TextInput({ min_size : 1, disabled : true });                 // -- id de l'user
-					var tab1_p2_login = new generator.TextInput({ min_size : 3, disabled : true });              // -- login de l'user
+					var tab1_p2_login = new generator.TextInput({ min_size : 3, max_size : 15, disabled : true });              // -- login de l'user
 
 					var tab1_p2_mail = new generator.EmailInput({ placeholder : "Adresse mail", 
 					                                              check_onkey : true, 
@@ -290,7 +290,151 @@
 				   			     elements : [ tab2_p ] };
 
 				// Troisième onglet
-				   	var tab3 = { title : generator.icon('edit')+' Sujets & messages' };
+					// Recherche de Topic
+					   	// Formulaire de recherche
+					   	var tab3_p1_login = new generator.AutoCompleteInput({ placeholder : "Login de l'auteur", target : "php/script/search_user.php" });  // Login de l'auteur
+					   	var tab3_p1_name = new generator.TextInput({ placeholder : "Nom du sujet" });                                            // Titre du topic
+					   	var tab3_p1_cat = new generator.TextInput({ placeholder : "id catégorie (temporaire)" });                                             // Catégorie (A refaire)
+
+					   	var tab3_p1_form = new generator.Form(
+				        { 	elements :
+								[[{ item  : new generator.Title({ text: "Recherche de sujets" }), name : 'title', width : 4 }],
+								 [{ label : 'Auteur', item : tab3_p1_login, name : 'login' } , { label : 'Sujet', item : tab3_p1_name, name : 'name' }],
+								 [{ label : 'Catégorie', item : tab3_p1_cat, name : 'id_cat' }]
+								],
+							design : "table",
+							target : false,
+							css : { "background-color" : "#FCFCFC", "padding": "18px", "border-radius": "4px", border : "1px solid #DEDEDE" },
+							success_clbk : function(data) { 
+								/*
+	      			   			var success = new generator.Message({ type : 'success', title : data.success.title, 
+				                        message : data.success.msg, 
+				                        modal : true,
+				                        dismissible : true
+				                    });
+	             	    		success.init();
+	             	    		tab2_p2_form_new.empty();
+	             	    		tab2_p2_box.hide();*/
+	             	    		console.log(data);
+
+	             	    		tab3_p1_search.initPaginate(data);
+
+	                        },
+							submits : [{ target : false, 
+							             value  : generator.icon('search')+' Lancer une recherche' 
+							           }]
+						});
+
+						// Pagination
+						var tab3_p1_func = function(data) {
+							var button = new generator.Button({ text  : generator.icon('pencil')+" Administrer",
+											   	                      small : true,
+																      css   : { 'float' : 'right', 'margin-top' : '-40px' },
+																      onClick : function() {
+																      	tab3_p2_id.setValue(data.id);
+																      	tab3_p.showNext(data.id);
+																      }
+															  });
+
+							var text = data.content.length > 150 ? data.content.slice(0,150)+"..." : data.content;
+
+							return new generator.Div({
+								title : data.title + ' - <a href="?/profil/'+data.user_id+'">'+data.login+'<\a>',
+								elements  : [
+											   new generator.Paragraph({ text : text, css : { "max-width" : "85%" } }),
+											   button
+								            ]
+							});
+						};
+
+						var tab3_p1_search = new generator.Paginate( {
+					   			    				source    : "php/script/admin_show_topic.php",
+					   			    				page_size : 5,
+					   			    				model     : tab3_p1_func,
+					   			    				data      : {}
+					   			    			});
+
+						// Panneau
+						var tab3_p1 = { elements : [ tab3_p1_form, tab3_p1_search ] };
+
+					// Recherche dans les messages
+					   	// Formulaire de recherche
+					   	var tab3_p2_login = new generator.AutoCompleteInput({ placeholder : "Login de l'auteur", target : "php/script/search_user.php" });  // Login de l'auteur                                           // Titre du topic
+					   	var tab3_p2_vote = new generator.TextInput({ placeholder : "valeur maximum de vote" });       
+					   	var tab3_p2_id = new generator.Hidden({ default : 0 });
+
+
+						var tab3_p2_back = new generator.Button({ text : generator.icon('arrow-left')+' Revenir à la recherche', 
+																  css  : { width : "250" },
+							                                      onClick : function() { 
+							                                      	tab3_p.showPrevious(); 
+							                                      } 
+							                                     });                                                 // -- Bouton de retour
+
+					   	var tab3_p2_form = new generator.Form(
+				        { 	elements :
+								[[{ item  : new generator.Title({ text: "Recherche de messages" }), name : 'title', width : 4 }],
+								 [{ label : 'Auteur', item : tab3_p2_login, name : 'login' }],
+								 [{ label : 'Valeur votes', item : tab3_p2_vote, name : 'vote' }, { item :  tab3_p2_id, name : 'id' }],
+								 [{ item  : tab3_p2_back, width : 4 }]
+								],
+							design : "table",
+							target : false,
+							css : { "background-color" : "#FCFCFC", "padding": "18px", "border-radius": "4px", border : "1px solid #DEDEDE" },
+							success_clbk : function(data) { 
+								/*
+	      			   			var success = new generator.Message({ type : 'success', title : data.success.title, 
+				                        message : data.success.msg, 
+				                        modal : true,
+				                        dismissible : true
+				                    });
+	             	    		success.init();
+	             	    		tab2_p2_form_new.empty();
+	             	    		tab2_p2_box.hide();*/
+	             	    		console.log(data);
+
+	             	    		tab3_p2_search.initPaginate(data);
+
+	                        },
+							submits : [{ target : false, 
+							             value  : generator.icon('search')+' Lancer une recherche' 
+							           }]
+						});
+
+						// Pagination
+						var tab3_p2_func = function(data) {
+							var button = new generator.Button({ text  : generator.icon('pencil')+" Administrer",
+											   	                      small : true,
+																      css   : { 'float' : 'right', 'margin-top' : '-40px' },
+																      onClick : function() {
+																      	tab3_p.showNext(data.id);
+																      }
+															  });
+
+							var text = data.content.length > 150 ? data.content.slice(0,150)+"..." : data.content;
+
+							return new generator.Div({
+								title : data.title + ' - <a href="?/profil/'+data.user_id+'">'+data.login+'<\a>',
+								elements  : [
+											   new generator.Paragraph({ text : text, css : { "max-width" : "85%" } }),
+											   button
+								            ]
+							});
+						};
+
+						var tab3_p2_search = new generator.Paginate( {
+					   			    				source    : "php/script/admin_show_topic.php",
+					   			    				page_size : 5,
+					   			    				model     : tab3_p2_func,
+					   			    				data      : {}
+					   			    			});
+
+						// Panneau
+						var tab3_p2 = { elements : [ tab3_p2_form, tab3_p2_search ] };
+
+					var tab3_p = new generator.Panel({ panels : [ tab3_p1, tab3_p2 ] });
+
+				   	var tab3 = { title : generator.icon('edit')+' Sujets & messages', elements : [ tab3_p ] };
 
 				// Construction des onglets
 					var tab = new generator.Tab({ render_to : $('#admin-panel'), tabs : [ tab1, tab2, tab3 ] });
