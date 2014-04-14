@@ -6,7 +6,7 @@
 	<table class="table table-striped table-hover">
 		<?php
 			$query = $bdd->prepare("SELECT id_ AS id, title_ AS title, date_ AS date, COUNT(date_) AS nb_post, points_ as points, answered_ AS answered
-									FROM (SELECT topic.id AS id_, topic.title AS title_, DATE_FORMAT(topic.date, '%d/%m/%y - %Hh%i') AS date_, topic.pot_point as points_, topic.answered AS answered_
+									FROM (SELECT topic.id AS id_, topic.title AS title_, DATE_FORMAT(topic.date, '%d/%m/%y - %Hh%i') AS date_, post.date AS post_date, topic.pot_point as points_, topic.answered AS answered_
 										  FROM post
 										  RIGHT JOIN topic ON post.topic_id = topic.id
 										  RIGHT JOIN category ON topic.category_id = category.id
@@ -15,7 +15,8 @@
 										  HAVING post.id != 0
 									      ORDER BY post.date  DESC) t
 									GROUP BY id_
-									ORDER BY date_  DESC");
+									ORDER BY post_date  DESC
+									LIMIT 0, 5");
 
 			$query->execute(array($id_cat));
 																
